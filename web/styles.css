@@ -1,3 +1,4 @@
+
 .card-title{
     font-size: 1rem;
 }
@@ -26,4 +27,14 @@
     border-radius: 10px 10px 0px 0px;
     overflow: hidden;
     filter: opacity(0.95);
+}
+.zig-zag{
+    height: 30px;
+    background:  
+      linear-gradient(135deg, white 35%, transparent 15%) -15px 0,
+      linear-gradient(225deg, white 35%, transparent 15%) -15px 0,
+      linear-gradient(315deg, white 35%, transparent 15%),
+      linear-gradient(45deg, white 35%, transparent 15%);   
+    background-size: 30px 30px;
+    background-color: black;
 }
