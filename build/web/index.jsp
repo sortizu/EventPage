@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EventPage</title>
+    <title>EventPage: Emocionantes eventos con un solo click</title>
     <%@include file="references.jsp" %>
   </head>
-  <body>
+  <body style="min-width: 100%;">
     <div class="container-fluid d-flex flex-column vh-100 g-0">
       <!--Header-->
       <%@include file="main_header.jsp" %>
@@ -107,12 +107,12 @@
           <h2 class=" d-flex justify-content-center" style="font-weight: 300;">
             NOVEDADES DESTACADAS
           </h2>
-          <div class="col-12 col-sm d-flex justify-content-center">
-            <div class="card event-card">
+          <div class="col-12 col-sm d-flex justify-content-center" >
+            <div class="card event-card" >
               <img
                 src="https://s3-us-west-2.amazonaws.com/joinnus.com/user/1586376/64d657bc0d890.jpg"
                 class="card-img-top"
-                alt="..."
+                alt="..." 
               />
               <div class="card-body event-card-body">
                 <h5 class="card-title">NOVA LIMA 2023</h5>
@@ -126,109 +126,15 @@
                     Jue 10 Ago - 7:00
                   </div>
                 </div>
-                <a href="#" class="btn btn-outline-danger"
-                  >Comprar por: $20.00</a
-                >
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-sm d-flex justify-content-center">
-            <div class="card event-card">
-              <img
-                src="https://s3-us-west-2.amazonaws.com/joinnus.com/user/1586376/64d657bc0d890.jpg"
-                class="card-img-top"
-                alt="..."
-              />
-              <div class="card-body event-card-body">
-                <h5 class="card-title">NOVA LIMA 2023</h5>
-                <div class="row event-card-text">
-                  <div class="col-12 event-card-test-description">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Harum, impedit.
-                  </div>
-                  <div class="col-12 event-card-test-date">
-                    <i class="bi bi-clock-fill"></i>
-                    Jue 10 Ago - 7:00
-                  </div>
-                </div>
-                <a href="#" class="btn btn-outline-danger"
-                  >Comprar por: $20.00</a
-                >
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-sm d-flex justify-content-center">
-            <div class="card event-card">
-              <img
-                src="https://s3-us-west-2.amazonaws.com/joinnus.com/user/1586376/64d657bc0d890.jpg"
-                class="card-img-top"
-                alt="..."
-              />
-              <div class="card-body event-card-body">
-                <h5 class="card-title">NOVA LIMA 2023</h5>
-                <div class="row event-card-text">
-                  <div class="col-12 event-card-test-description">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Harum, impedit.
-                  </div>
-                  <div class="col-12 event-card-test-date">
-                    <i class="bi bi-clock-fill"></i>
-                    Jue 10 Ago - 7:00
-                  </div>
-                </div>
-                <a href="#" class="btn btn-outline-danger"
-                  >Comprar por: $20.00</a
-                >
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-sm d-flex justify-content-center">
-            <div class="card event-card">
-              <img
-                src="https://s3-us-west-2.amazonaws.com/joinnus.com/user/1586376/64d657bc0d890.jpg"
-                class="card-img-top"
-                alt="..."
-              />
-              <div class="card-body event-card-body">
-                <h5 class="card-title">NOVA LIMA 2023</h5>
-                <div class="row event-card-text">
-                  <div class="col-12 event-card-test-description">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Harum, impedit.
-                  </div>
-                  <div class="col-12 event-card-test-date">
-                    <i class="bi bi-clock-fill"></i>
-                    Jue 10 Ago - 7:00
-                  </div>
-                </div>
-                <a href="#" class="btn btn-outline-danger"
-                  >Comprar por: $20.00</a
-                >
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-sm d-flex justify-content-center">
-            <div class="card event-card">
-              <img
-                src="https://s3-us-west-2.amazonaws.com/joinnus.com/user/1586376/64d657bc0d890.jpg"
-                class="card-img-top"
-                alt="..."
-              />
-              <div class="card-body event-card-body">
-                <h5 class="card-title">NOVA LIMA 2023</h5>
-                <div class="row event-card-text">
-                  <div class="col-12 event-card-test-description">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Harum, impedit.
-                  </div>
-                  <div class="col-12 event-card-test-date">
-                    <i class="bi bi-clock-fill"></i>
-                    Jue 10 Ago - 7:00
-                  </div>
-                </div>
-                <a href="#" class="btn btn-outline-danger"
-                  >Comprar por: $20.00</a
-                >
+                <button
+                        type="button"
+                        class="btn btn-outline-danger"
+                        data-bs-toggle="modal"
+                        data-bs-target="#eventDetailModal"
+                        data-bs-whatever="@getbootstrap"
+                      >
+                        COMPRAR TOTAL POR: $20.00
+                      </button>
               </div>
             </div>
           </div>

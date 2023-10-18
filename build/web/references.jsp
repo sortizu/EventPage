@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<link rel="icon" type="image/x-icon" href="/img/universal-access-circle.svg">
+<link rel="icon" type="image/x-icon" href="https://cdn.icon-icons.com/icons2/1458/PNG/512/universalaccess_99721.png">
 <!-- Bootstrap CSS -->
 <link
 href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
