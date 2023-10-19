@@ -8,7 +8,8 @@
     Cancelar
   </button>
   <button
-    type="button"
+    type="submit"
+    form="mainForm"
     class="btn btn-primary"
     id="mainFormSubmitButton"
   >

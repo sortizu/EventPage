@@ -1,16 +1,19 @@
+<%@page import="DAO.UsuarioDAO" %>
+<%@page import="model.Usuario" %>
+<%@page import="DAO.EventoDAO" %>
+<%@page import="model.Evento" %>
+<%@page import="java.util.ArrayList" %>
 <% 
 //Estas variables se deben de cambiar en el jsp de cada pagina 
 //En teoria solo con estas variables se puede definir a qué servlet se le hará la petición
-String apiLinkAdd = "#"; //Aqui se debe de poner la ruta de la servlet que agrega 
-String apiLinkEdit = "#"; //Aqui se debe de poner la ruta de la servlet que edita 
-String apiLinkDelete = "#"; //Aqui se debe de poner la ruta de la servlet que elimina 
+String apiLink = "#"; //Aqui se debe de poner la ruta de la servlet que agrega 
 String pageElementName = "dashboard"; //Aqui se debe de poner el nombre del elemento que se está manejando en la pagina 
 String pageElementPluralName = ""; //Aqui se debe de poner el nombre del elemento que se está manejando en la pagina 
 %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    
+    <%@ page contentType="text/html; charset=UTF-8" %>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
@@ -31,27 +34,37 @@ String pageElementPluralName = ""; //Aqui se debe de poner el nombre del element
               </div>
               <div class="row" style="min-height: 90%">
                 <div class="col-6 p-1">
-                  <div class="card h-100">
-                    <div class="card-title">CARD</div>
-                    <div class="card-subtitle">CARD SUBTITLE</div>
+                  <div class="card h-100 border-0 shadow p-2 bg-primary" style="color: white;cursor: pointer;">
+                    <div class="card-title">INGRESOS</div>
+                    <div class="card-subtitle">S/. 0.0</div>
                   </div>
                 </div>
                 <div class="col-6 p-1">
-                  <div class="card h-100">
-                    <div class="card-title">CARD</div>
-                    <div class="card-subtitle">CARD SUBTITLE</div>
+                  <div class="card h-100 border-0 shadow p-2 bg-primary" style="color: white;cursor: pointer;">
+                    <div class="card-title">REGISTROS</div>
+                    <%
+          UsuarioDAO usuarioRegistroDao = new UsuarioDAO();
+          ArrayList<Usuario> usuariosRegistro = (ArrayList<Usuario>)usuarioRegistroDao.listAll();
+            int nuevosRegistros=0;
+            for(Usuario u:usuariosRegistro){
+              if(!u.isAdmin()){
+                nuevosRegistros++;
+              }
+            }
+            %>
+                    <div class="card-subtitle"><%=nuevosRegistros%></div>
                   </div>
                 </div>
                 <div class="col-6 p-1">
-                  <div class="card h-100">
-                    <div class="card-title">CARD</div>
-                    <div class="card-subtitle">CARD SUBTITLE</div>
+                  <div class="card h-100 border-0 shadow p-2 bg-primary" style="color: white;cursor: pointer;">
+                    <div class="card-title">CATEGORIA EVENTO X USUARIOS</div>
+                    <div class="card-subtitle"> </div>
                   </div>
                 </div>
                 <div class="col-6 p-1">
-                  <div class="card h-100">
-                    <div class="card-title">CARD</div>
-                    <div class="card-subtitle">CARD SUBTITLE</div>
+                  <div class="card h-100 border-0 shadow p-2 bg-primary" style="color: white;cursor: pointer;">
+                    <div class="card-title">EVENTOS X USUARIOS</div>
+                    <div class="card-subtitle"> </div>
                   </div>
                 </div>
               </div>
@@ -61,30 +74,21 @@ String pageElementPluralName = ""; //Aqui se debe de poner el nombre del element
                 <div class="col">ADMINISTRADORES</div>
               </div>
               <div class="row m-auto" style="min-height: 90%">
-                <div class="col-12 p-1">
-                  <div class="card">
-                    <div class="card-title">CARD</div>
-                    <div class="card-subtitle">CARD SUBTITLE</div>
-                  </div>
-                </div>
-                <div class="col-12 p-1">
-                  <div class="card">
-                    <div class="card-title">CARD</div>
-                    <div class="card-subtitle">CARD SUBTITLE</div>
-                  </div>
-                </div>
-                <div class="col-12 p-1">
-                  <div class="card">
-                    <div class="card-title">CARD</div>
-                    <div class="card-subtitle">CARD SUBTITLE</div>
-                  </div>
-                </div>
-                <div class="col-12 p-1">
-                  <div class="card">
-                    <div class="card-title">CARD</div>
-                    <div class="card-subtitle">CARD SUBTITLE</div>
-                  </div>
-                </div>
+                
+                <%
+          UsuarioDAO usuariodao = new UsuarioDAO();
+          ArrayList<Usuario> usuarios = (ArrayList<Usuario>)usuariodao.listAll();
+            int adminsToShow=4;
+          for(int i = usuarios.size()-1; i>=0&&adminsToShow>0; i--){
+            if(usuarios.get(i).isAdmin()){
+              
+        %>
+        <div class="col-12 p-1">
+          <div class="card d-flex justify-content-center align-items-center h-100 border-0 shadow-sm" style="cursor: pointer;">
+            <h5 style="font-weight: 100;"><i class="bi bi-person-fill-lock"></i><%=usuarios.get(i).getNombres()+" "+usuarios.get(i).getApellidos()%></h5>
+          </div>
+        </div>
+        <%adminsToShow--;}}%>
               </div>
             </div>
             <div class="h-50 col-12 col-lg-3">
@@ -92,34 +96,24 @@ String pageElementPluralName = ""; //Aqui se debe de poner el nombre del element
                 <div class="col">PRÓXIMOS EVENTOS (HOY)</div>
               </div>
               <div class="row m-auto" style="min-height: 90%">
-                <div class="col-12 p-1">
-                  <div class="card">
-                    <div class="card-title">CARD</div>
-                    <div class="card-subtitle">CARD SUBTITLE</div>
-                  </div>
-                </div>
-                <div class="col-12 p-1">
-                  <div class="card">
-                    <div class="card-title">CARD</div>
-                    <div class="card-subtitle">CARD SUBTITLE</div>
-                  </div>
-                </div>
-                <div class="col-12 p-1">
-                  <div class="card">
-                    <div class="card-title">CARD</div>
-                    <div class="card-subtitle">CARD SUBTITLE</div>
-                  </div>
-                </div>
-                <div class="col-12 p-1">
-                  <div class="card">
-                    <div class="card-title">CARD</div>
-                    <div class="card-subtitle">CARD SUBTITLE</div>
-                  </div>
-                </div>
+                <%
+          EventoDAO eventodao = new EventoDAO();
+          ArrayList<Evento> eventos = (ArrayList<Evento>)eventodao.listAll();
+            int eventsToShow=4;
+          for(int i = eventos.size()-1; i>=0&&eventsToShow>0; i--){
+              
+        %>
+        <div class="col-12 p-1">
+          <div class="card d-flex justify-content-center align-items-center h-100 border-0 shadow-sm" style="cursor: pointer;">
+            <h5 style="font-weight: 100;"><%=eventos.get(i).getNombreEvento()%></h5>
+            <h5 style="font-weight: 100;"><i class="bi bi-clock-fill"></i><%=eventos.get(i).getFecha()%></h5>
+          </div>
+        </div>
+        <%eventsToShow--;}%>
               </div>
             </div>
             <div class="h-50 col-12 m-auto g-2">
-              <div class="card h-100 w-100 bg-white">
+              <div class="card h-100 w-100 bg-primary border-0 shadow-sm p-2" style="color:white">
                 <div class="card-title">CHART</div>
               </div>
             </div>
