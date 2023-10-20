@@ -5,9 +5,15 @@
 package DAO;
 
 
+import config.Conexion;
+import static config.Conexion.con;
+import static config.Conexion.stmt;
 import interfaces.CRUD;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.CategoriaEvento;
 import model.Usuario;
 
@@ -21,7 +27,29 @@ public class UsuarioDAO implements CRUD {
     @Override
     public List listAll() {
         //Borrar el codigo de abajo
-        return listaUsuarios;
+        ArrayList<Usuario> usuarios = new ArrayList<>();
+        
+        try {
+            Conexion.rs = Conexion.stmt.executeQuery("SELECT * FROM event_page.usuario");
+            Conexion.rs.next();
+            do{
+                //System.out.println(Conexion.rs.getString("id")+" "+Conexion.rs.getString("nombre"));
+                Usuario newUsuario = new Usuario();
+                newUsuario.setId(Conexion.rs.getInt("id_usuario"));
+                newUsuario.setNombres(Conexion.rs.getString("nombres"));
+                newUsuario.setApellidos(Conexion.rs.getString("apellidos"));
+                newUsuario.setEmail(Conexion.rs.getString("correo"));
+                newUsuario.setPassword(Conexion.rs.getString("contraseña"));
+                newUsuario.setDni(Conexion.rs.getInt("dni"));
+                newUsuario.setAdmin(Conexion.rs.getBoolean("admin"));
+                usuarios.add(newUsuario);
+                
+            } while (Conexion.rs.next());
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+        return usuarios;
     }
 
     @Override
@@ -38,10 +66,18 @@ public class UsuarioDAO implements CRUD {
     public boolean add(Object o) {
         //Borrar el codigo de abajo
         Usuario nuevoUsuario = (Usuario)o;
-        if(listaUsuarios.size()>0){
-            nuevoUsuario.setId(listaUsuarios.get(listaUsuarios.size()-1).getId()+1);
+        try {
+            Conexion.stmt = Conexion.con.createStatement();
+            Conexion.stmt.executeUpdate("INSERT INTO event_page.usuario(nombres, apellidos, dni, correo, contraseña, admin) VALUES "
+                    + "('" + nuevoUsuario.getNombres() + "', '" 
+                    + nuevoUsuario.getApellidos() + "', '"
+                    + nuevoUsuario.getDni() + "', '"
+                    + nuevoUsuario.getEmail() + "', '"
+                    + nuevoUsuario.getPassword() + "', '"
+                    + (nuevoUsuario.isAdmin()?1:0) + "')");
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        listaUsuarios.add(nuevoUsuario);
         return true;
     }
 

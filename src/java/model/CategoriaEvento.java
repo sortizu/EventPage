@@ -12,6 +12,11 @@ public class CategoriaEvento {
     private int id;
     private String nombreCategoria;
 
+    public CategoriaEvento(int id, String nombreCategoria) {
+        this.id = id;
+        this.nombreCategoria = nombreCategoria;
+    }
+
     public int getId() {
         return id;
     }
@@ -27,5 +32,9 @@ public class CategoriaEvento {
     public void setNombreCategoria(String nombreCategoria) {
         this.nombreCategoria = nombreCategoria;
     }
+
+    public CategoriaEvento() {
+    }
+   
     
 }

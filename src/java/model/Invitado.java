@@ -18,5 +18,15 @@ public class Invitado extends Persona {
     public void setBiografia(String biografia) {
         this.biografia = biografia;
     }
+
+    public Invitado(String biografia, int id, String nombres, String apellidos) {
+        super(id, nombres, apellidos);
+        this.biografia = biografia;
+    }
+
+    public Invitado() {
+    }
+    
+    
     
 }

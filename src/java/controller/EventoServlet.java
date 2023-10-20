@@ -42,6 +42,7 @@ public class EventoServlet extends HttpServlet {
                 nuevoEventoAgregar.setCategoria(
                         (CategoriaEvento)categoriaEventoDAO.list(Integer.parseInt(request.getParameter("event-label")))
                 );
+                //System.out.println(nuevoEventoAgregar.getId());
                 nuevoEventoAgregar.setDescripcion(request.getParameter("event-description"));
                 nuevoEventoAgregar.setInvitado(
                         (Invitado)invitadoDAO.list(Integer.parseInt(request.getParameter("event-guest")))

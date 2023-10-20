@@ -36,5 +36,15 @@ public class Persona {
     public void setApellidos(String apellidos) {
         this.apellidos = apellidos;
     }
+
+    public Persona(int id, String nombres, String apellidos) {
+        this.id = id;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+    }
+
+    public Persona() {
+    }
+   
     
 }
