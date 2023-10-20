@@ -6,6 +6,7 @@ package DAO;
 
 
 import config.Conexion;
+import debug.Console;
 import interfaces.CRUD;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -114,5 +115,22 @@ public class UsuarioDAO implements CRUD {
             Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return true;
+    }
+    
+    public boolean validarUsuario(String correo, String pass, boolean admin){
+        try {
+            Statement stmt = Conexion.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(
+            String.format("SELECT * FROM event_page.usuario WHERE correo='%s' AND contraseña='%s' AND eliminado=0 AND admin=%d", correo,pass,admin?1:0)
+            );
+            int id = -1;
+            while (rs.next()) {
+                id = rs.getInt("id_usuario");
+            }
+            return id>=0;
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 }

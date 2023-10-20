@@ -8,6 +8,7 @@ String apiLink = "CategoriaEventoServlet"; //Aqui se debe de poner la ruta de la
 String pageElementName = "categoria"; //Aqui se debe de poner el nombre del elemento que se está manejando en la pagina 
 String pageElementPluralName = "categorias"; //Aqui se debe de poner el nombre del elemento que se está manejando en la pagina 
 %>
+<%@include file="admin_validation.jsp" %>
 <!DOCTYPE html>
 <html lang="es">
   <head>

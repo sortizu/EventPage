@@ -12,6 +12,7 @@ String apiLink = "EventoServlet"; //Aqui se debe de poner la ruta de la servlet 
 String pageElementName = "evento"; //Aqui se debe de poner el nombre del elemento que se está manejando en la pagina 
 String pageElementPluralName = "eventos"; //Aqui se debe de poner el nombre del elemento que se está manejando en la pagina 
 %>
+<%@include file="admin_validation.jsp" %>
 <!DOCTYPE html>
 <html lang="es">
   <head>

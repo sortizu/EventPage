@@ -3,6 +3,7 @@
 <%@page import="DAO.EventoDAO" %>
 <%@page import="model.Evento" %>
 <%@page import="java.util.ArrayList" %>
+<%@page import="debug.Console" %>
 <% 
 //Estas variables se deben de cambiar en el jsp de cada pagina 
 //En teoria solo con estas variables se puede definir a qué servlet se le hará la petición
@@ -10,6 +11,7 @@ String apiLink = "#"; //Aqui se debe de poner la ruta de la servlet que agrega
 String pageElementName = "dashboard"; //Aqui se debe de poner el nombre del elemento que se está manejando en la pagina 
 String pageElementPluralName = ""; //Aqui se debe de poner el nombre del elemento que se está manejando en la pagina 
 %>
+<%@include file="admin_validation.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
