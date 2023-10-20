@@ -39,7 +39,7 @@
                       required
                     />
                   </div>
-                <div class="form-check mb-3">
+                <div class="form-check">
                   <input type="checkbox" class="form-check-input" id="exampleCheck1">
                   <label class="form-check-label" for="exampleCheck1">Recuerda mi sesión</label>
                 </div>

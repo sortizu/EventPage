@@ -4,7 +4,6 @@
  */
 package controller;
 
-import DAO.UsuarioDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -17,24 +16,16 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author sortizu
  */
-public class AdminLoginServlet extends HttpServlet {
+public class AdminLogoutServlet extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String email = request.getParameter("email");
-        String pass = request.getParameter("password");
-        if(new UsuarioDAO().validarUsuario(email, pass,true)){
-            session.setAttribute("email", email);
-            session.setAttribute("password", pass);
-
-        }else{
-        session.setAttribute("email", null);
+    session.setAttribute("email", null);
         session.setAttribute("password", null);
-
-        }
-        response.sendRedirect("dashboard.jsp");
+        response.sendRedirect("admin_login.jsp");
     }
+
 
 }

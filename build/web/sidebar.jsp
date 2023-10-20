@@ -46,7 +46,7 @@
         </a>
       </li>
       <li class="nav-item mt-0 mt-lg-auto">
-        <a href="admin_login.jsp" class="nav-link">
+        <a href="AdminLogoutServlet" class="nav-link">
           <i class="bi bi-box-arrow-left"></i>
           <span class="d-none d-md-inline sidebar-option-text">Salir</span>
         </a>
