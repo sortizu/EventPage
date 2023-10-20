@@ -1,5 +1,5 @@
 <!-- Sidebar -->
-<div class="bg-white col-12 col-lg-2 p-2 shadow-lg rounded-3" id="sidebar">
+<div class="bg-white col-12 col-lg-2 p-2 shadow rounded-3 mb-3 mb-lg-0 " id="sidebar">
     <ul
       class="nav nav-pills flex-row flex-lg-column m-auto h-100 justify-content-center"
     >

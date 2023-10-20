@@ -19,8 +19,8 @@ import java.util.logging.Logger;
  */
 public class Conexion {
     static String usuario = "root";
-    static String clave = "LEGOvida@TAJADORnariz1993";
-    static String url = "jdbc:mysql://127.0.0.1:3306/event_page";
+    static String clave = "1234";
+    static String url = "jdbc:mysql://localhost:3306/event_page";
     public static Connection con;
     public static Statement stmt;
     public static ResultSet rs;
@@ -31,13 +31,11 @@ public class Conexion {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
-            Console.println(ex);
         }
         
         try {
             con = DriverManager.getConnection(url,usuario,clave);
             stmt = con.createStatement();
-            Console.println("Si ha conectado");
             /*stmt.executeUpdate("INSERT INTO usuario (nombres, apellidos, dni, correo, contraseña, admin) VALUES ('3', 'Maria Mendez')");
             rs = stmt.executeQuery("SELECT * FROM usuario");
             rs.next();
@@ -47,11 +45,10 @@ public class Conexion {
             } while (rs.next());*/
         } catch (SQLException ex) {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
-            Console.println(ex);
         }
         }
         
-        public static Connection geConnection(){
+        public static Connection getConnection(){
             if (con==null){
                 conectar();
             }

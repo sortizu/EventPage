@@ -34,10 +34,11 @@ public class EventoDAO implements CRUD {
         String consultaSQL = "SELECT e.*, ce.nombre_catevento, i.nombres AS invitado_nombres, i.apellidos AS invitado_apellidos, i.biografia AS invitado_biografia " +
                                  "FROM evento e " +
                                  "LEFT JOIN categoriaevento ce ON e.id_categoria = ce.id_catevento " +
-                                 "LEFT JOIN invitado i ON e.id_invitado = i.id_invitado";
+                                 "LEFT JOIN invitado i ON e.id_invitado = i.id_invitado"
+                                + " WHERE e.eliminado=0";
         
         try {
-            Statement stmt = Conexion.geConnection().createStatement();
+            Statement stmt = Conexion.getConnection().createStatement();
             ResultSet rs = stmt.executeQuery(consultaSQL);
             rs.next();
             do{
@@ -80,14 +81,15 @@ public class EventoDAO implements CRUD {
         //Borrar el codigo de abajo
         Evento nuevoEvento = (Evento)o;
         try {
-            Conexion.stmt = Conexion.con.createStatement();
-            Conexion.stmt.executeUpdate("INSERT INTO event_page.evento(nombre_evento, costo, fecha, capacidad, id_categoria, descripcion, id_invitado) VALUES "
+            Statement stmt = Conexion.getConnection().createStatement();
+            stmt.executeUpdate("INSERT INTO event_page.evento(nombre_evento, costo, fecha, capacidad, id_categoria, descripcion, eliminado,id_invitado) VALUES "
                     + "('" + nuevoEvento.getNombreEvento()+ "', '" 
                     + nuevoEvento.getCosto()+ "', '"
                     + nuevoEvento.getFecha()+ "', '"
                     + nuevoEvento.getCapacidad()+ "', '"
                     + nuevoEvento.getCategoria().getId()+ "', '"
-                    + nuevoEvento.getDescripcion()+ "', '"
+                    + nuevoEvento.getDescripcion()+ "', "
+                    + 0 + ", '"
                     + nuevoEvento.getInvitado().getId()+ "')");
         } catch (SQLException ex) {
             Logger.getLogger(EventoDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -100,8 +102,8 @@ public class EventoDAO implements CRUD {
         //Borrar el codigo de abajo
         Evento nuevoEvento = (Evento)o;
         try {
-            Conexion.stmt = Conexion.con.createStatement();
-            Conexion.stmt.executeUpdate("UPDATE event_page.evento SET "
+            Statement stmt = Conexion.getConnection().createStatement();
+            stmt.executeUpdate("UPDATE event_page.evento SET "
                     + "nombre_evento = '" + nuevoEvento.getNombreEvento()+ "', " 
                     + "costo = '" +nuevoEvento.getCosto()+ "', "
                     + "fecha = '" + nuevoEvento.getFecha()+ "', "
@@ -117,14 +119,16 @@ public class EventoDAO implements CRUD {
 
     @Override
     public boolean delete(int id) {
-        //Borrar el codigo de abajo
-        for(int i = 0; i<listaEvento.size();i++){
-            if(listaEvento.get(i).getId()==id){
-            listaEvento.remove(i);
-            return true;
-            }
+        try {
+            String query=String.format(
+              "UPDATE event_page.evento SET eliminado=1 WHERE id_evento=%d",id);
+            
+            Statement stmt = Conexion.getConnection().createStatement();
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(InvitadoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;
+        return true;
     }
     
 }

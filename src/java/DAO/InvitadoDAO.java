@@ -12,7 +12,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Invitado;
-
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 /**
  *
  * @author sortizu
@@ -25,20 +27,18 @@ public class InvitadoDAO implements CRUD {
     public List listAll() {
         //Borrar el codigo de abajo
         ArrayList<Invitado> invitados = new ArrayList<>();
-  
-        
         try {
-            Conexion.rs = Conexion.stmt.executeQuery("SELECT * FROM event_page.invitado");
-            Conexion.rs.next();
-            do{
+            Statement stmt = Conexion.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM event_page.invitado WHERE eliminado=0");
+            while(rs.next()){
                 Invitado newInvitado = new Invitado();
-                newInvitado.setId(Conexion.rs.getInt("id_invitado"));
-                newInvitado.setNombres(Conexion.rs.getString("nombres"));
-                newInvitado.setApellidos(Conexion.rs.getString("apellidos"));
-                newInvitado.setBiografia(Conexion.rs.getString("biografia"));
+                newInvitado.setId(rs.getInt("id_invitado"));
+                newInvitado.setNombres(rs.getString("nombres"));
+                newInvitado.setApellidos(rs.getString("apellidos"));
+                newInvitado.setBiografia(rs.getString("biografia"));
                 invitados.add(newInvitado);
                 
-            } while (Conexion.rs.next());
+            } 
         } catch (SQLException ex) {
             Logger.getLogger(InvitadoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -51,14 +51,19 @@ public class InvitadoDAO implements CRUD {
 
         
         try {
-            Conexion.rs = Conexion.stmt.executeQuery("SELECT * FROM event_page.invitado WHERE id_invitado = " + id);
-            Conexion.rs.next();
+            Statement stmt = Conexion.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(
+            String.format(
+                    "SELECT * FROM event_page.invitado WHERE id_invitado = %d AND eliminado=0"
+                    ,id)
+            );
+            rs.next();
             
             Invitado newInvitado = new Invitado();
-            newInvitado.setId(Conexion.rs.getInt("id_invitado"));
-            newInvitado.setNombres(Conexion.rs.getString("nombres"));
-            newInvitado.setApellidos(Conexion.rs.getString("apellidos"));  
-            newInvitado.setBiografia(Conexion.rs.getString("biografia"));  
+            newInvitado.setId(rs.getInt("id_invitado"));
+            newInvitado.setNombres(rs.getString("nombres"));
+            newInvitado.setApellidos(rs.getString("apellidos"));  
+            newInvitado.setBiografia(rs.getString("biografia"));  
             return newInvitado;
 
         } catch (SQLException ex) {
@@ -73,11 +78,12 @@ public class InvitadoDAO implements CRUD {
         //Borrar el codigo de abajo
         Invitado nuevoInvitado = (Invitado)o;
         try {
-            Conexion.stmt = Conexion.con.createStatement();
-            Conexion.stmt.executeUpdate("INSERT INTO event_page.invitado(nombres, apellidos, biografia) VALUES "
+            Statement stmt = Conexion.getConnection().createStatement();
+            stmt.executeUpdate("INSERT INTO event_page.invitado(nombres, apellidos, biografia,eliminado) VALUES "
                     + "('" + nuevoInvitado.getNombres() + "', '" 
                     + nuevoInvitado.getApellidos() + "', '"
-                    + nuevoInvitado.getBiografia() + "')");
+                    + nuevoInvitado.getBiografia() + "',"
+                    + nuevoInvitado.getId() + ")");
         } catch (SQLException ex) {
             Logger.getLogger(InvitadoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -86,25 +92,34 @@ public class InvitadoDAO implements CRUD {
 
     @Override
     public boolean edit(Object o) {
-        //Borrar el codigo de abajo
-        for(int i = 0; i<listaInvitado.size();i++){
-            if(listaInvitado.get(i).getId()==((Invitado)o).getId()){
-            listaInvitado.set(i, (Invitado)o);
-            return true;
-            }
+        Invitado invitadoEditar = (Invitado)o;
+        try {
+            String query=String.format(
+              "UPDATE event_page.invitado SET nombres='%s',apellidos='%s',biografia='%s' WHERE id_invitado=%d",
+            invitadoEditar.getNombres(),
+            invitadoEditar.getApellidos(),
+                invitadoEditar.getBiografia(),
+            invitadoEditar.getId());
+            
+            Statement stmt = Conexion.getConnection().createStatement();
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(InvitadoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;
+        return true;
     }
 
     @Override
     public boolean delete(int id) {
-        //Borrar el codigo de abajo
-        for(int i = 0; i<listaInvitado.size();i++){
-            if(listaInvitado.get(i).getId()==id){
-            listaInvitado.remove(i);
-            return true;
-            }
+        try {
+            String query=String.format(
+              "UPDATE event_page.invitado SET eliminado=1 WHERE id_invitado=%d",id);
+            
+            Statement stmt = Conexion.getConnection().createStatement();
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(InvitadoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;
+        return true;
     }
 }

@@ -26,22 +26,22 @@ String pageElementPluralName = ""; //Aqui se debe de poner el nombre del element
       <div class="row flex-grow-1 mb-3 flex-column flex-md-row m-auto w-100">
         <%@include file="sidebar.jsp" %>
         <!-- Main Content -->
-        <div class="col mx-auto">
-          <div class="row h-100 mx-auto py-3 py-lg-0">
-            <div class="h-50 col-12 col-lg-6">
-              <div class="row" style="min-height: 5%">
-                <div class="col">DASHBOARD</div>
-              </div>
-              <div class="row" style="min-height: 90%">
-                <div class="col-6 p-1">
-                  <div class="card h-100 border-0 shadow p-2 bg-primary" style="color: white;cursor: pointer;">
-                    <div class="card-title">INGRESOS</div>
-                    <div class="card-subtitle">S/. 0.0</div>
+        <div class="col mx-auto mx-lg-3 d-flex flex-column gap-2">
+          <div class="row gap-3 gap-lg-0">
+            <div class="col-12 col-lg-6 p-0 ">
+              <div class="row m-0 ">DASHBOARD</div>
+              <div class="row">
+                <div class="col-6 py-1">
+                  <div class="bg-white rounded border-0 shadow-sm d-flex flex-column justify-content-center align-items-center p-2" 
+                  style="color:dodgerblue;cursor: pointer;height: 100%;">
+                    <div style="font-size: 24px;">INGRESOS</div>
+                    <div style="font-size: 32px; font-weight: 800;">S/. 0.0</div>
                   </div>
                 </div>
-                <div class="col-6 p-1">
-                  <div class="card h-100 border-0 shadow p-2 bg-primary" style="color: white;cursor: pointer;">
-                    <div class="card-title">REGISTROS</div>
+                <div class="col-6 py-1">
+                  <div class="bg-white rounded border-0 shadow-sm d-flex flex-column justify-content-center align-items-center p-2" 
+                  style="color:dodgerblue;cursor: pointer;height: 100%;">
+                    <div class="card-title p-0 m-0" style="font-size: 24px;">NUEVOS USUARIOS (HOY)</div>
                     <%
           UsuarioDAO usuarioRegistroDao = new UsuarioDAO();
           ArrayList<Usuario> usuariosRegistro = (ArrayList<Usuario>)usuarioRegistroDao.listAll();
@@ -52,24 +52,26 @@ String pageElementPluralName = ""; //Aqui se debe de poner el nombre del element
               }
             }
             %>
-                    <div class="card-subtitle"><%=nuevosRegistros%></div>
+                    <div class="card-subtitle" style="font-size: 32px; font-weight: 800;"><%=nuevosRegistros%></div>
                   </div>
                 </div>
-                <div class="col-6 p-1">
-                  <div class="card h-100 border-0 shadow p-2 bg-primary" style="color: white;cursor: pointer;">
-                    <div class="card-title">CATEGORIA EVENTO X USUARIOS</div>
-                    <div class="card-subtitle"> </div>
+                <div class="col-6 py-1">
+                  <div class="bg-white rounded border-0 shadow-sm d-flex flex-column justify-content-center align-items-center p-2" 
+                  style="color:dodgerblue;cursor: pointer;height: 100%;">
+                  <div style="font-size: 24px;">%TICKETS X CATEGORÍA</div>
+                  <div style="font-size: 32px; font-weight: 800;">Taller 50%</div>
                   </div>
                 </div>
-                <div class="col-6 p-1">
-                  <div class="card h-100 border-0 shadow p-2 bg-primary" style="color: white;cursor: pointer;">
-                    <div class="card-title">EVENTOS X USUARIOS</div>
-                    <div class="card-subtitle"> </div>
+                <div class="col-6 py-1">
+                  <div class="bg-white rounded border-0 shadow-sm d-flex flex-column justify-content-center align-items-center p-2" 
+                  style="color:dodgerblue;cursor: pointer;">
+                  <div style="font-size: 24px;">INGRESOS</div>
+                  <div style="font-size: 32px; font-weight: 800;">S/. 0.0</div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="h-50 col-12 col-lg-3">
+            <div class="col-12 col-lg-3 p-0 p-md-1">
               <div class="row" style="min-height: 5%">
                 <div class="col">ADMINISTRADORES</div>
               </div>
@@ -91,7 +93,7 @@ String pageElementPluralName = ""; //Aqui se debe de poner el nombre del element
         <%adminsToShow--;}}%>
               </div>
             </div>
-            <div class="h-50 col-12 col-lg-3">
+            <div class="col-12 col-lg-3 p-0 p-md-1">
               <div class="row" style="min-height: 5%">
                 <div class="col">PRÓXIMOS EVENTOS (HOY)</div>
               </div>
@@ -112,9 +114,19 @@ String pageElementPluralName = ""; //Aqui se debe de poner el nombre del element
         <%eventsToShow--;}%>
               </div>
             </div>
-            <div class="h-50 col-12 m-auto g-2">
-              <div class="card h-100 w-100 bg-primary border-0 shadow-sm p-2" style="color:white">
-                <div class="card-title">CHART</div>
+          </div>
+          <div class="row flex-grow-1" style="min-height: 300px;">
+            <div class="col-12 m-0 p-0 gap-0">
+              <div class="rounded-3 h-100 w-100 bg-primary border-0 shadow-sm p-2 d-flex flex-column" style="color:white">
+                <h5  style="color: white;font-weight: 100;position: relative; left: 0px;">HISTOGRAMA DE VENTAS</h5>
+                <div class="d-flex justify-content-center align-items-end gap-3 h-100 w-100">
+                  <div style="background-color: white;height: 10%; width: 5%;color:steelblue; font-size: 16px;"> 10%</div>
+                <div style="background-color: white;height: 20%; width: 5%;color: steelblue;font-size: 16px;"> 20%</div>
+                <div style="background-color: white;height: 30%; width: 5%;color: steelblue;font-size: 16px;"> 30%</div>
+                <div style="background-color: white;height: 40%; width: 5%;color: steelblue;font-size: 16px;"> 40%</div>
+                <div style="background-color: white;height: 50%; width: 5%;color: steelblue;font-size: 16px;"> 50%</div>
+                <div style="background-color: white;height: 30%; width: 5%;color: steelblue;font-size: 16px;"> 30%</div>
+                </div>
               </div>
             </div>
           </div>

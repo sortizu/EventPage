@@ -36,6 +36,7 @@ public class ConsoleFrame extends javax.swing.JFrame {
 
         jScrollPane2 = new javax.swing.JScrollPane();
         consoleText = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("WebConsole");
@@ -47,6 +48,7 @@ public class ConsoleFrame extends javax.swing.JFrame {
         jScrollPane2.setViewportView(consoleText);
 
         getContentPane().add(jScrollPane2, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jTextField1, java.awt.BorderLayout.PAGE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -90,5 +92,6 @@ public class ConsoleFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel consoleText;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

@@ -43,8 +43,8 @@ public class InvitadoServlet extends HttpServlet {
                 response.sendRedirect("guest.jsp");
                 break;
             case "delete":
-                String[] idArray = request.getParameterValues("json[]");
-                for(String id:idArray){
+                String idArray = request.getParameter("json[]");
+                for(String id:idArray.split(",")){
                     invitadoDAO.delete(Integer.parseInt(id));
                 }
                 response.setCharacterEncoding("UTF-8"); 

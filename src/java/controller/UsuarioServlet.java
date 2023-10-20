@@ -5,6 +5,7 @@
 package controller;
 
 import DAO.UsuarioDAO;
+import debug.Console;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -51,8 +52,8 @@ public class UsuarioServlet extends HttpServlet {
                 response.sendRedirect("users.jsp");
                 break;
             case "delete":
-                String[] idArray = request.getParameterValues("json[]");
-                for(String id:idArray){
+                String idArray = request.getParameter("json[]");
+                for(String id:idArray.split(",")){
                     usuarioDAO.delete(Integer.parseInt(id));
                 }
                 response.setCharacterEncoding("UTF-8"); 

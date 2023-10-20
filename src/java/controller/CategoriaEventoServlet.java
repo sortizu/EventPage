@@ -38,8 +38,8 @@ public class CategoriaEventoServlet extends HttpServlet {
                 response.sendRedirect("event_labels.jsp");
                 break;
             case "delete":
-                String[] idArray = request.getParameterValues("json[]");
-                for(String id:idArray){
+                String idArray = request.getParameter("json[]");
+                for(String id:idArray.split(",")){
                     categoriaEventoDAO.delete(Integer.parseInt(id));
                 }
                 response.setCharacterEncoding("UTF-8"); 

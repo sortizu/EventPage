@@ -6,15 +6,14 @@ package DAO;
 
 
 import config.Conexion;
-import static config.Conexion.con;
-import static config.Conexion.stmt;
 import interfaces.CRUD;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.CategoriaEvento;
 import model.Usuario;
 
 /**
@@ -30,21 +29,20 @@ public class UsuarioDAO implements CRUD {
         ArrayList<Usuario> usuarios = new ArrayList<>();
         
         try {
-            Conexion.rs = Conexion.stmt.executeQuery("SELECT * FROM event_page.usuario");
-            Conexion.rs.next();
-            do{
-                //System.out.println(Conexion.rs.getString("id")+" "+Conexion.rs.getString("nombre"));
+            Statement stmt = Conexion.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM event_page.usuario WHERE eliminado=0");
+            
+            while (rs.next()) {
                 Usuario newUsuario = new Usuario();
-                newUsuario.setId(Conexion.rs.getInt("id_usuario"));
-                newUsuario.setNombres(Conexion.rs.getString("nombres"));
-                newUsuario.setApellidos(Conexion.rs.getString("apellidos"));
-                newUsuario.setEmail(Conexion.rs.getString("correo"));
-                newUsuario.setPassword(Conexion.rs.getString("contraseña"));
-                newUsuario.setDni(Conexion.rs.getInt("dni"));
-                newUsuario.setAdmin(Conexion.rs.getBoolean("admin"));
+                newUsuario.setId(rs.getInt("id_usuario"));
+                newUsuario.setNombres(rs.getString("nombres"));
+                newUsuario.setApellidos(rs.getString("apellidos"));
+                newUsuario.setEmail(rs.getString("correo"));
+                newUsuario.setPassword(rs.getString("contraseña"));
+                newUsuario.setDni(rs.getInt("dni"));
+                newUsuario.setAdmin(rs.getBoolean("admin"));
                 usuarios.add(newUsuario);
-                
-            } while (Conexion.rs.next());
+            }
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -67,14 +65,15 @@ public class UsuarioDAO implements CRUD {
         //Borrar el codigo de abajo
         Usuario nuevoUsuario = (Usuario)o;
         try {
-            Conexion.stmt = Conexion.con.createStatement();
-            Conexion.stmt.executeUpdate("INSERT INTO event_page.usuario(nombres, apellidos, dni, correo, contraseña, admin) VALUES "
+            Statement stmt = Conexion.getConnection().createStatement();
+            stmt.executeUpdate("INSERT INTO event_page.usuario(nombres, apellidos, dni, correo, contraseña, admin,eliminado) VALUES "
                     + "('" + nuevoUsuario.getNombres() + "', '" 
                     + nuevoUsuario.getApellidos() + "', '"
                     + nuevoUsuario.getDni() + "', '"
                     + nuevoUsuario.getEmail() + "', '"
-                    + nuevoUsuario.getPassword() + "', '"
-                    + (nuevoUsuario.isAdmin()?1:0) + "')");
+                    + nuevoUsuario.getPassword() + "',"
+                    + (nuevoUsuario.isAdmin()?1:0) + ","
+                    + 0 + ")");
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -83,25 +82,37 @@ public class UsuarioDAO implements CRUD {
 
     @Override
     public boolean edit(Object o) {
-        //Borrar el codigo de abajo
-        for(int i = 0; i<listaUsuarios.size();i++){
-            if(listaUsuarios.get(i).getId()==((Usuario)o).getId()){
-            listaUsuarios.set(i, (Usuario)o);
-            return true;
-            }
+        Usuario usuarioEditar = (Usuario)o;
+        try {
+            String query=String.format(
+              "UPDATE event_page.usuario SET nombres='%s',apellidos='%s',dni=%d,correo='%s',contraseña='%s',admin=%d WHERE id_usuario=%d",
+            usuarioEditar.getNombres(),
+            usuarioEditar.getApellidos(),
+            usuarioEditar.getDni(),
+            usuarioEditar.getEmail(),
+            usuarioEditar.getPassword(),
+            usuarioEditar.isAdmin()?1:0,
+            usuarioEditar.getId());
+            
+            Statement stmt = Conexion.getConnection().createStatement();
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;
+        return true;
     }
 
     @Override
     public boolean delete(int id) {
-        //Borrar el codigo de abajo
-        for(int i = 0; i<listaUsuarios.size();i++){
-            if(listaUsuarios.get(i).getId()==id){
-            listaUsuarios.remove(i);
-            return true;
-            }
+        try {
+            String query=String.format(
+              "UPDATE event_page.usuario SET eliminado=%d WHERE id_usuario=%d",1,id);
+            
+            Statement stmt = Conexion.getConnection().createStatement();
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;
+        return true;
     }
 }
