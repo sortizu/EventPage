@@ -6,6 +6,7 @@ package DAO;
 
 
 import config.Conexion;
+import debug.Console;
 import interfaces.CRUD;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,10 +32,10 @@ public class EventoDAO implements CRUD {
     public List listAll() {
         //Borrar el codigo de abajo
         ArrayList<Evento> eventos = new ArrayList<>();
-        String consultaSQL = "SELECT e.*, ce.nombre_catevento, i.nombres AS invitado_nombres, i.apellidos AS invitado_apellidos, i.biografia AS invitado_biografia " +
+        String consultaSQL = "SELECT * " +
                                  "FROM evento e " +
-                                 "LEFT JOIN categoriaevento ce ON e.id_categoria = ce.id_catevento " +
-                                 "LEFT JOIN invitado i ON e.id_invitado = i.id_invitado"
+                                 "LEFT JOIN categoriaevento ce ON e.id_categoria = ce.id_catevento AND ce.eliminado=0 " +
+                                 "LEFT JOIN invitado i ON e.id_invitado = i.id_invitado AND i.eliminado=0 "
                                 + " WHERE e.eliminado=0";
         
         try {
@@ -42,7 +43,7 @@ public class EventoDAO implements CRUD {
             ResultSet rs = stmt.executeQuery(consultaSQL);
             rs.next();
             do{
-                //System.out.println(rs.getString("descripcion"));
+                
                 Evento newEvento = new Evento();
                 newEvento.setId(rs.getInt("id_evento"));
                 newEvento.setNombreEvento(rs.getString("nombre_evento"));
@@ -50,16 +51,21 @@ public class EventoDAO implements CRUD {
                 newEvento.setFecha(rs.getTimestamp("fecha").toLocalDateTime());
                 newEvento.setCapacidad(rs.getInt("capacidad"));
                 newEvento.setDescripcion(rs.getString("descripcion"));
+                // Setting event label information
+                CategoriaEvento nuevaCategoriaEvento =  (CategoriaEvento)new CategoriaEventoDAO().list(rs.getInt("id_catevento"));
+                if(nuevaCategoriaEvento==null){
+                    nuevaCategoriaEvento = new CategoriaEvento(-1, "");
+                }
+                newEvento.setCategoria(nuevaCategoriaEvento);
                 
+                // Setting guest information
+                Invitado nuevoInvitado = (Invitado)new InvitadoDAO().list(rs.getInt("id_invitado"));
                 
-                newEvento.setCategoria(
-                new CategoriaEvento(rs.getInt("id_categoria"), rs.getString("nombre_catevento"))
-                );
-            
-                newEvento.setInvitado(
-                new Invitado(rs.getString("invitado_biografia"), rs.getInt("id_invitado"),
-                rs.getString("invitado_nombres"), rs.getString("invitado_apellidos"))
-                );
+                if(nuevoInvitado==null){
+                    nuevoInvitado=new Invitado("", -1, "", "");
+                }
+                
+                newEvento.setInvitado(nuevoInvitado);
                 eventos.add(newEvento);
                 
             } while (rs.next());
@@ -130,5 +136,7 @@ public class EventoDAO implements CRUD {
         }
         return true;
     }
+    
+    
     
 }

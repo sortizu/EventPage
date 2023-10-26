@@ -5,6 +5,7 @@
 package controller;
 
 import DAO.UsuarioDAO;
+import debug.Console;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -17,15 +18,16 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author sortizu
  */
-public class AdminLoginServlet extends HttpServlet {
+public class UserLoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Console.println("Se solicito iniciar sesión");
         HttpSession session = request.getSession();
-        String email = request.getParameter("email");
-        String pass = request.getParameter("password");
-        if(new UsuarioDAO().validarAdmin(email, pass)){
+        String email = request.getParameter("login-email");
+        String pass = request.getParameter("login-password");
+        if(new UsuarioDAO().validarUsuario(email, pass)){
             session.setAttribute("email", email);
             session.setAttribute("password", pass);
 
@@ -34,7 +36,8 @@ public class AdminLoginServlet extends HttpServlet {
         session.setAttribute("password", null);
 
         }
-        response.sendRedirect("dashboard.jsp");
+        response.sendRedirect("index.jsp");
     }
+
 
 }

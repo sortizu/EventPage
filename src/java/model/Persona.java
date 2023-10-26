@@ -45,6 +45,11 @@ public class Persona {
 
     public Persona() {
     }
+
+    @Override
+    public String toString() {
+        return "Persona{" + "id=" + id + ", nombres=" + nombres + ", apellidos=" + apellidos + '}';
+    }
    
     
 }

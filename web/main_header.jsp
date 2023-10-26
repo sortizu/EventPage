@@ -35,6 +35,59 @@
       </div>
     </a>
     <div class="d-flex flex-row gap-2">
+      <%@page import="DAO.UsuarioDAO" %>
+      <%@page import="debug.Console" %>
+  <%
+    boolean logged=false;
+    if(session.getAttribute("email")!=null && session.getAttribute("password")!=null){
+      String email = (String)session.getAttribute("email");
+      String pass = (String)session.getAttribute("password");  
+      logged = new UsuarioDAO().validarUsuario(email, pass);
+    }
+      
+    if (logged){
+      %>
+      <button
+      type="button"
+      class="btn btn-danger"
+      data-bs-toggle="modal"
+      data-bs-target="#profileModal"
+      data-bs-whatever="@getbootstrap"
+      style="
+        min-width: 125px;
+        height: 30px;
+        margin: 0px;
+        padding: 0px;
+        gap: 0px;
+        margin-top: 10px;
+      "
+    >
+      <i class="bi bi-person-fill-gear"></i>
+      Mi cuenta
+    </button>
+    <button
+      type="button"
+      class="btn btn-danger"
+      data-bs-toggle="modal"
+      data-bs-target="#shoppingModal"
+      data-bs-whatever="@getbootstrap"
+      style="
+        min-width: 125px;
+        height: 30px;
+        margin: 0px;
+        padding: 0px;
+        gap: 0px;
+        margin-top: 10px;
+      "
+    >
+      <i class="bi bi-bag-fill"></i>
+      Mis compras
+    </button>
+
+      <%
+    }else{
+      %>
+      
       <button
         type="button"
         class="btn btn-danger"
@@ -50,44 +103,14 @@
           margin-top: 10px;
         "
       >
+      <i class="bi bi-box-arrow-in-right"></i>
         Acceder
       </button>
-      <button
-        type="button"
-        class="btn btn-danger"
-        data-bs-toggle="modal"
-        data-bs-target="#profileModal"
-        data-bs-whatever="@getbootstrap"
-        style="
-          min-width: 125px;
-          height: 30px;
-          margin: 0px;
-          padding: 0px;
-          gap: 0px;
-          margin-top: 10px;
-        "
-      >
-        <i class="bi bi-person-fill-gear"></i>
-        Mi cuenta
-      </button>
-      <button
-        type="button"
-        class="btn btn-danger"
-        data-bs-toggle="modal"
-        data-bs-target="#shoppingModal"
-        data-bs-whatever="@getbootstrap"
-        style="
-          min-width: 125px;
-          height: 30px;
-          margin: 0px;
-          padding: 0px;
-          gap: 0px;
-          margin-top: 10px;
-        "
-      >
-        <i class="bi bi-bag-fill"></i>
-        Mis compras
-      </button>
+      <%
+    }
+    %>
+      
+      
     </div>
   </nav>
 </div>
@@ -112,13 +135,14 @@
         ></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form action="UserLoginServlet" method="POST" id="userLoginForm">
           <div class="mb-3">
             <label for="login-email" class="col-form-label">Correo:</label>
             <input
               type="email"
               class="form-control modal-form-input"
               id="login-email"
+              name="login-email"
               required
             />
           </div>
@@ -130,6 +154,7 @@
               type="password"
               class="form-control modal-form-input"
               id="login-password"
+              name="login-password"
               maxlength="45"
               required
             />
@@ -162,7 +187,7 @@
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           Cancelar
         </button>
-        <button type="button" class="btn btn-outline-danger">Acceder</button>
+        <button type="submit" class="btn btn-outline-danger" form="userLoginForm">Acceder</button>
       </div>
     </div>
   </div>

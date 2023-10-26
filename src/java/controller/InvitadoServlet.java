@@ -6,11 +6,11 @@ package controller;
 
 import DAO.InvitadoDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
 import model.Invitado;
 
 /**
@@ -24,6 +24,7 @@ public class InvitadoServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+                response.setContentType("application/json");
         switch (request.getParameter("form-mode")) {
             case "add":
                 Invitado nuevoInvitadoAgregar = new Invitado();
@@ -47,10 +48,32 @@ public class InvitadoServlet extends HttpServlet {
                 for(String id:idArray.split(",")){
                     invitadoDAO.delete(Integer.parseInt(id));
                 }
-                response.setCharacterEncoding("UTF-8"); 
+response.getWriter().print("success");
+                break;
+            case "warning-delete":
+                String idArrayEvaluateDelete = request.getParameter("json[]");
+        boolean dependencyFound=false;
+        for(String id:idArrayEvaluateDelete.split(",")){
+            dependencyFound = !invitadoDAO.getDependentEventsId(Integer.parseInt(id)).isEmpty();
+        }
+
+        if (dependencyFound){
+            PrintWriter out = response.getWriter();
+        out.println("trigger");
+        out.close();
+        }
+                break;
+            case "dependency-delete":
+                String idArrayDeleteDependency = request.getParameter("json[]");
+                for(String id:idArrayDeleteDependency.split(",")){
+                    invitadoDAO.delete(Integer.parseInt(id),true);
+                }
+
 response.getWriter().print("success");
                 break;
             default:
+                PrintWriter out = response.getWriter();
+                out.close();
                 throw new AssertionError();
         }
     }

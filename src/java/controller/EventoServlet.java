@@ -8,12 +8,11 @@ import DAO.CategoriaEventoDAO;
 import DAO.EventoDAO;
 import DAO.InvitadoDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import debug.Console;
+import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import model.CategoriaEvento;
@@ -32,6 +31,10 @@ public class EventoServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("application/json");
+        String responseMessage;
+        
+        
         switch (request.getParameter("form-mode")) {
             case "add":
                 Evento nuevoEventoAgregar = new Evento();
@@ -76,7 +79,10 @@ public class EventoServlet extends HttpServlet {
 response.getWriter().print("success");
                 break;
             default:
+                PrintWriter out = response.getWriter();
+                out.close();
                 throw new AssertionError();
+            
         }
         
     }

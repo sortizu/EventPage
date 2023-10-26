@@ -26,7 +26,12 @@ public class Invitado extends Persona {
 
     public Invitado() {
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "Invitado{" +super.toString()+", biografia=" + biografia + '}';
+    }
+
+ 
     
 }

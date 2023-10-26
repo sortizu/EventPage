@@ -71,6 +71,7 @@ String pageElementPluralName = "categorias"; //Aqui se debe de poner el nombre d
       <!--End of add event modal-->
       <!--Confirm delete modal-->
       <%@include file="confirm_delete_modal.jsp" %>
+      <%@include file="warning_delete_modal.jsp" %>
     </div>
     <%@include file="sidebar_script.jsp" %> <%@include file="table_script.jsp"
     %>

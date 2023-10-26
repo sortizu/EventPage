@@ -118,4 +118,39 @@ public class CategoriaEventoDAO implements CRUD {
         return true;
     }
     
+    public boolean delete(int id, boolean deleteDependentEvents) {
+        try {
+            String query=String.format(
+              "UPDATE event_page.categoriaevento SET eliminado=1 WHERE id_catevento=%d",id);
+            
+            Statement stmt = Conexion.getConnection().createStatement();
+            stmt.executeUpdate(query);
+            if (deleteDependentEvents) {
+                query=String.format(
+              "UPDATE event_page.evento SET eliminado=1 WHERE id_categoria=%d",id);
+            stmt.executeUpdate(query);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(InvitadoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return true;
+    }
+    
+    public List getDependentEventsId(int categoryID){
+        try {
+            String query=String.format(
+              "SELECT * FROM event_page.evento WHERE eliminado=0 AND id_categoria=%d",categoryID);
+            
+            Statement stmt = Conexion.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            ArrayList<Integer> eventsID = new ArrayList<>();
+            while (rs.next()){
+                eventsID.add(rs.getInt("id_evento"));
+            }
+            return eventsID;
+        } catch (SQLException ex) {
+            Logger.getLogger(InvitadoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

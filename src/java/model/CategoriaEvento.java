@@ -35,6 +35,11 @@ public class CategoriaEvento {
 
     public CategoriaEvento() {
     }
+
+    @Override
+    public String toString() {
+        return "CategoriaEvento{" + "id=" + id + ", nombreCategoria=" + nombreCategoria + '}';
+    }
    
     
 }

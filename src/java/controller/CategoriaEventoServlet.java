@@ -11,6 +11,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
 import model.CategoriaEvento;
 
 /**
@@ -20,9 +21,12 @@ import model.CategoriaEvento;
 public class CategoriaEventoServlet extends HttpServlet {
 
   CategoriaEventoDAO categoriaEventoDAO = new CategoriaEventoDAO();
-    @Override
+
+  
+  @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+                response.setContentType("application/json");
         switch (request.getParameter("form-mode")) {
             case "add":
                 CategoriaEvento nuevaCategoriaEventoAgregar = new CategoriaEvento();
@@ -38,11 +42,32 @@ public class CategoriaEventoServlet extends HttpServlet {
                 response.sendRedirect("event_labels.jsp");
                 break;
             case "delete":
-                String idArray = request.getParameter("json[]");
-                for(String id:idArray.split(",")){
+                String idArrayDelete = request.getParameter("json[]");
+                for(String id:idArrayDelete.split(",")){
                     categoriaEventoDAO.delete(Integer.parseInt(id));
                 }
                 response.setCharacterEncoding("UTF-8"); 
+response.getWriter().print("success");
+                break;
+            case "warning-delete":
+                String idArrayEvaluateDelete = request.getParameter("json[]");
+        boolean dependencyFound=false;
+        for(String id:idArrayEvaluateDelete.split(",")){
+            dependencyFound = !categoriaEventoDAO.getDependentEventsId(Integer.parseInt(id)).isEmpty();
+        }
+
+        if (dependencyFound){
+            PrintWriter out = response.getWriter();
+        out.println("trigger");
+        out.close();
+        }
+                break;
+            case "dependency-delete":
+                String idArrayDeleteDependency = request.getParameter("json[]");
+                for(String id:idArrayDeleteDependency.split(",")){
+                    categoriaEventoDAO.delete(Integer.parseInt(id),true);
+                }
+
 response.getWriter().print("success");
                 break;
             default:

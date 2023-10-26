@@ -24,6 +24,7 @@ public class AdminServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("application/json");
         switch (request.getParameter("form-mode")) {
             case "add":
                 Usuario nuevoUsuarioAgregar = new Usuario();
@@ -55,10 +56,11 @@ public class AdminServlet extends HttpServlet {
                 for(String id:idArray){
                     usuarioDAO.delete(Integer.parseInt(id));
                 }
-                response.setCharacterEncoding("UTF-8"); 
 response.getWriter().print("success");
                 break;
             default:
+                PrintWriter out = response.getWriter();
+                out.close();
                 throw new AssertionError();
         }
     }

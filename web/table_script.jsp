@@ -46,9 +46,9 @@
         $("#mainModal").modal("show");
       });
 
-      // Funcion que permite eliminar los datos de la fila seleccionada (no funciona)
-      $("#confirmDeleteButton").click(function () {
-        // Get selected row data
+
+      $("#deleteButton").click(function (e) {
+        
         var selectedRows = $("tr.table-active");
         var selectedRowsID = [];
         for (var i = 0; i < selectedRows.length; i++) {
@@ -61,7 +61,44 @@
           url:"<%=apiLink%>",
           type:"POST",
           dataType:'json',
-          data: {'json[]':selectedRowsID.toString(),'form-mode':"delete"},
+          data: {'json[]':selectedRowsID.toString(),'form-mode':"warning-delete"},
+          success:function(data){
+            window.alert(data);
+          },
+          error:function(error){
+            var showConfirmModal = false;
+            if(error["responseText"].length>0){
+              $("#warningDeleteModal").modal("show");
+              return;
+            }
+            
+            $("#confirmDeleteModal").modal("show");
+          }
+        });
+        // Show modal
+        
+      });
+
+      // Funcion que permite eliminar los datos de la fila seleccionada (no funciona)
+      $("#confirmDeleteButton, #WarningDeleteButton2, #WarningDeleteButton1").click(function (e) {
+        // Get selected row data
+        var formMode = "delete";
+        if(e.target.id=="WarningDeleteButton1"){
+          formMode = "dependency-delete";
+        }
+        var selectedRows = $("tr.table-active");
+        var selectedRowsID = [];
+        for (var i = 0; i < selectedRows.length; i++) {
+          var id = selectedRows.eq(i).attr("data-id");
+          // Remove table row
+          //$('tr[data-id="' + id + '"]').remove();
+          selectedRowsID.push(id);
+        }
+        $.ajax({
+          url:"<%=apiLink%>",
+          type:"POST",
+          dataType:'json',
+          data: {'json[]':selectedRowsID.toString(),'form-mode':formMode},
           success:function(data){
             window.alert("EXITO");
           },

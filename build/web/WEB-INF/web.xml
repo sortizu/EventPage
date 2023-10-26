@@ -28,6 +28,10 @@
         <servlet-name>AdminLogoutServlet</servlet-name>
         <servlet-class>controller.AdminLogoutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UserLoginServlet</servlet-name>
+        <servlet-class>controller.UserLoginServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>EventoServlet</servlet-name>
         <url-pattern>/EventoServlet</url-pattern>
@@ -55,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>AdminLogoutServlet</servlet-name>
         <url-pattern>/AdminLogoutServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserLoginServlet</servlet-name>
+        <url-pattern>/UserLoginServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
