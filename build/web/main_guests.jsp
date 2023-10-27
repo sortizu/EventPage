@@ -19,24 +19,32 @@
         <!--Featured guests-->
         <div class="col-12 g-0 mt-3" style="padding-bottom: 55px">
           <div class="row gap-2 " style="margin: 0px;  padding: 0px;">
+            <%@page import="DAO.InvitadoDAO" %>
+<%@page import="model.Invitado" %>
+<%@page import="java.util.ArrayList" %>
+            <%
+              InvitadoDAO dao = new InvitadoDAO();
+              ArrayList<Invitado> invitados = (ArrayList<Invitado>)dao.listAll();
+              for(Invitado invitado : invitados){
+            %>
             <!--Guest card-->
             <div
               class="col-12 col-sm-8 col-lg-6 d-flex justify-content-center align-items-start m-auto"
             >
-              <div class="card">
+              <div class="card" style="height: 100%; min-height: 100%;">
                 <div class="row">
                   <div class="col-md-8">
                     <img
                       src="https://www.publico.es/uploads/2023/06/16/648c80330babc.jpeg"
                       class="img-fluid rounded-start"
+                      style="height: 100%; min-height: 100%;object-fit: cover;"
                     />
                   </div>
                   <div class="col-md-4">
                     <div class="card-body">
-                      <h5 class="card-title">Fito Páez</h5>
+                      <h5 class="card-title"><%=invitado.getNombres()%></h5>
                       <p class="card-text">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Officia, maiores.
+                        <%=invitado.getBiografia()%>
                       </p>
                     </div>
                   </div>
@@ -44,82 +52,7 @@
               </div>
             </div>
             <!--End of guest card-->
-            <!--Guest card-->
-            <div
-              class="col-12 col-sm-8 col-lg-6 d-flex justify-content-center align-items-start m-auto"
-            >
-              <div class="card">
-                <div class="row">
-                  <div class="col-md-8">
-                    <img
-                      src="https://www.publico.es/uploads/2023/06/16/648c80330babc.jpeg"
-                      class="img-fluid rounded-start"
-                    />
-                  </div>
-                  <div class="col-md-4">
-                    <div class="card-body">
-                      <h5 class="card-title">Fito Páez</h5>
-                      <p class="card-text">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Officia, maiores.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--End of guest card-->
-            <!--Guest card-->
-            <div
-              class="col-12 col-sm-8 col-lg-6 d-flex justify-content-center align-items-start m-auto"
-            >
-              <div class="card">
-                <div class="row">
-                  <div class="col-md-8">
-                    <img
-                      src="https://www.publico.es/uploads/2023/06/16/648c80330babc.jpeg"
-                      class="img-fluid rounded-start"
-                    />
-                  </div>
-                  <div class="col-md-4">
-                    <div class="card-body">
-                      <h5 class="card-title">Fito Páez</h5>
-                      <p class="card-text">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Officia, maiores.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--End of guest card-->
-            <!--Guest card-->
-            <div
-              class="col-12 col-sm-8 col-lg-6 d-flex justify-content-center align-items-start m-auto"
-            >
-              <div class="card">
-                <div class="row">
-                  <div class="col-md-8">
-                    <img
-                      src="https://www.publico.es/uploads/2023/06/16/648c80330babc.jpeg"
-                      class="img-fluid rounded-start"
-                    />
-                  </div>
-                  <div class="col-md-4">
-                    <div class="card-body">
-                      <h5 class="card-title">Fito Páez</h5>
-                      <p class="card-text">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Officia, maiores.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--End of guest card-->
-            
+            <%}%>
           </div>
         </div>
       </div>
