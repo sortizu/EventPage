@@ -38,7 +38,15 @@
         var modalFormInputs=$(".modal-form-input")
         for (var i = 0; i < columnsOfSelectedRow.length; i++) {
           var column = columnsOfSelectedRow.eq(i);
-          modalFormInputs.eq(i).val(column.attr("value"));
+          if(modalFormInputs.eq(i).attr('type')=="checkbox"){
+            if(column.attr("value")=="1"){
+              modalFormInputs.eq(i).prop("checked",true);
+            }else{
+              modalFormInputs.eq(i).prop("checked",false);
+            }
+          }else{
+            modalFormInputs.eq(i).val(column.attr("value"));
+          }
         }
         // Change modal title
         $("#mainModal .modal-title").text("Editar "+'<%=pageElementName%>');
@@ -116,7 +124,12 @@
         // Clear modal data
         var modalFormInputs=$(".modal-form-input")
         for (var i = 0; i < modalFormInputs.length; i++) {
-          modalFormInputs.eq(i).val("");
+          if(modalFormInputs.eq(i).attr('type')=="checkbox"){
+            modalFormInputs.eq(i).prop("checked",false);
+          }else{
+            modalFormInputs.eq(i).val("");
+          }
+          
         }
         // Change modal title
         $("#mainModal .modal-title").text("Agregar "+'<%=pageElementName%>');

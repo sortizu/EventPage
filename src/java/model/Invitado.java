@@ -29,7 +29,10 @@ public class Invitado extends Persona {
 
     @Override
     public String toString() {
-        return "Invitado{" +super.toString()+", biografia=" + biografia + '}';
+        return  "'id_invitado'='"+ getId()+
+                "', 'nombre_invitado'='"+getNombres()+
+                "', 'apellido_invitado'='"+getApellidos()+
+                "', 'biografia'='" + biografia + "'";
     }
 
  

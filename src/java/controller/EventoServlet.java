@@ -7,6 +7,7 @@ package controller;
 import DAO.CategoriaEventoDAO;
 import DAO.EventoDAO;
 import DAO.InvitadoDAO;
+import debug.Console;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -15,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import model.CategoriaEvento;
 import model.Evento;
 import model.Invitado;
@@ -33,8 +35,7 @@ public class EventoServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("application/json");
         String responseMessage;
-        
-        
+       
         switch (request.getParameter("form-mode")) {
             case "add":
                 Evento nuevoEventoAgregar = new Evento();
@@ -50,6 +51,7 @@ public class EventoServlet extends HttpServlet {
                 nuevoEventoAgregar.setInvitado(
                         (Invitado)invitadoDAO.list(Integer.parseInt(request.getParameter("event-guest")))
                 );
+                nuevoEventoAgregar.setDestacado(request.getParameter("featured").equals("on"));
                 eventoDAO.add(nuevoEventoAgregar);
                 response.sendRedirect("event.jsp");
                 break;
@@ -67,6 +69,12 @@ public class EventoServlet extends HttpServlet {
                 nuevoEventoEditar.setInvitado(
                         (Invitado)invitadoDAO.list(Integer.parseInt(request.getParameter("event-guest")))
                 );
+                try {
+                            nuevoEventoEditar.setDestacado(request.getParameter("featured").equals("on"));
+                } catch (Exception e) {
+                            nuevoEventoEditar.setDestacado(false);
+                }
+                
                 eventoDAO.edit(nuevoEventoEditar);
                 response.sendRedirect("event.jsp");
                 break;
@@ -75,7 +83,7 @@ public class EventoServlet extends HttpServlet {
                 for(String id:idArray){
                     eventoDAO.delete(Integer.parseInt(id));
                 }
-                response.setCharacterEncoding("UTF-8"); 
+
 response.getWriter().print("success");
                 break;
             default:

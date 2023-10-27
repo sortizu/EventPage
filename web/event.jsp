@@ -56,6 +56,7 @@ String pageElementPluralName = "eventos"; //Aqui se debe de poner el nombre del 
               <td value='<%=evento.getCategoria().getId()%>'><%=evento.getCategoria().getNombreCategoria()%></td>
               <td value='<%=evento.getCapacidad()%>'><%=evento.getCapacidad()%></td>
               <td value='<%=evento.getCosto()%>'><%=evento.getCosto()%></td>
+              <td value='<%=evento.isDestacado()?"1":"0"%>' hidden><%=evento.isDestacado()%></td>
             </tr>
           <%}%>
         </tbody>
@@ -179,6 +180,10 @@ String pageElementPluralName = "eventos"; //Aqui se debe de poner el nombre del 
               required
             />
           </div>
+        </div>
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input modal-form-input" id="featured" name="featured">
+          <label class="form-check-label" for="featured">Mostrar como novedad destacada en página principal</label>
         </div>
         <input type="text" name="form-mode" id="form-mode" value="" hidden>
       </form>

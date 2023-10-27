@@ -5,6 +5,8 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 /**
  *
@@ -19,6 +21,7 @@ public class Evento {
     private CategoriaEvento categoria;
     private String descripcion;
     private Invitado invitado;
+    private boolean destacado;
     
     public Evento() {
     }
@@ -96,12 +99,28 @@ public class Evento {
     public void setInvitado(Invitado invitado) {
         this.invitado = invitado;
     }
-    
-    
+
+    public boolean isDestacado() {
+        return destacado;
+    }
+
+    public void setDestacado(boolean destacado) {
+        this.destacado = destacado;
+    }
 
     @Override
     public String toString() {
-        return "Evento{" + "idEvento=" + id + ", nombreEvento=" + nombreEvento + ", costo=" + costo + ", fecha=" + fecha + ", capacidad=" + capacidad + ", categoria=" + categoria + ", descripcion=" + descripcion + '}';
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EE dd MMM '-' HH:mm a", new Locale("es", "ES"));
+        return "'id_evento'='" + id 
+           + "', 'nombreEvento'='" + nombreEvento 
+           + "', 'costo'='" + costo 
+           + "', 'fecha'='" + fecha.format(formatter)
+           + "', 'capacidad'='" + capacidad 
+           + "', " + categoria 
+           + ", 'descripcion'='" + descripcion 
+           + "', " + invitado 
+           + ", 'destacado'='" + destacado + "'";
     }
     
+
 }

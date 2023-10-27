@@ -38,7 +38,8 @@ public class CategoriaEvento {
 
     @Override
     public String toString() {
-        return "CategoriaEvento{" + "id=" + id + ", nombreCategoria=" + nombreCategoria + '}';
+        return "'id_catevento'='" + id 
+         + "', 'nombreCategoria'='" + nombreCategoria + "'";
     }
    
     

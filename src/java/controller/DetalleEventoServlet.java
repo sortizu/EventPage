@@ -4,36 +4,34 @@
  */
 package controller;
 
-import DAO.UsuarioDAO;
+import DAO.EventoDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-
+import com.google.gson.Gson;
+import debug.Console;
+import model.Evento;
 /**
  *
  * @author sortizu
  */
-public class AdminLoginServlet extends HttpServlet {
-
+public class DetalleEventoServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        String email = request.getParameter("email");
-        String pass = request.getParameter("password");
-        if(new UsuarioDAO().validarAdmin(email, pass)){
-            session.setAttribute("email", email);
-            session.setAttribute("password", pass);
-        }else{
-        session.setAttribute("email", null);
-        session.setAttribute("password", null);
+        
+        
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
 
-        }
-        response.sendRedirect("dashboard.jsp");
+        Evento eventoCargado = (Evento)new EventoDAO().list(Integer.parseInt(request.getParameter("id")));
+        
+        out.println(eventoCargado);
+        out.close();
     }
+
 
 }

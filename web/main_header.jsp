@@ -49,7 +49,7 @@
       %>
       <button
       type="button"
-      class="btn btn-danger"
+      class="btn btn-danger d-none d-lg-inline"
       data-bs-toggle="modal"
       data-bs-target="#profileModal"
       data-bs-whatever="@getbootstrap"
@@ -67,7 +67,7 @@
     </button>
     <button
       type="button"
-      class="btn btn-danger"
+      class="btn btn-danger d-none d-lg-inline"
       data-bs-toggle="modal"
       data-bs-target="#shoppingModal"
       data-bs-whatever="@getbootstrap"
@@ -90,7 +90,7 @@
       
       <button
         type="button"
-        class="btn btn-danger"
+        class="btn btn-danger d-none d-lg-inline"
         data-bs-toggle="modal"
         data-bs-target="#loginModal"
         data-bs-whatever="@getbootstrap"
@@ -553,15 +553,13 @@
       </div>
       <div class="modal-body">
         <center>
-          <h4>TICKET #76391</h4>
-          <p>Evento: NOVA LIMA 2023</p>
+          <h4 id="ticketDetailID">TICKET #76391</h4>
           <img
             src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg"
             alt="qr code"
           />
-          <h5>CÓDIGO: 313391983288</h5>
-          <p>Fecha: Jue 10 Ago - 7:00</p>
-          <p>Costo: $20.00</p>
+          <p id="ticketDetailDate">Fecha: Jue 10 Ago - 7:00</p>
+          <p id="ticketDetailCost">Costo: $20.00</p>
         </center>
       </div>
       <div class="modal-footer">
@@ -604,16 +602,16 @@
         </div>
         <div class="row mt-3">
           <div class="col-12 col-md-8">
-            <h4>TITULO EVENTO</h4>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Soluta, amet! Numquam vel hic quidem consectetur accusantium dolorem beatae culpa repellendus, animi veniam? Voluptatibus placeat harum amet obcaecati aliquam inventore esse, eius fugiat provident perspiciatis assumenda magnam earum enim animi sit ipsa facere itaque magni perferendis veniam! Rerum aut dolor autem.</p>
+            <h4 id="detailEventName">TITULO EVENTO</h4>
+            <p id="detailEventDescription">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Soluta, amet! Numquam vel hic quidem consectetur accusantium dolorem beatae culpa repellendus, animi veniam? Voluptatibus placeat harum amet obcaecati aliquam inventore esse, eius fugiat provident perspiciatis assumenda magnam earum enim animi sit ipsa facere itaque magni perferendis veniam! Rerum aut dolor autem.</p>
           </div>
           <div class="col-12 col-md-4">
             <h4>COSTO</h4>
-            <p>$20.00</p>
+            <p id="detailEventCost">$20.00</p>
             <h4>CAPACIDAD</h4>
-            <p>50 personas</p>
+            <p id="detailEventCapacity">50 personas</p>
             <h4>FECHA</h4>
-            <p>Jue 10 Ago - 7:00</p>
+            <p id="detailEventDate">Jue 10 Ago - 7:00</p>
           </div>
         </div>
         
@@ -636,9 +634,7 @@
             <button
                         type="button"
                         class="btn btn-outline-danger w-100"
-                        data-bs-toggle="modal"
-                        data-bs-target="#ticketDetailModal"
-                        data-bs-whatever="@getbootstrap"
+                        id="buyTicketButton"
                       >
                         COMPRAR Y GENERAR TICKET
                       </button>

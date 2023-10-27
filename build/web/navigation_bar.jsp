@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <nav
-        class="navbar navbar-default fixed-bottom "
+        class="navbar navbar-default fixed-bottom d-none d-lg-flex justify-content-center"
         style="color: white; padding: 0px"
       >
         <div class="d-flex m-auto gap-3">
