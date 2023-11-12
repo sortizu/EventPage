@@ -1,16 +1,18 @@
+<%@page import="DAO.InvitadoDAO" %>
+<%@page import="model.Invitado" %>
+<%@page import="java.util.ArrayList" %>
 <% 
 //Estas variables se deben de cambiar en el jsp de cada pagina 
 //En teoria solo con estas variables se puede definir a qué servlet se le hará la petición
-String apiLinkAdd = "#"; //Aqui se debe de poner la ruta de la servlet que agrega 
-String apiLinkEdit = "#"; //Aqui se debe de poner la ruta de la servlet que edita 
-String apiLinkDelete = "#"; //Aqui se debe de poner la ruta de la servlet que elimina 
+String apiLink = "InvitadoServlet"; //Aqui se debe de poner la ruta de la servlet que agrega  
 String pageElementName = "invitado"; //Aqui se debe de poner el nombre del elemento que se está manejando en la pagina 
 String pageElementPluralName = "invitados"; //Aqui se debe de poner el nombre del elemento que se está manejando en la pagina 
 %>
+<%@include file="admin_validation.jsp" %>
 <!DOCTYPE html>
 <html lang="es">
   <head>
-    
+    <%@ page contentType="text/html; charset=UTF-8" %>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Invitados</title>
@@ -32,53 +34,72 @@ String pageElementPluralName = "invitados"; //Aqui se debe de poner el nombre de
             <th scope="col">Biografía</th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+          <%
+          InvitadoDAO dao = new InvitadoDAO();
+            ArrayList<Invitado> invitados = (ArrayList<Invitado>)dao.listAll();
+            for(Invitado invitado : invitados){
+          %>
+            <tr data-id='<%=invitado.getId()%>'>
+              <td value='<%=invitado.getId()%>'><%=invitado.getId()%></td>
+              <td value='<%=invitado.getNombres()%>'><%=invitado.getNombres()%></td>
+              <td value='<%=invitado.getApellidos()%>'><%=invitado.getApellidos()%></td>
+              <td value='<%=invitado.getBiografia()%>'><%=invitado.getBiografia()%></td>
+            </tr>
+          <%}%>
+        </tbody>
         <%@include file="crud_main_content_footer.jsp" %>
       </div>
       <!--End of Page Content-->
       <!--Main Modal-->
       <%@include file="main_modal_header.jsp" %>
       <!--Esto es el formulario que se usa tanto para añadir o editar-->
-      <form id="mainForm" method="POST" action="">
+      <form id="mainForm" method="POST" action='<%=apiLink%>'>
+        <input type="text" value="" class="modal-form-input" id="id-row" name="id-row" hidden>
         <div class="mb-3">
-          <label for="event-name" class="col-form-label"
+          <label for="guest-name" class="col-form-label"
             >Nombre del invitado:</label
           >
           <input
             type="text"
             class="form-control modal-form-input"
-            id="event-name"
+            id="guest-name"
+            name="guest-name"
             maxlength="45"
             required
           />
         </div>
         <div class="mb-3">
-            <label for="event-name" class="col-form-label"
+            <label for="guest-last-name" class="col-form-label"
               >Apellidos del invitado:</label
             >
             <input
               type="text"
               class="form-control modal-form-input"
-              id="event-name"
+              id="guest-last-name"
+              name="guest-last-name"
               maxlength="45"
               required
             />
           </div>
         <div class="mb-3">
-          <label for="event-description" class="col-form-label"
+          <label for="guest-biography" class="col-form-label"
             >Biografía:</label
           >
           <textarea
             class="form-control modal-form-input"
-            id="event-description"
+            id="guest-biography"
+            name="guest-biography"
             required
           ></textarea>
         </div>
+        <input type="text" name="form-mode" id="form-mode" value="" hidden>
       </form>
       <%@include file="main_modal_footer.jsp" %>
       <!--End of add event modal-->
       <!--Confirm delete modal-->
       <%@include file="confirm_delete_modal.jsp" %>
+      <%@include file="warning_delete_modal.jsp" %>
     </div>
     <%@include file="sidebar_script.jsp" %> <%@include file="table_script.jsp"
     %>

@@ -1,16 +1,18 @@
+<%@page import="DAO.UsuarioDAO" %>
+<%@page import="model.Usuario" %>
+<%@page import="java.util.ArrayList" %>
 <% 
 //Estas variables se deben de cambiar en el jsp de cada pagina 
 //En teoria solo con estas variables se puede definir a qué servlet se le hará la petición
-String apiLinkAdd = "#"; //Aqui se debe de poner la ruta de la servlet que agrega 
-String apiLinkEdit = "#"; //Aqui se debe de poner la ruta de la servlet que edita 
-String apiLinkDelete = "#"; //Aqui se debe de poner la ruta de la servlet que elimina 
+String apiLink = "AdminServlet"; //Aqui se debe de poner la ruta de la servlet que agrega 
 String pageElementName = "administrador"; //Aqui se debe de poner el nombre del elemento que se está manejando en la pagina 
 String pageElementPluralName = "administradores"; //Aqui se debe de poner el nombre del elemento que se está manejando en la pagina 
 %>
+<%@include file="admin_validation.jsp" %>
 <!DOCTYPE html>
 <html lang="es">
   <head>
-    
+    <%@ page contentType="text/html; charset=UTF-8" %>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Administradores</title>
@@ -34,75 +36,98 @@ String pageElementPluralName = "administradores"; //Aqui se debe de poner el nom
             <th scope="col">DNI</th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+          <%
+          UsuarioDAO dao = new UsuarioDAO();
+          ArrayList<Usuario> usuarios = (ArrayList<Usuario>)dao.listAll();
+          for(Usuario usuario: usuarios){
+            if(usuario.isAdmin()){
+        %>
+          <tr data-id='<%=usuario.getId()%>'>
+            <td value='<%=usuario.getId()%>'><%=usuario.getId()%></td>
+            <td value='<%=usuario.getNombres()%>'><%=usuario.getNombres()%></td>
+            <td value='<%=usuario.getApellidos()%>'><%=usuario.getApellidos()%></td>
+            <td value='<%=usuario.getEmail()%>'><%=usuario.getEmail()%></td>
+            <td value='<%=usuario.getPassword()%>'><%=usuario.getPassword()%></td>
+            <td value='<%=usuario.getDni()%>'><%=usuario.getDni()%></td>
+          </tr>
+        <%}}%>
+        </tbody>
         <%@include file="crud_main_content_footer.jsp" %>
       </div>
       <!--End of Page Content-->
       <!--Main Modal-->
       <%@include file="main_modal_header.jsp" %>
       <!--Esto es el formulario que se usa tanto para añadir o editar-->
-      <form id="mainForm" method="POST" action="">
+      <form id="mainForm" method="POST" action='<%=apiLink%>'>
+        <input type="text" value="" class="modal-form-input" id="id-row" name="id-row" hidden>
         <div class="mb-3">
-          <label for="event-name" class="col-form-label"
+          <label for="admin-name" class="col-form-label"
             >Nombres:</label
           >
           <input
             type="text"
             class="form-control modal-form-input"
-            id="event-name"
+            id="admin-name"
+            name="admin-name"
             maxlength="45"
             required
           />
         </div>
         <div class="mb-3">
-            <label for="event-name" class="col-form-label"
+            <label for="admin-last-name" class="col-form-label"
               >Apellidos:</label
             >
             <input
               type="text"
               class="form-control modal-form-input"
-              id="event-name"
+              id="admin-last-name"
+              name="admin-last-name"
               maxlength="45"
               required
             />
         </div>
         <div class="mb-3">
-            <label for="event-name" class="col-form-label"
+            <label for="admin-email" class="col-form-label"
               >Email:</label
             >
             <input
               type="email"
               class="form-control modal-form-input"
-              id="event-name"
+              id="admin-email"
+              name="admin-email"
               maxlength="45"
               required
             />
           </div>
           <div class="mb-3">
-            <label for="event-name" class="col-form-label"
+            <label for="admin-password" class="col-form-label"
               >Contraseña:</label
             >
             <input
               type="password"
               class="form-control modal-form-input"
-              id="event-name"
+              id="admin-password"
+              name="admin-password"
               maxlength="45"
               required
             />
           </div>
           <div class="mb-3">
-            <label for="event-name" class="col-form-label"
+            <label for="admin-dni" class="col-form-label"
               >DNI:</label
             >
             <input
               type="number"
               class="form-control modal-form-input"
-              id="event-name"
-              minlength="9"
+              id="admin-dni"
+              name="admin-dni"
+              minlength="8"
               min="0"
               required
             />
           </div>
+          <input type="text" name="form-mode" id="form-mode" value="" hidden>
       </form>
       <%@include file="main_modal_footer.jsp" %>
       <!--End of add event modal-->

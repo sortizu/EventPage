@@ -9,4 +9,4 @@
             class="table-responsive"
             style="max-height: 75vh; height: 75vh;"
           >
-            <table class="table table-none" id="mainTable">
+            <table class="table table-none" id="mainTable" style="cursor: pointer;">

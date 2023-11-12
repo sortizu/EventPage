@@ -6,9 +6,6 @@
 <button
 type="button"
 class="btn btn-outline-secondary"
-data-bs-toggle="modal"
-data-bs-target="#confirmDeleteModal"
-data-bs-whatever="@getbootstrap"
 id="deleteButton"
 disabled
 >

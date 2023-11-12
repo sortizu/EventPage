@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    
+    <%@ page contentType="text/html; charset=UTF-8" %>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
@@ -14,7 +14,7 @@
             <h2 class="text-justify h2" style="font-weight: 800;">EVENTPAGE | ADMIN SYSTEM</h2>
           </span>
         <div class="card shadow-lg bg-white border-0 m-3 p-3 gap-0" style="min-width: 300px;width: 300px;">
-            <form class="w-100" id="loginForm" method="POST" action="">
+            <form class="w-100" id="loginForm" method="POST" action="AdminLoginServlet">
                 <div class="mb-3">
                   <label for="event-name" class="col-form-label"
                     >Correo:</label
@@ -22,7 +22,8 @@
                   <input
                     type="email"
                     class="form-control modal-form-input"
-                    id="event-name"
+                    id="email"
+                    name="email"
                     required
                   />
                 </div>
@@ -33,11 +34,12 @@
                     <input
                       type="password"
                       class="form-control modal-form-input"
-                      id="event-name"
+                      id="password"
+                      name="password"
                       required
                     />
                   </div>
-                <div class="form-check mb-3">
+                <div class="form-check">
                   <input type="checkbox" class="form-check-input" id="exampleCheck1">
                   <label class="form-check-label" for="exampleCheck1">Recuerda mi sesión</label>
                 </div>

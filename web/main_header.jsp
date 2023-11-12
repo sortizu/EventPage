@@ -35,9 +35,62 @@
       </div>
     </a>
     <div class="d-flex flex-row gap-2">
+      <%@page import="DAO.UsuarioDAO" %>
+      <%@page import="debug.Console" %>
+  <%
+    boolean logged=false;
+    if(session.getAttribute("email")!=null && session.getAttribute("password")!=null){
+      String email = (String)session.getAttribute("email");
+      String pass = (String)session.getAttribute("password");  
+      logged = new UsuarioDAO().validarUsuario(email, pass);
+    }
+      
+    if (logged){
+      %>
+      <button
+      type="button"
+      class="btn btn-danger d-none d-lg-inline"
+      data-bs-toggle="modal"
+      data-bs-target="#profileModal"
+      data-bs-whatever="@getbootstrap"
+      style="
+        min-width: 125px;
+        height: 30px;
+        margin: 0px;
+        padding: 0px;
+        gap: 0px;
+        margin-top: 10px;
+      "
+    >
+      <i class="bi bi-person-fill-gear"></i>
+      Mi cuenta
+    </button>
+    <button
+      type="button"
+      class="btn btn-danger d-none d-lg-inline"
+      data-bs-toggle="modal"
+      data-bs-target="#shoppingModal"
+      data-bs-whatever="@getbootstrap"
+      style="
+        min-width: 125px;
+        height: 30px;
+        margin: 0px;
+        padding: 0px;
+        gap: 0px;
+        margin-top: 10px;
+      "
+    >
+      <i class="bi bi-bag-fill"></i>
+      Mis compras
+    </button>
+
+      <%
+    }else{
+      %>
+      
       <button
         type="button"
-        class="btn btn-danger"
+        class="btn btn-danger d-none d-lg-inline"
         data-bs-toggle="modal"
         data-bs-target="#loginModal"
         data-bs-whatever="@getbootstrap"
@@ -50,44 +103,14 @@
           margin-top: 10px;
         "
       >
+      <i class="bi bi-box-arrow-in-right"></i>
         Acceder
       </button>
-      <button
-        type="button"
-        class="btn btn-danger"
-        data-bs-toggle="modal"
-        data-bs-target="#profileModal"
-        data-bs-whatever="@getbootstrap"
-        style="
-          min-width: 125px;
-          height: 30px;
-          margin: 0px;
-          padding: 0px;
-          gap: 0px;
-          margin-top: 10px;
-        "
-      >
-        <i class="bi bi-person-fill-gear"></i>
-        Mi cuenta
-      </button>
-      <button
-        type="button"
-        class="btn btn-danger"
-        data-bs-toggle="modal"
-        data-bs-target="#shoppingModal"
-        data-bs-whatever="@getbootstrap"
-        style="
-          min-width: 125px;
-          height: 30px;
-          margin: 0px;
-          padding: 0px;
-          gap: 0px;
-          margin-top: 10px;
-        "
-      >
-        <i class="bi bi-bag-fill"></i>
-        Mis compras
-      </button>
+      <%
+    }
+    %>
+      
+      
     </div>
   </nav>
 </div>
@@ -112,13 +135,14 @@
         ></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form action="UserLoginServlet" method="POST" id="userLoginForm">
           <div class="mb-3">
             <label for="login-email" class="col-form-label">Correo:</label>
             <input
               type="email"
               class="form-control modal-form-input"
               id="login-email"
+              name="login-email"
               required
             />
           </div>
@@ -130,6 +154,7 @@
               type="password"
               class="form-control modal-form-input"
               id="login-password"
+              name="login-password"
               maxlength="45"
               required
             />
@@ -162,7 +187,7 @@
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           Cancelar
         </button>
-        <button type="button" class="btn btn-outline-danger">Acceder</button>
+        <button type="submit" class="btn btn-outline-danger" form="userLoginForm">Acceder</button>
       </div>
     </div>
   </div>
@@ -528,15 +553,13 @@
       </div>
       <div class="modal-body">
         <center>
-          <h4>TICKET #76391</h4>
-          <p>Evento: NOVA LIMA 2023</p>
+          <h4 id="ticketDetailID">TICKET #76391</h4>
           <img
             src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg"
             alt="qr code"
           />
-          <h5>CÓDIGO: 313391983288</h5>
-          <p>Fecha: Jue 10 Ago - 7:00</p>
-          <p>Costo: $20.00</p>
+          <p id="ticketDetailDate">Fecha: Jue 10 Ago - 7:00</p>
+          <p id="ticketDetailCost">Costo: $20.00</p>
         </center>
       </div>
       <div class="modal-footer">
@@ -579,16 +602,16 @@
         </div>
         <div class="row mt-3">
           <div class="col-12 col-md-8">
-            <h4>TITULO EVENTO</h4>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Soluta, amet! Numquam vel hic quidem consectetur accusantium dolorem beatae culpa repellendus, animi veniam? Voluptatibus placeat harum amet obcaecati aliquam inventore esse, eius fugiat provident perspiciatis assumenda magnam earum enim animi sit ipsa facere itaque magni perferendis veniam! Rerum aut dolor autem.</p>
+            <h4 id="detailEventName">TITULO EVENTO</h4>
+            <p id="detailEventDescription">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Soluta, amet! Numquam vel hic quidem consectetur accusantium dolorem beatae culpa repellendus, animi veniam? Voluptatibus placeat harum amet obcaecati aliquam inventore esse, eius fugiat provident perspiciatis assumenda magnam earum enim animi sit ipsa facere itaque magni perferendis veniam! Rerum aut dolor autem.</p>
           </div>
           <div class="col-12 col-md-4">
             <h4>COSTO</h4>
-            <p>$20.00</p>
+            <p id="detailEventCost">$20.00</p>
             <h4>CAPACIDAD</h4>
-            <p>50 personas</p>
+            <p id="detailEventCapacity">50 personas</p>
             <h4>FECHA</h4>
-            <p>Jue 10 Ago - 7:00</p>
+            <p id="detailEventDate">Jue 10 Ago - 7:00</p>
           </div>
         </div>
         
@@ -611,9 +634,7 @@
             <button
                         type="button"
                         class="btn btn-outline-danger w-100"
-                        data-bs-toggle="modal"
-                        data-bs-target="#ticketDetailModal"
-                        data-bs-whatever="@getbootstrap"
+                        id="buyTicketButton"
                       >
                         COMPRAR Y GENERAR TICKET
                       </button>

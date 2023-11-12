@@ -1,16 +1,18 @@
+<%@page import="DAO.CategoriaEventoDAO" %>
+<%@page import="model.CategoriaEvento" %>
+<%@page import="java.util.ArrayList" %>
 <% 
 //Estas variables se deben de cambiar en el jsp de cada pagina 
 //En teoria solo con estas variables se puede definir a qué servlet se le hará la petición
-String apiLinkAdd = "#"; //Aqui se debe de poner la ruta de la servlet que agrega 
-String apiLinkEdit = "#"; //Aqui se debe de poner la ruta de la servlet que edita 
-String apiLinkDelete = "#"; //Aqui se debe de poner la ruta de la servlet que elimina 
+String apiLink = "CategoriaEventoServlet"; //Aqui se debe de poner la ruta de la servlet que agrega 
 String pageElementName = "categoria"; //Aqui se debe de poner el nombre del elemento que se está manejando en la pagina 
 String pageElementPluralName = "categorias"; //Aqui se debe de poner el nombre del elemento que se está manejando en la pagina 
 %>
+<%@include file="admin_validation.jsp" %>
 <!DOCTYPE html>
 <html lang="es">
   <head>
-    
+    <%@ page contentType="text/html; charset=UTF-8" %>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Categorías de evento</title>
@@ -30,14 +32,26 @@ String pageElementPluralName = "categorias"; //Aqui se debe de poner el nombre d
             <th scope="col">Nombre de categoría</th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+          <%
+          CategoriaEventoDAO dao = new CategoriaEventoDAO();
+            ArrayList<CategoriaEvento> categoriaEventos = (ArrayList<CategoriaEvento>)dao.listAll();
+            for(CategoriaEvento categoriaEvento : categoriaEventos){
+          %>
+            <tr data-id='<%=categoriaEvento.getId()%>'>
+              <td value='<%=categoriaEvento.getId()%>'><%=categoriaEvento.getId()%></td>
+              <td value='<%=categoriaEvento.getNombreCategoria()%>'><%=categoriaEvento.getNombreCategoria()%></td>
+            </tr>
+          <%}%>
+        </tbody>
         <%@include file="crud_main_content_footer.jsp" %>
       </div>
       <!--End of Page Content-->
       <!--Main Modal-->
       <%@include file="main_modal_header.jsp" %>
       <!--Esto es el formulario que se usa tanto para añadir o editar-->
-      <form id="mainForm" method="POST" action="">
+      <form id="mainForm" method="POST" action='<%=apiLink%>'>
+        <input type="text" value="" class="modal-form-input" id="id-row" name="id-row" hidden>
         <div class="mb-3">
           <label for="event-name" class="col-form-label"
             >Nombre de categoría:</label
@@ -45,16 +59,19 @@ String pageElementPluralName = "categorias"; //Aqui se debe de poner el nombre d
           <input
             type="text"
             class="form-control modal-form-input"
-            id="event-name"
+            id="event-label-name"
+            name="event-label-name"
             maxlength="45"
             required
           />
         </div>
+        <input type="text" name="form-mode" id="form-mode" value="" hidden>
       </form>
       <%@include file="main_modal_footer.jsp" %>
       <!--End of add event modal-->
       <!--Confirm delete modal-->
       <%@include file="confirm_delete_modal.jsp" %>
+      <%@include file="warning_delete_modal.jsp" %>
     </div>
     <%@include file="sidebar_script.jsp" %> <%@include file="table_script.jsp"
     %>

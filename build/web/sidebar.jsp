@@ -1,5 +1,5 @@
 <!-- Sidebar -->
-<div class="bg-white col-12 col-lg-2 p-2 shadow-lg rounded-3" id="sidebar">
+<div class="bg-white col-12 col-lg-2 p-2 shadow rounded-3 mb-3 mb-lg-0 " id="sidebar">
     <ul
       class="nav nav-pills flex-row flex-lg-column m-auto h-100 justify-content-center"
     >
@@ -46,7 +46,7 @@
         </a>
       </li>
       <li class="nav-item mt-0 mt-lg-auto">
-        <a href="admin_login.jsp" class="nav-link">
+        <a href="AdminLogoutServlet" class="nav-link">
           <i class="bi bi-box-arrow-left"></i>
           <span class="d-none d-md-inline sidebar-option-text">Salir</span>
         </a>
