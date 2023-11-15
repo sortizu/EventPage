@@ -140,12 +140,11 @@
           %>
           
           <div class="col-12 col-sm-6 col-lg-3 mb-3 mb-lg-0 d-flex justify-content-center" >
-            <div class="card event-card h-100" >
-              <img
-                src="https://s3-us-west-2.amazonaws.com/joinnus.com/user/1586376/64d657bc0d890.jpg"
-                class="card-img-top"
-                alt="..." 
-              />
+            <div class="card event-card h-100" style="overflow: hidden;">
+              <img src="${pageContext.request.contextPath}/img/events_images/<%=evento.getId()%>.jpg" 
+                alt="Foto de evento" 
+                style="max-height: 200px;min-height: 200px;"
+                onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/img/placeholders/no_image.jpg'">
               <div class="card-body event-card-body d-flex flex-column">
                 <h5 class="card-title" style="font-size: 20px;"><%=evento.getNombreEvento()%></h5>
                 <div class="row event-card-text d-flex flex-column">

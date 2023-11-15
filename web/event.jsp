@@ -33,6 +33,7 @@ String pageElementPluralName = "eventos"; //Aqui se debe de poner el nombre del 
         <thead>
           <tr>
             <th scope="col">id</th>
+            <th scope="col">Portada</th>
             <th scope="col">Titulo</th>
             <th scope="col">Invitado</th>
             <th scope="col">Fecha</th>
@@ -48,15 +49,21 @@ String pageElementPluralName = "eventos"; //Aqui se debe de poner el nombre del 
             for(Evento evento : eventos){
           %>
             <tr data-id='<%=evento.getId()%>'>
-              <td value='<%=evento.getId()%>'><%=evento.getId()%></td>
-              <td value='<%=evento.getNombreEvento()%>'><%=evento.getNombreEvento()%></td>
-              <td value='<%=evento.getDescripcion()%>' hidden><%=evento.getDescripcion()%></td>
-              <td value='<%=evento.getInvitado().getId()%>'><%=evento.getInvitado().getNombres()+" "+evento.getInvitado().getApellidos()%></td>
-              <td value='<%=evento.getFecha()%>'><%=evento.getFecha()%></td>
-              <td value='<%=evento.getCategoria().getId()%>'><%=evento.getCategoria().getNombreCategoria()%></td>
-              <td value='<%=evento.getCapacidad()%>'><%=evento.getCapacidad()%></td>
-              <td value='<%=evento.getCosto()%>'><%=evento.getCosto()%></td>
-              <td value='<%=evento.isDestacado()?"1":"0"%>' hidden><%=evento.isDestacado()%></td>
+              <td value='<%=evento.getId()%>' name="id-row"><%=evento.getId()%></td>
+              <td>
+                <img src="${pageContext.request.contextPath}/img/events_images/<%=evento.getId()%>.jpg" 
+                alt="Foto de evento" 
+                style="width: 150px;"
+                onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/img/placeholders/no_image.jpg'">
+              </td>
+              <td value='<%=evento.getNombreEvento()%>' name="event-name"><%=evento.getNombreEvento()%></td>
+              <td value='<%=evento.getDescripcion()%>' name="event-description" hidden><%=evento.getDescripcion()%></td>
+              <td value='<%=evento.getInvitado().getId()%>' name="event-guest"><%=evento.getInvitado().getNombres()+" "+evento.getInvitado().getApellidos()%></td>
+              <td value='<%=evento.getFecha()%>' name="event-date"><%=evento.getFecha()%></td>
+              <td value='<%=evento.getCategoria().getId()%>' name="event-label"><%=evento.getCategoria().getNombreCategoria()%></td>
+              <td value='<%=evento.getCapacidad()%>' name="event-capacity"><%=evento.getCapacidad()%></td>
+              <td value='<%=evento.getCosto()%>' name="event-price"><%=evento.getCosto()%></td>
+              <td value='<%=evento.isDestacado()?"1":"0"%>' name="featured" hidden><%=evento.isDestacado()%></td>
             </tr>
           <%}%>
         </tbody>
@@ -66,7 +73,7 @@ String pageElementPluralName = "eventos"; //Aqui se debe de poner el nombre del 
       <!--Main Modal-->
       <%@include file="main_modal_header.jsp" %>
       <!--Esto es el formulario que se usa tanto para añadir o editar-->
-      <form id="mainForm" method="POST" action='<%=apiLink%>'>
+      <form id="mainForm" method="POST" action='<%=apiLink%>' enctype="multipart/form-data">
         <input type="text" value="" class="modal-form-input" id="id-row" name="id-row" hidden>
         <div class="mb-3">
           <label for="event-name" class="col-form-label"
@@ -180,6 +187,11 @@ String pageElementPluralName = "eventos"; //Aqui se debe de poner el nombre del 
               required
             />
           </div>
+        </div>
+        <div class="mb-3">
+          <label for="event-image" class="col-form-label"
+            >Portada del evento (.jpg):</label>
+          <input type="file" name="event-image" class="form-control modal-form-input" id="event-image" accept=".jpg">
         </div>
         <div class="form-check">
           <input type="checkbox" class="form-check-input modal-form-input" id="featured" name="featured">

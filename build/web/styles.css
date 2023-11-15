@@ -6,17 +6,12 @@
     font-size: 0.75rem;
     padding-bottom: 15px;
 }
-.event-card-body{
-    
-}
 .event-card{
  width: 100%;
  min-width: 200px;
  margin: auto;
 }
-.event-card-test-description{
 
-}
 .event-card-test-date{
     padding-top: 5px;
     font-weight: 600;
@@ -28,6 +23,7 @@
     overflow: hidden;
     filter: opacity(0.95);
 }
+
 .zig-zag{
     height: 30px;
     background:  
@@ -37,4 +33,96 @@
       linear-gradient(45deg, white 35%, transparent 15%);   
     background-size: 30px 30px;
     background-color: black;
+}
+
+.dashboard-card{
+    border-radius: 10px;
+    background-color: white;
+    min-height: 100px;
+    padding-top: 5px;
+    align-items: center;
+    overflow: hidden;
+}
+.dashboard-card-details-button{
+    background-color: white;
+    border-top: lightgray 1px solid;
+    color: dimgray;
+    cursor: pointer;
+    text-align: center;
+    margin-top: auto;
+    min-width: 100%;
+}
+.dashboard-card-details-button:hover{
+    background-color: gray;
+    border-top: gray 1px solid;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+    margin-top: auto;
+    min-width: 100%;
+}
+.dashboard-card-title{
+    color: dimgray;
+    font-weight: 400;
+}
+.dashboard-card-number{
+    color: dimgray;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+#dashboard-event-list{
+    height: 100%;
+    width: 100%;
+    padding: 10px 25px;
+}
+
+.bar-graph{
+    height: 100%;
+    width: 100%;
+    min-height: 100px;
+    padding-top: 10px;
+    margin: auto;
+    overflow: hidden;
+    justify-content: space-around;
+}
+.bar{
+    width: 20%;
+    
+    text-align: center;
+}
+.bar-body{
+    background-color: #0d6efd;
+    color: white;
+    font-weight: 600;
+    
+}
+.dashboard-event{
+    border: lightgray 1px solid;
+    border-radius: 10px;
+    padding: 5px 0px;
+    color: dimgray;
+    cursor: pointer;
+    margin-bottom: 2px;
+}
+.dashboard-event-title{
+    font-weight: 600;
+    font-size: 18px;
+}
+.dashboard-event-tickets, .dashboard-event-income{
+    font-weight: 600;
+    border-radius: 5px;
+    background-color: dimgray;
+    color: white;
+    padding: 0px 5px;
+}
+.detail-table-button{
+    display: inline-flex;
+    margin: auto;
+    padding: auto;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
 }

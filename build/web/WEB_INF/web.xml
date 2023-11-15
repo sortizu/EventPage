@@ -36,6 +36,14 @@
         <servlet-name>DetalleEventoServlet</servlet-name>
         <servlet-class>controller.DetalleEventoServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ConfiguracionServlet</servlet-name>
+        <servlet-class>controller.ConfiguracionServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TarjetaServlet</servlet-name>
+        <servlet-class>controller.TarjetaServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>EventoServlet</servlet-name>
         <url-pattern>/EventoServlet</url-pattern>
@@ -71,6 +79,14 @@
     <servlet-mapping>
         <servlet-name>DetalleEventoServlet</servlet-name>
         <url-pattern>/DetalleEventoServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConfiguracionServlet</servlet-name>
+        <url-pattern>/ConfiguracionServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TarjetaServlet</servlet-name>
+        <url-pattern>/TarjetaServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

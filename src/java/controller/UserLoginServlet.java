@@ -23,19 +23,21 @@ public class UserLoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Console.println("Se solicito iniciar sesión");
         HttpSession session = request.getSession();
         String email = request.getParameter("login-email");
         String pass = request.getParameter("login-password");
-        if(new UsuarioDAO().validarUsuario(email, pass)){
+        int id = new UsuarioDAO().validarUsuario(email, pass);
+        if(id>=0){
             session.setAttribute("email", email);
             session.setAttribute("password", pass);
+            session.setAttribute("id_user", id);
 
         }else{
         session.setAttribute("email", null);
         session.setAttribute("password", null);
-
+        session.setAttribute("id_user", -1);
         }
+        
         response.sendRedirect("index.jsp");
     }
 

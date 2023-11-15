@@ -38,14 +38,15 @@
         var modalFormInputs=$(".modal-form-input")
         for (var i = 0; i < columnsOfSelectedRow.length; i++) {
           var column = columnsOfSelectedRow.eq(i);
-          if(modalFormInputs.eq(i).attr('type')=="checkbox"){
+          var formInput = $("#"+column.attr("name"));
+          if(formInput.attr('type')=="checkbox"){
             if(column.attr("value")=="1"){
-              modalFormInputs.eq(i).prop("checked",true);
+              formInput.prop("checked",true);
             }else{
-              modalFormInputs.eq(i).prop("checked",false);
+              formInput.prop("checked",false);
             }
           }else{
-            modalFormInputs.eq(i).val(column.attr("value"));
+            formInput.val(column.attr("value"));
           }
         }
         // Change modal title

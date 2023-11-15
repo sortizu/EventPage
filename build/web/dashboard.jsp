@@ -20,6 +20,7 @@ String pageElementPluralName = ""; //Aqui se debe de poner el nombre del element
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
     <%@include file="references.jsp" %>
+
   </head>
   <body class="vh-100 bg-light">
     <div class="container-fluid h-100 d-flex flex-column">
@@ -28,108 +29,109 @@ String pageElementPluralName = ""; //Aqui se debe de poner el nombre del element
       <div class="row flex-grow-1 mb-3 flex-column flex-md-row m-auto w-100">
         <%@include file="sidebar.jsp" %>
         <!-- Main Content -->
-        <div class="col mx-auto mx-lg-3 d-flex flex-column gap-2">
-          <div class="row gap-3 gap-lg-0">
-            <div class="col-12 col-lg-6 p-0 ">
-              <div class="row m-0 ">DASHBOARD</div>
-              <div class="row">
-                <div class="col-6 py-1">
-                  <div class="bg-white rounded border-0 shadow-sm d-flex flex-column justify-content-center align-items-center p-2" 
-                  style="color:dodgerblue;cursor: pointer;height: 100%;">
-                    <div style="font-size: 24px;">INGRESOS</div>
-                    <div style="font-size: 32px; font-weight: 800;">S/. 0.0</div>
+        <div class="col h-100 d-flex flex-column px-0 ps-sm-4 pe-sm-3" id="main-content">
+          <div class="col-12">
+            <h2 style="font-weight: 100">Dashboard</h2>
+          </div>
+          <div class="col-12 d-flex flex-column flex-lg-row flex-grow-1">
+            <div class="col-12 col-lg-5 d-flex flex-column flex-grow-1 gap-2">
+              <div class="col-12 d-flex flex-row">
+                <div class="col-6 pe-1">
+                  <div class="d-flex flex-column shadow-sm dashboard-card" id="dashboard-card-income">
+                    <div class="dashboard-card-title">INGRESOS (HOY)</div>
+                    <div id="dashboard-card-income-number" class="dashboard-card-number">$/.20,000</div>
+                    <div id="dashboard-card-income-button" class="dashboard-card-details-button">Ver detalles
+                      <i class="bi bi-plus-circle ms-1"></i>
+                    </div>
                   </div>
                 </div>
-                <div class="col-6 py-1">
-                  <div class="bg-white rounded border-0 shadow-sm d-flex flex-column justify-content-center align-items-center p-2" 
-                  style="color:dodgerblue;cursor: pointer;height: 100%;">
-                    <div class="card-title p-0 m-0" style="font-size: 24px;">NUEVOS USUARIOS (HOY)</div>
-                    <%
-          UsuarioDAO usuarioRegistroDao = new UsuarioDAO();
-          ArrayList<Usuario> usuariosRegistro = (ArrayList<Usuario>)usuarioRegistroDao.listAll();
-            int nuevosRegistros=0;
-            for(Usuario u:usuariosRegistro){
-              if(!u.isAdmin()){
-                nuevosRegistros++;
-              }
-            }
-            %>
-                    <div class="card-subtitle" style="font-size: 32px; font-weight: 800;"><%=nuevosRegistros%></div>
+                <div class="col-6 ps-1">
+                  <div class="d-flex flex-column shadow-sm dashboard-card" id="dashboard-card-users">
+                    <div class="dashboard-card-title">NUEVOS USUARIOS (HOY)</div>
+                    <div id="dashboard-card-users-number" class="dashboard-card-number">18</div>
+                    <div id="dashboard-card-users-button" class="dashboard-card-details-button">Ver detalles
+                      <i class="bi bi-plus-circle ms-1"></i>
+                    </div>
                   </div>
                 </div>
-                <div class="col-6 py-1">
-                  <div class="bg-white rounded border-0 shadow-sm d-flex flex-column justify-content-center align-items-center p-2" 
-                  style="color:dodgerblue;cursor: pointer;height: 100%;">
-                  <div style="font-size: 24px;">%TICKETS X CATEGORÍA</div>
-                  <div style="font-size: 32px; font-weight: 800;">Taller 50%</div>
-                  </div>
-                </div>
-                <div class="col-6 py-1">
-                  <div class="bg-white rounded border-0 shadow-sm d-flex flex-column justify-content-center align-items-center p-2" 
-                  style="color:dodgerblue;cursor: pointer;">
-                  <div style="font-size: 24px;">INGRESOS</div>
-                  <div style="font-size: 32px; font-weight: 800;">S/. 0.0</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 col-lg-3 p-0 p-md-1">
-              <div class="row" style="min-height: 5%">
-                <div class="col">ADMINISTRADORES</div>
-              </div>
-              <div class="row m-auto" style="min-height: 90%">
                 
-                <%
-          UsuarioDAO usuariodao = new UsuarioDAO();
-          ArrayList<Usuario> usuarios = (ArrayList<Usuario>)usuariodao.listAll();
-            int adminsToShow=4;
-          for(int i = usuarios.size()-1; i>=0&&adminsToShow>0; i--){
-            if(usuarios.get(i).isAdmin()){
-              
-        %>
-        <div class="col-12 p-1">
-          <div class="card d-flex justify-content-center align-items-center h-100 border-0 shadow-sm" style="cursor: pointer;">
-            <h5 style="font-weight: 100;"><i class="bi bi-person-fill-lock"></i><%=usuarios.get(i).getNombres()+" "+usuarios.get(i).getApellidos()%></h5>
-          </div>
-        </div>
-        <%adminsToShow--;}}%>
               </div>
-            </div>
-            <div class="col-12 col-lg-3 p-0 p-md-1">
-              <div class="row" style="min-height: 5%">
-                <div class="col">PRÓXIMOS EVENTOS (HOY)</div>
-              </div>
-              <div class="row m-auto" style="min-height: 90%">
-                <%
-          EventoDAO eventodao = new EventoDAO();
-          ArrayList<Evento> eventos = (ArrayList<Evento>)eventodao.listAll();
-            int eventsToShow=4;
-          for(int i = eventos.size()-1; i>=0&&eventsToShow>0; i--){
-              
-        %>
-        <div class="col-12 p-1">
-          <div class="card d-flex justify-content-center align-items-center h-100 border-0 shadow-sm" style="cursor: pointer;">
-            <h5 style="font-weight: 100;"><%=eventos.get(i).getNombreEvento()%></h5>
-            <h5 style="font-weight: 100;"><i class="bi bi-clock-fill"></i><%=eventos.get(i).getFecha()%></h5>
-          </div>
-        </div>
-        <%eventsToShow--;}%>
-              </div>
-            </div>
-          </div>
-          <div class="row flex-grow-1" style="min-height: 300px;">
-            <div class="col-12 m-0 p-0 gap-0">
-              <div class="rounded-3 h-100 w-100 bg-primary border-0 shadow-sm p-2 d-flex flex-column" style="color:white">
-                <h5  style="color: white;font-weight: 100;position: relative; left: 0px;">HISTOGRAMA DE VENTAS</h5>
-                <div class="d-flex justify-content-center align-items-end gap-3 h-100 w-100">
-                  <div style="background-color: white;height: 10%; width: 5%;color:steelblue; font-size: 16px;"> 10%</div>
-                <div style="background-color: white;height: 20%; width: 5%;color: steelblue;font-size: 16px;"> 20%</div>
-                <div style="background-color: white;height: 30%; width: 5%;color: steelblue;font-size: 16px;"> 30%</div>
-                <div style="background-color: white;height: 40%; width: 5%;color: steelblue;font-size: 16px;"> 40%</div>
-                <div style="background-color: white;height: 50%; width: 5%;color: steelblue;font-size: 16px;"> 50%</div>
-                <div style="background-color: white;height: 30%; width: 5%;color: steelblue;font-size: 16px;"> 30%</div>
+              <div class="col-12 d-flex flex-column shadow-sm dashboard-card flex-grow-1">
+                <div class="dashboard-card-title">CATEGORÍAS MÁS POPULARES (INGRESOS)</div>
+                <div id="category-bars" class="bar-graph d-flex flex-row align-items-end">
+                  <div class="bar">
+                    <div class="bar-label">CATEGORIA 1</div>
+                    <div class="bar-body" id="cat-bar-1">$/.100000</div>
+                  </div>
+                  <div class="bar">
+                    <div class="bar-label">CATEGORIA 2</div>
+                    <div class="bar-body" id="cat-bar-2">$/.200000</div>
+                  </div>
+                  <div class="bar">
+                    <div class="bar-label">CATEGORIA 3</div>
+                    <div class="bar-body" id="cat-bar-3">$/.300000</div>
+                  </div>
                 </div>
+                <div id="dashboard-card-categories-button" class="dashboard-card-details-button">
+                  Ver detalles
+                  <i class="bi bi-plus-circle ms-1"></i></div>
               </div>
+              <div class="col-12 d-flex flex-column shadow-sm dashboard-card flex-grow-1">
+                <div class="dashboard-card-title">INVITADOS MÁS POPULARES (TICKETS)</div>
+                <div id="guests-bars" class="bar-graph d-flex flex-row align-items-end">
+                  <div class="bar">
+                    <div class="bar-label">Omar Pikmin</div>
+                    <div class="bar-body" id="cat-g-1">10000</div>
+                  </div>
+                  <div class="bar">
+                    <div class="bar-label">Gabe Newell</div>
+                    <div class="bar-body" id="cat-g-2">20000</div>
+                  </div>
+                  <div class="bar">
+                    <div class="bar-label">Hajime Isayama</div>
+                    <div class="bar-body" id="cat-g-3">30000</div>
+                  </div>
+                </div>
+                <div id="dashboard-card-guests-button" class="dashboard-card-details-button">
+                  Ver detalles
+                  <i class="bi bi-plus-circle ms-1"></i></div>
+              </div>
+            </div>
+            <div class="col-12 col-lg-7 ms-0 ms-lg-2 mt-2 mt-lg-0 shadow-sm d-flex flex-column dashboard-card">
+              <div class="dashboard-card-title">PRÓXIMOS EVENTOS</div>
+              <div id="dashboard-event-list">
+                <%
+                for(int i = 0; i < 7; i++){
+                %>
+                <div class="dashboard-event row">
+                  <div class="col-7">
+                    <div class="dashboard-event-title">EVENT NAME EVENT NAME</div>
+                    <div class="dashboard-event-date"><i class="bi bi-clock-fill me-1"></i>vie 27 ago - 7:00 pm</div>
+                  </div>
+                  <div class="col-5 row d-flex flex-column align-items-end ms-auto my-auto">
+                    <div class="d-flex flex-row justify-content-end mb-1">
+                      <div>
+                        <i class="bi bi-ticket-perforated-fill me-2"></i>
+                        <div class="d-none d-sm-inline me-2">TICKETS VENDIDOS:</div>
+                      </div>
+                      <div class="dashboard-event-tickets">100</div>
+                    </div>
+                    <div class="d-flex flex-row justify-content-end">
+                      <div>
+                        <i class="bi bi-cash me-2"></i>
+                        <div class="d-none d-sm-inline me-2">INGRESOS: </div>
+                      </div>
+                      <div class="dashboard-event-income">$/.10,000</div>
+                    </div>
+                    
+                  </div>
+                </div>
+                <%}%>
+              </div>
+                
+                <div id="dashboard-card-event-button" class="dashboard-card-details-button">
+                  Ver detalles
+                  <i class="bi bi-plus-circle ms-1"></i></div>
             </div>
           </div>
         </div>

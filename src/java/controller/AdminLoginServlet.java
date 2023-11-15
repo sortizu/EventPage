@@ -25,13 +25,15 @@ public class AdminLoginServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String email = request.getParameter("email");
         String pass = request.getParameter("password");
-        if(new UsuarioDAO().validarAdmin(email, pass)){
+        int id=new UsuarioDAO().validarAdmin(email, pass);
+        if(id>=0){
             session.setAttribute("email", email);
             session.setAttribute("password", pass);
+            session.setAttribute("id_user", id);
         }else{
         session.setAttribute("email", null);
         session.setAttribute("password", null);
-
+        session.setAttribute("id_user", null);
         }
         response.sendRedirect("dashboard.jsp");
     }

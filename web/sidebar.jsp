@@ -1,4 +1,5 @@
 <!-- Sidebar -->
+<%@ page contentType="text/html; charset=UTF-8" %>
 <div class="bg-white col-12 col-lg-2 p-2 shadow rounded-3 mb-3 mb-lg-0 " id="sidebar">
     <ul
       class="nav nav-pills flex-row flex-lg-column m-auto h-100 justify-content-center"
@@ -43,6 +44,12 @@
         <a href="users.jsp" class='nav-link <%=pageElementName=="usuario"?"active":""%>'>
           <i class="bi bi-people-fill"></i>
           <span class="d-none d-md-inline sidebar-option-text">Usuarios</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="configuration.jsp" class='nav-link <%=pageElementName=="configuracion"?"active":""%>'>
+          <i class="bi bi-gear-fill"></i>
+          <span class="d-none d-md-inline sidebar-option-text">configuración</span>
         </a>
       </li>
       <li class="nav-item mt-0 mt-lg-auto">

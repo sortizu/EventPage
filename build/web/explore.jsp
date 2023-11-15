@@ -104,214 +104,79 @@
           </div>
         </div>
       </div>
-      <!--Featured events-->
-      <div class="col-12 px-3" style="padding-bottom: 55px">
-        <div class="row gap-2">
-          <div class="col-auto col-sm d-flex justify-content-center">
-            <div class="card event-card">
-              <img
-                src="https://s3-us-west-2.amazonaws.com/joinnus.com/user/1586376/64d657bc0d890.jpg"
-                class="card-img-top"
-                alt="..."
-              />
-              <div class="card-body event-card-body">
-                <h5 class="card-title">NOVA LIMA 2023</h5>
-                <div class="row event-card-text">
-                  <div class="col-12 event-card-test-description">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Harum, impedit.
-                  </div>
-                  <div class="col-12 event-card-test-date">
-                    <i class="bi bi-clock-fill"></i>
-                    Jue 10 Ago - 7:00
-                  </div>
-                </div>
-                <a href="#" class="btn btn-outline-danger"
-                  >Comprar por: $20.00</a
-                >
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-sm d-flex justify-content-center">
-            <div class="card event-card">
-              <img
-                src="https://s3-us-west-2.amazonaws.com/joinnus.com/user/1586376/64d657bc0d890.jpg"
-                class="card-img-top"
-                alt="..."
-              />
-              <div class="card-body event-card-body">
-                <h5 class="card-title">NOVA LIMA 2023</h5>
-                <div class="row event-card-text">
-                  <div class="col-12 event-card-test-description">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Harum, impedit.
-                  </div>
-                  <div class="col-12 event-card-test-date">
-                    <i class="bi bi-clock-fill"></i>
-                    Jue 10 Ago - 7:00
-                  </div>
-                </div>
-                <a href="#" class="btn btn-outline-danger"
-                  >Comprar por: $20.00</a
-                >
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-sm d-flex justify-content-center">
-            <div class="card event-card">
-              <img
-                src="https://s3-us-west-2.amazonaws.com/joinnus.com/user/1586376/64d657bc0d890.jpg"
-                class="card-img-top"
-                alt="..."
-              />
-              <div class="card-body event-card-body">
-                <h5 class="card-title">NOVA LIMA 2023</h5>
-                <div class="row event-card-text">
-                  <div class="col-12 event-card-test-description">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Harum, impedit.
-                  </div>
-                  <div class="col-12 event-card-test-date">
-                    <i class="bi bi-clock-fill"></i>
-                    Jue 10 Ago - 7:00
-                  </div>
-                </div>
-                <a href="#" class="btn btn-outline-danger"
-                  >Comprar por: $20.00</a
-                >
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-sm d-flex justify-content-center">
-            <div class="card event-card">
-              <img
-                src="https://s3-us-west-2.amazonaws.com/joinnus.com/user/1586376/64d657bc0d890.jpg"
-                class="card-img-top"
-                alt="..."
-              />
-              <div class="card-body event-card-body">
-                <h5 class="card-title">NOVA LIMA 2023</h5>
-                <div class="row event-card-text">
-                  <div class="col-12 event-card-test-description">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Harum, impedit.
-                  </div>
-                  <div class="col-12 event-card-test-date">
-                    <i class="bi bi-clock-fill"></i>
-                    Jue 10 Ago - 7:00
-                  </div>
-                </div>
-                <a href="#" class="btn btn-outline-danger"
-                  >Comprar por: $20.00</a
-                >
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-sm d-flex justify-content-center">
-            <div class="card event-card">
-              <img
-                src="https://s3-us-west-2.amazonaws.com/joinnus.com/user/1586376/64d657bc0d890.jpg"
-                class="card-img-top"
-                alt="..."
-              />
-              <div class="card-body event-card-body">
-                <h5 class="card-title">NOVA LIMA 2023</h5>
-                <div class="row event-card-text">
-                  <div class="col-12 event-card-test-description">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Harum, impedit.
-                  </div>
-                  <div class="col-12 event-card-test-date">
-                    <i class="bi bi-clock-fill"></i>
-                    Jue 10 Ago - 7:00
-                  </div>
-                </div>
-                <a href="#" class="btn btn-outline-danger"
-                  >Comprar por: $20.00</a
-                >
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-sm d-flex justify-content-center">
-            <div class="card event-card">
-              <img
-                src="https://s3-us-west-2.amazonaws.com/joinnus.com/user/1586376/64d657bc0d890.jpg"
-                class="card-img-top"
-                alt="..."
-              />
-              <div class="card-body event-card-body">
-                <h5 class="card-title">NOVA LIMA 2023</h5>
-                <div class="row event-card-text">
-                  <div class="col-12 event-card-test-description">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Harum, impedit.
-                  </div>
-                  <div class="col-12 event-card-test-date">
-                    <i class="bi bi-clock-fill"></i>
-                    Jue 10 Ago - 7:00
-                  </div>
-                </div>
-                <a href="#" class="btn btn-outline-danger"
-                  >Comprar por: $20.00</a
-                >
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-sm d-flex justify-content-center">
-            <div class="card event-card">
-              <img
-                src="https://s3-us-west-2.amazonaws.com/joinnus.com/user/1586376/64d657bc0d890.jpg"
-                class="card-img-top"
-                alt="..."
-              />
-              <div class="card-body event-card-body">
-                <h5 class="card-title">NOVA LIMA 2023</h5>
-                <div class="row event-card-text">
-                  <div class="col-12 event-card-test-description">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Harum, impedit.
-                  </div>
-                  <div class="col-12 event-card-test-date">
-                    <i class="bi bi-clock-fill"></i>
-                    Jue 10 Ago - 7:00
-                  </div>
-                </div>
-                <a href="#" class="btn btn-outline-danger"
-                  >Comprar por: $20.00</a
-                >
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-sm d-flex justify-content-center">
-            <div class="card event-card">
-              <img
-                src="https://s3-us-west-2.amazonaws.com/joinnus.com/user/1586376/64d657bc0d890.jpg"
-                class="card-img-top"
-                alt="..."
-              />
-              <div class="card-body event-card-body">
-                <h5 class="card-title">NOVA LIMA 2023</h5>
-                <div class="row event-card-text">
-                  <div class="col-12 event-card-test-description">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Harum, impedit.
-                  </div>
-                  <div class="col-12 event-card-test-date">
-                    <i class="bi bi-clock-fill"></i>
-                    Jue 10 Ago - 7:00
-                  </div>
-                </div>
-                <a href="#" class="btn btn-outline-danger"
-                  >Comprar por: $20.00</a
-                >
-              </div>
-            </div>
-          </div>
+      <!--Searched events-->
+      <div class="col-12">
+        <div class="row" style="padding: 0px;padding-bottom: 55px; margin: 0px; gap: 0px;">
           
+          <%@page import="DAO.EventoDAO" %>
+          <%@page import="java.util.ArrayList" %>
+          <%@page import="model.Evento" %>
+          <%@page import="java.time.format.DateTimeFormatter" %>
+          <%@page import="java.util.Locale" %>
+          <%
+          DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EE dd MMM '-' HH:mm a", new Locale("es", "ES"));
+          EventoDAO eventoDAO = new EventoDAO();
+          ArrayList<Evento> eventosDestacados= (ArrayList<Evento>)eventoDAO.listAll();
+          if(eventosDestacados.size()==0){
+          %>
+          <h3 class="col-12 d-flex justify-content-center align-items-center" style="font-weight: 300;">
+            NO HAY CONTENIDO QUE MOSTRAR :(
+          </h3>
+          <%
+          }
+          %>
+ 
+          <%
+          for(int i=0;i<eventosDestacados.size();i++){
+            Evento evento = eventosDestacados.get(i);
+            var descripcion = evento.getDescripcion();
+            if(descripcion.length()>70){
+              descripcion = descripcion.substring(0,70)+"...";
+            }
+          %>
+          
+          <div class="col-12 col-sm-6 col-lg-3 mb-3 d-flex justify-content-center" >
+            <div class="card event-card h-100" style="overflow: hidden;">
+              <img src="${pageContext.request.contextPath}/img/events_images/<%=evento.getId()%>.jpg" 
+                alt="Foto de evento" 
+                style="max-height: 200px;min-height: 200px;"
+                onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/img/placeholders/no_image.jpg'">
+              <div class="card-body event-card-body d-flex flex-column">
+                <h5 class="card-title" style="font-size: 20px;"><%=evento.getNombreEvento()%></h5>
+                <div class="row event-card-text d-flex flex-column">
+                  <div class="col-12 event-card-test-description" style="font-size: 16px;"> 
+                    <%=descripcion%>
+                  </div>
+                </div>
+                <div class="align-self-end mt-auto mx-0 w-100">
+                  <div class="col-12 event-card-test-date mb-2" style="font-size: 16px;">
+                    <i class="bi bi-clock-fill"></i>
+                    <%=evento.getFecha().format(formatter)%>
+                  </div>
+                  <center>
+                  <button
+                          type="button"
+                          class="btn btn-outline-danger mx-auto showEventDetails"
+                          data-id='<%=evento.getId()%>'
+                        >
+                          COMPRAR ENTRADA POR: $<%=evento.getCosto()%>
+                        </button>
+                      </center>
+                </div>
+                
+
+              </div>
+            </div>
+          </div>
+          <%
+          }
+          %>
         </div>
       </div>
       <!--Navigation bar-->
       <%@include file="navigation_bar.jsp" %>
+      <%@include file="event_details_script.jsp" %>
+      <%@include file="buy_ticket_script.jsp" %>
     </div>
   </body>
 </html>

@@ -29,6 +29,7 @@ String pageElementPluralName = "invitados"; //Aqui se debe de poner el nombre de
         <thead>
           <tr>
             <th scope="col">id</th>
+            <th scope="col">Foto</th>
             <th scope="col">Nombres</th>
             <th scope="col">Apellidos</th>
             <th scope="col">Biografía</th>
@@ -41,10 +42,16 @@ String pageElementPluralName = "invitados"; //Aqui se debe de poner el nombre de
             for(Invitado invitado : invitados){
           %>
             <tr data-id='<%=invitado.getId()%>'>
-              <td value='<%=invitado.getId()%>'><%=invitado.getId()%></td>
-              <td value='<%=invitado.getNombres()%>'><%=invitado.getNombres()%></td>
-              <td value='<%=invitado.getApellidos()%>'><%=invitado.getApellidos()%></td>
-              <td value='<%=invitado.getBiografia()%>'><%=invitado.getBiografia()%></td>
+              <td value='<%=invitado.getId()%>' name="id-row"><%=invitado.getId()%></td>
+              <td>
+                <img src="${pageContext.request.contextPath}/img/guests_images/<%=invitado.getId()%>.jpg" 
+                alt="Foto de invitado" 
+                style="width: 100px;"
+                onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/img/placeholders/no_image.jpg'">
+              </td>
+              <td value='<%=invitado.getNombres()%>' name="guest-name"><%=invitado.getNombres()%></td>
+              <td value='<%=invitado.getApellidos()%>' name="guest-last-name"><%=invitado.getApellidos()%></td>
+              <td value='<%=invitado.getBiografia()%>' name="guest-biography"><%=invitado.getBiografia()%></td>
             </tr>
           <%}%>
         </tbody>
@@ -54,7 +61,7 @@ String pageElementPluralName = "invitados"; //Aqui se debe de poner el nombre de
       <!--Main Modal-->
       <%@include file="main_modal_header.jsp" %>
       <!--Esto es el formulario que se usa tanto para añadir o editar-->
-      <form id="mainForm" method="POST" action='<%=apiLink%>'>
+      <form id="mainForm" method="POST" action='<%=apiLink%>' enctype="multipart/form-data">
         <input type="text" value="" class="modal-form-input" id="id-row" name="id-row" hidden>
         <div class="mb-3">
           <label for="guest-name" class="col-form-label"
@@ -92,6 +99,11 @@ String pageElementPluralName = "invitados"; //Aqui se debe de poner el nombre de
             name="guest-biography"
             required
           ></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="guest-photo" class="col-form-label"
+            >Foto del invitado (.jpg):</label>
+          <input type="file" name="guest-photo" class="form-control modal-form-input" id="guest-photo" accept=".jpg">
         </div>
         <input type="text" name="form-mode" id="form-mode" value="" hidden>
       </form>

@@ -7,16 +7,24 @@ package controller;
 import DAO.InvitadoDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import model.Invitado;
 
 /**
  *
  * @author sortizu
  */
+@MultipartConfig(
+  fileSizeThreshold = 1024 * 1024 * 10, // 1 MB
+  maxFileSize = 1024 * 1024 * 10,      // 10 MB
+  maxRequestSize = 1024 * 1024 * 100   // 100 MB
+)
 public class InvitadoServlet extends HttpServlet {
     
     InvitadoDAO invitadoDAO = new InvitadoDAO();
@@ -32,6 +40,14 @@ public class InvitadoServlet extends HttpServlet {
                 nuevoInvitadoAgregar.setApellidos(request.getParameter("guest-last-name"));
                 nuevoInvitadoAgregar.setBiografia(request.getParameter("guest-biography"));
                 invitadoDAO.add(nuevoInvitadoAgregar);
+                try {
+                     ArrayList<Invitado> invitados =(ArrayList<Invitado>)invitadoDAO.listAll();
+                   int id=invitados.get(invitados.size()-1).getId();
+                    Part filePart = request.getPart("guest-photo");
+                    filePart.write(this.getServletContext().getRealPath("")+"\\img\\guests_images\\"+id+".jpg");
+                   } catch (Exception e) {
+                       System.out.println(e);
+                   }
                 response.sendRedirect("guest.jsp");
                 break;
             case "edit":
@@ -41,6 +57,12 @@ public class InvitadoServlet extends HttpServlet {
                 nuevoInvitadoEditar.setApellidos(request.getParameter("guest-last-name"));
                 nuevoInvitadoEditar.setBiografia(request.getParameter("guest-biography"));
                 invitadoDAO.edit(nuevoInvitadoEditar);
+                try {
+                    Part filePart = request.getPart("guest-photo");
+                    filePart.write(this.getServletContext().getRealPath("")+"\\img\\guests_images\\"+nuevoInvitadoEditar.getId()+".jpg");   
+                   } catch (Exception e) {
+                       System.out.println(e);
+                   }
                 response.sendRedirect("guest.jsp");
                 break;
             case "delete":

@@ -4,16 +4,13 @@
  */
 package model;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author sortizu
  */
 public class Ticket {
     private int id;
-    private String codigo;
-    private ArrayList<Evento> eventos;
+    private Evento evento;
 
     public int getId() {
         return id;
@@ -23,20 +20,26 @@ public class Ticket {
         this.id = id;
     }
 
-    public String getCodigo() {
-        return codigo;
+    public Evento getEvento() {
+        return evento;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public void setEvento(Evento evento) {
+        this.evento = evento;
     }
 
-    public ArrayList<Evento> getEventos() {
-        return eventos;
+    public Ticket(int id, Evento evento) {
+        this.id = id;
+        this.evento = evento;
     }
 
-    public void setEventos(ArrayList<Evento> eventos) {
-        this.eventos = eventos;
+    public Ticket() {
     }
+
+    @Override
+    public String toString() {
+        return "Ticket{" + "id=" + id + ", evento=" + evento + '}';
+    }
+    
     
 }

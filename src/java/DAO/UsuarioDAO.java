@@ -4,7 +4,6 @@
  */
 package DAO;
 
-
 import config.Conexion;
 import debug.Console;
 import interfaces.CRUD;
@@ -22,17 +21,16 @@ import model.Usuario;
  * @author sortizu
  */
 public class UsuarioDAO implements CRUD {
-    private static ArrayList<Usuario> listaUsuarios = new ArrayList<>();
-    
+
     @Override
     public List listAll() {
         //Borrar el codigo de abajo
         ArrayList<Usuario> usuarios = new ArrayList<>();
-        
+
         try {
             Statement stmt = Conexion.getConnection().createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM event_page.usuario WHERE eliminado=0");
-            
+
             while (rs.next()) {
                 Usuario newUsuario = new Usuario();
                 newUsuario.setId(rs.getInt("id_usuario"));
@@ -47,33 +45,44 @@ public class UsuarioDAO implements CRUD {
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
+
         return usuarios;
     }
 
     @Override
     public Object list(int id) {
-        for(int i = 0; i<listaUsuarios.size();i++){
-            if(listaUsuarios.get(i).getId()==id){
-             return listaUsuarios.get(i);
-            }
+        try {
+            Statement stmt = Conexion.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM event_page.usuario WHERE eliminado=0 AND id_usuario=" + id);
+            rs.next();
+            Usuario nuevoUsuario = new Usuario();
+            nuevoUsuario.setId(rs.getInt("id_usuario"));
+            nuevoUsuario.setNombres(rs.getString("nombres"));
+            nuevoUsuario.setApellidos(rs.getString("apellidos"));
+            nuevoUsuario.setEmail(rs.getString("correo"));
+            nuevoUsuario.setPassword(rs.getString("contraseña"));
+            nuevoUsuario.setDni(rs.getInt("dni"));
+            nuevoUsuario.setAdmin(rs.getBoolean("admin"));
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         return null;
     }
 
     @Override
     public boolean add(Object o) {
         //Borrar el codigo de abajo
-        Usuario nuevoUsuario = (Usuario)o;
+        Usuario nuevoUsuario = (Usuario) o;
         try {
             Statement stmt = Conexion.getConnection().createStatement();
             stmt.executeUpdate("INSERT INTO event_page.usuario(nombres, apellidos, dni, correo, contraseña, admin,eliminado) VALUES "
-                    + "('" + nuevoUsuario.getNombres() + "', '" 
+                    + "('" + nuevoUsuario.getNombres() + "', '"
                     + nuevoUsuario.getApellidos() + "', '"
                     + nuevoUsuario.getDni() + "', '"
                     + nuevoUsuario.getEmail() + "', '"
                     + nuevoUsuario.getPassword() + "',"
-                    + (nuevoUsuario.isAdmin()?1:0) + ","
+                    + (nuevoUsuario.isAdmin() ? 1 : 0) + ","
                     + 0 + ")");
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -83,18 +92,18 @@ public class UsuarioDAO implements CRUD {
 
     @Override
     public boolean edit(Object o) {
-        Usuario usuarioEditar = (Usuario)o;
+        Usuario usuarioEditar = (Usuario) o;
         try {
-            String query=String.format(
-              "UPDATE event_page.usuario SET nombres='%s',apellidos='%s',dni=%d,correo='%s',contraseña='%s',admin=%d WHERE id_usuario=%d",
-            usuarioEditar.getNombres(),
-            usuarioEditar.getApellidos(),
-            usuarioEditar.getDni(),
-            usuarioEditar.getEmail(),
-            usuarioEditar.getPassword(),
-            usuarioEditar.isAdmin()?1:0,
-            usuarioEditar.getId());
-            
+            String query = String.format(
+                    "UPDATE event_page.usuario SET nombres='%s',apellidos='%s',dni=%d,correo='%s',contraseña='%s',admin=%d WHERE id_usuario=%d",
+                    usuarioEditar.getNombres(),
+                    usuarioEditar.getApellidos(),
+                    usuarioEditar.getDni(),
+                    usuarioEditar.getEmail(),
+                    usuarioEditar.getPassword(),
+                    usuarioEditar.isAdmin() ? 1 : 0,
+                    usuarioEditar.getId());
+
             Statement stmt = Conexion.getConnection().createStatement();
             stmt.executeUpdate(query);
         } catch (SQLException ex) {
@@ -106,9 +115,9 @@ public class UsuarioDAO implements CRUD {
     @Override
     public boolean delete(int id) {
         try {
-            String query=String.format(
-              "UPDATE event_page.usuario SET eliminado=%d WHERE id_usuario=%d",1,id);
-            
+            String query = String.format(
+                    "UPDATE event_page.usuario SET eliminado=%d WHERE id_usuario=%d", 1, id);
+
             Statement stmt = Conexion.getConnection().createStatement();
             stmt.executeUpdate(query);
         } catch (SQLException ex) {
@@ -116,38 +125,38 @@ public class UsuarioDAO implements CRUD {
         }
         return true;
     }
-    
-    public boolean validarUsuario(String correo, String pass){
+
+    public int validarUsuario(String correo, String pass) {
         try {
             Statement stmt = Conexion.getConnection().createStatement();
             ResultSet rs = stmt.executeQuery(
-            String.format("SELECT * FROM event_page.usuario WHERE correo='%s' AND contraseña='%s' AND eliminado=0", correo,pass)
+                    String.format("SELECT * FROM event_page.usuario WHERE correo='%s' AND contraseña='%s' AND eliminado=0", correo, pass)
             );
             int id = -1;
             while (rs.next()) {
                 id = rs.getInt("id_usuario");
             }
-            return id>=0;
+            return id;
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;
+        return -1;
     }
-    
-    public boolean validarAdmin(String correo, String pass){
+
+    public int validarAdmin(String correo, String pass) {
         try {
             Statement stmt = Conexion.getConnection().createStatement();
             ResultSet rs = stmt.executeQuery(
-            String.format("SELECT * FROM event_page.usuario WHERE correo='%s' AND contraseña='%s' AND eliminado=0 AND admin=%d", correo,pass,1)
+                    String.format("SELECT * FROM event_page.usuario WHERE correo='%s' AND contraseña='%s' AND eliminado=0 AND admin=%d", correo, pass, 1)
             );
             int id = -1;
             while (rs.next()) {
                 id = rs.getInt("id_usuario");
             }
-            return id>=0;
+            return id;
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;
+        return -1;
     }
 }

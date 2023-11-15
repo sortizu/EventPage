@@ -26,23 +26,19 @@ public class Conexion {
     public static ResultSet rs;
         
         public static void conectar(){
-        
+            
             try {
             Class.forName("com.mysql.cj.jdbc.Driver");
+            
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         try {
             con = DriverManager.getConnection(url,usuario,clave);
+            
             stmt = con.createStatement();
-            /*stmt.executeUpdate("INSERT INTO usuario (nombres, apellidos, dni, correo, contraseña, admin) VALUES ('3', 'Maria Mendez')");
-            rs = stmt.executeQuery("SELECT * FROM usuario");
-            rs.next();
-            do{
-                System.out.println(rs.getString("id")+" "+rs.getString("nombre"));
-                
-            } while (rs.next());*/
+            
         } catch (SQLException ex) {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -50,6 +46,7 @@ public class Conexion {
         
         public static Connection getConnection(){
             if (con==null){
+                
                 conectar();
             }
             return con;

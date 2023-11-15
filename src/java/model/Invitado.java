@@ -8,9 +8,36 @@ package model;
  *
  * @author sortizu
  */
-public class Invitado extends Persona {
+public class Invitado{
+    private int id ;
+    private String nombres;
+    private String apellidos;
     private String biografia;
 
+    public String getNombres() {
+        return nombres;
+    }
+
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public String getBiografia() {
         return biografia;
     }
@@ -19,8 +46,10 @@ public class Invitado extends Persona {
         this.biografia = biografia;
     }
 
-    public Invitado(String biografia, int id, String nombres, String apellidos) {
-        super(id, nombres, apellidos);
+    public Invitado(int id, String nombres, String apellidos, String biografia) {
+        this.id = id;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
         this.biografia = biografia;
     }
 
@@ -29,12 +58,8 @@ public class Invitado extends Persona {
 
     @Override
     public String toString() {
-        return  "'id_invitado'='"+ getId()+
-                "', 'nombre_invitado'='"+getNombres()+
-                "', 'apellido_invitado'='"+getApellidos()+
-                "', 'biografia'='" + biografia + "'";
+        return "'id_invitado'='" + id + "', 'nombres'='" + nombres + "', 'apellidos'='" + apellidos + "', 'biografia'='" + biografia+"'";
     }
 
- 
     
 }

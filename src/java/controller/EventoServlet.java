@@ -7,23 +7,30 @@ package controller;
 import DAO.CategoriaEventoDAO;
 import DAO.EventoDAO;
 import DAO.InvitadoDAO;
-import debug.Console;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
+import java.util.ArrayList;
 import model.CategoriaEvento;
 import model.Evento;
 import model.Invitado;
+
 /**
  *
  * @author sortizu
  */
+@MultipartConfig(
+  fileSizeThreshold = 1024 * 1024 * 10, // 1 MB
+  maxFileSize = 1024 * 1024 * 10,      // 10 MB
+  maxRequestSize = 1024 * 1024 * 100   // 100 MB
+)
 public class EventoServlet extends HttpServlet {
 
     EventoDAO eventoDAO = new EventoDAO();
@@ -35,7 +42,7 @@ public class EventoServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("application/json");
         String responseMessage;
-       
+
         switch (request.getParameter("form-mode")) {
             case "add":
                 Evento nuevoEventoAgregar = new Evento();
@@ -44,15 +51,29 @@ public class EventoServlet extends HttpServlet {
                 nuevoEventoAgregar.setFecha(LocalDateTime.parse(request.getParameter("event-date"), DateTimeFormatter.ISO_DATE_TIME));
                 nuevoEventoAgregar.setCapacidad(Integer.parseInt(request.getParameter("event-capacity")));
                 nuevoEventoAgregar.setCategoria(
-                        (CategoriaEvento)categoriaEventoDAO.list(Integer.parseInt(request.getParameter("event-label")))
+                        (CategoriaEvento) categoriaEventoDAO.list(Integer.parseInt(request.getParameter("event-label")))
                 );
                 //System.out.println(nuevoEventoAgregar.getId());
                 nuevoEventoAgregar.setDescripcion(request.getParameter("event-description"));
                 nuevoEventoAgregar.setInvitado(
-                        (Invitado)invitadoDAO.list(Integer.parseInt(request.getParameter("event-guest")))
+                        (Invitado) invitadoDAO.list(Integer.parseInt(request.getParameter("event-guest")))
                 );
-                nuevoEventoAgregar.setDestacado(request.getParameter("featured").equals("on"));
+                try {
+                    request.getParameter("featured");
+                    nuevoEventoAgregar.setDestacado(true); 
+                 
+                } catch (Exception e) {
+                    nuevoEventoAgregar.setDestacado(false);
+                }
                 eventoDAO.add(nuevoEventoAgregar);
+                try {
+                    ArrayList<Evento> eventos = (ArrayList<Evento>) eventoDAO.listAll();
+                    int id = eventos.get(eventos.size() - 1).getId();
+                    Part filePart = request.getPart("event-image");
+                    filePart.write(this.getServletContext().getRealPath("") + "\\img\\events_images\\" + id + ".jpg");
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
                 response.sendRedirect("event.jsp");
                 break;
             case "edit":
@@ -63,36 +84,44 @@ public class EventoServlet extends HttpServlet {
                 nuevoEventoEditar.setFecha(LocalDateTime.parse(request.getParameter("event-date"), DateTimeFormatter.ISO_DATE_TIME));
                 nuevoEventoEditar.setCapacidad(Integer.parseInt(request.getParameter("event-capacity")));
                 nuevoEventoEditar.setCategoria(
-                        (CategoriaEvento)categoriaEventoDAO.list(Integer.parseInt(request.getParameter("event-label")))
+                        (CategoriaEvento) categoriaEventoDAO.list(Integer.parseInt(request.getParameter("event-label")))
                 );
                 nuevoEventoEditar.setDescripcion(request.getParameter("event-description"));
                 nuevoEventoEditar.setInvitado(
-                        (Invitado)invitadoDAO.list(Integer.parseInt(request.getParameter("event-guest")))
+                        (Invitado) invitadoDAO.list(Integer.parseInt(request.getParameter("event-guest")))
                 );
                 try {
-                            nuevoEventoEditar.setDestacado(request.getParameter("featured").equals("on"));
+                    request.getParameter("featured");
+                    nuevoEventoEditar.setDestacado(true); 
+                 
                 } catch (Exception e) {
-                            nuevoEventoEditar.setDestacado(false);
+                    nuevoEventoEditar.setDestacado(false);
                 }
-                
+
                 eventoDAO.edit(nuevoEventoEditar);
+                try {
+                    Part filePart = request.getPart("event-image");
+                    filePart.write(this.getServletContext().getRealPath("")+"\\img\\events_images\\"+nuevoEventoEditar.getId()+".jpg");   
+                   } catch (Exception e) {
+                       System.out.println(e);
+                   }
                 response.sendRedirect("event.jsp");
                 break;
             case "delete":
                 String[] idArray = request.getParameterValues("json[]");
-                for(String id:idArray){
+                for (String id : idArray) {
                     eventoDAO.delete(Integer.parseInt(id));
                 }
 
-response.getWriter().print("success");
+                response.getWriter().print("success");
                 break;
             default:
                 PrintWriter out = response.getWriter();
                 out.close();
                 throw new AssertionError();
-            
+
         }
-        
+
     }
 
 }

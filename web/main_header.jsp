@@ -1,5 +1,26 @@
+
 <%-- Document : main_header Created on : 13 Oct 2023, 01:09:14 Author : sortizu
 --%> <%@ page contentType="text/html; charset=UTF-8" %>
+<%@page import="model.Tarjeta" %>
+<%@page import="DAO.TarjetaDAO" %>
+<%@page import="DAO.UsuarioDAO" %>
+<%@page import="debug.Console" %>
+<%@page import="java.util.ArrayList" %>
+<%
+int id=-1;
+String email;
+String pass;
+if(session.getAttribute("email")!=null && session.getAttribute("password")!=null){
+email = (String)session.getAttribute("email");
+pass = (String)session.getAttribute("password");  
+id=new UsuarioDAO().validarUsuario(email, pass);
+}
+TarjetaDAO tarjetaDAO = new TarjetaDAO();
+ArrayList<Tarjeta> tarjetasDeUsuario=new ArrayList<>();
+if(id>=0){
+  tarjetasDeUsuario = tarjetaDAO.cargarTarjetasDeUsuario(id);
+}
+%>
 <!--Header-->
 <div style="position: relative">
   <nav
@@ -28,24 +49,15 @@
           filter: opacity(0.9);
         "
       >
-        <span class="narbar-brand h4 m-2" style="font-weight: 800">
-          <i class="bi bi-universal-access-circle"></i>
-          EVENTPAGE
+        <span class="narbar-brand h4 m-2 d-flex flex-row align-items-center justify-content-center" style="font-weight: 800;">
+          <img src="${pageContext.request.contextPath}/img/logo/flavicon.svg" width="30px" style="color: white;" class="me-1"/>
+          <%=configuracion.getNombrePagina()%>
         </span>
       </div>
     </a>
     <div class="d-flex flex-row gap-2">
-      <%@page import="DAO.UsuarioDAO" %>
-      <%@page import="debug.Console" %>
-  <%
-    boolean logged=false;
-    if(session.getAttribute("email")!=null && session.getAttribute("password")!=null){
-      String email = (String)session.getAttribute("email");
-      String pass = (String)session.getAttribute("password");  
-      logged = new UsuarioDAO().validarUsuario(email, pass);
-    }
-      
-    if (logged){
+  <%  
+    if (id>=0){
       %>
       <button
       type="button"
@@ -391,10 +403,10 @@
     class="modal-dialog modal-lg modal-dialog-scrollable"
 
   >
-    <div class="modal-content" style="min-height: 90vh">
-      <div class="modal-body m-0 p-0 g-0">
-        <div class="card text-center border-0">
-          <div class="card-header">
+    <div class="modal-content" style="min-height: 600px">
+      <div class="modal-body m-0 p-0 g-0 d-flex flex-colum">
+        <div class="card text-center border-0 d-flex flex-column flex-grow-1">
+          <div class="card-header flex-grow-0">
             <ul class="nav nav-tabs card-header-tabs d-flex">
               <li class="nav-item flex-fill" role="presentation">
                 <button
@@ -443,9 +455,9 @@
               </li>
             </ul>
           </div>
-          <div class="card-body tab-content">
+          <div class="card-body tab-content d-flex flex-column flex-grow-1">
             <div
-              class="tab-pane fade show active"
+              class="tab-pane fade show active flex-grow-1"
               id="shoppingCart"
               role="tabpanel"
               aria-labelledby="home-tab"
@@ -517,12 +529,45 @@
                 </table>
             </div>
             <div
-              class="tab-pane fade"
+              class="tab-pane fade flex-grow-1 d-flex flex-column"
               id="paidMethods"
               role="tabpanel"
               aria-labelledby="contact-tab"
             >
-              <p>TO DO...</p>
+            <h4  style="font-weight: 100">MIS MÉTODOS DE PAGO</h4>
+            <table class="table table-none">
+              <thead>
+                <tr>
+                  <th>NÚMERO DE TARJETA</th>
+                  <th>FECHA DE VENCIMIENTO</th>
+                  <th>DETALLE</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%
+                    for(Tarjeta tarjeta : tarjetasDeUsuario){
+                  %>
+                <tr>
+                  <td><%="*".repeat(12)+tarjeta.getNumeroTarjeta().substring(11,15)%></td>
+                  <td><%=tarjeta.getFechaDeVencimiento()%></td>
+                  <td>
+                    <div>
+                      <button type="button" class="btn btn-secondary detail-table-button">
+                        <i class="bi bi-pencil-fill"></i>
+                      </button>
+                      <button type="button" class="btn btn-dark detail-table-button">
+                        <i class="bi bi-trash-fill"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <%}%>
+              </tbody>
+            </table>
+              <button type="button" class="btn btn-outline-danger mx-auto mt-auto" id="addCreditCard">
+                Agregar tarjeta
+              </button>
+            
             </div>
           </div>
         </div>
@@ -595,9 +640,11 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-12">
-            <img src="https://s3-us-west-2.amazonaws.com/joinnus.com/user/1586376/64d657bc0d890.jpg" alt="" 
-            style="width: 100%;"
-            >
+            <img src="${pageContext.request.contextPath}/img/events_images/" 
+                alt="Foto de evento" 
+                style="width: 100%;"
+                id="eventDetailImage"
+                onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/img/placeholders/no_image.jpg'">
           </div>
         </div>
         <div class="row mt-3">
@@ -644,4 +691,150 @@
     </div>
   </div>
 </div>
+<!--Credit card selection-->
+<div
+  class="modal fade"
+  id="creditCardSelectionModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          Método de pago
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form id="creditCardSelectionForm" method="POST" action="">
+          <div class="mb-3">
+            <label for="event-label" class="col-form-label"
+              >Tarjeta de crédito:</label
+            >
+            <select
+              id="event-label"
+              name="event-label"
+              class="form-select modal-form-input"
+              aria-label="Default select example"
+              required
+            >
+              <option value="" selected>
+                Seleccione una de sus tarjetas
+              </option>
+
+              <%
+              for(Tarjeta tarjeta : tarjetasDeUsuario){
+            %>
+              <option value='<%=tarjeta.getId()%>'><%="*".repeat(12)+tarjeta.getNumeroTarjeta().substring(11,15)%></option>
+            <%}%>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="ccv" class="col-form-label"
+              >Ingrese el código CCV de su tarjeta:</label
+            >
+            <input
+              type="number"
+              class="form-control modal-form-input"
+              id="ccv"
+              name="ccv"
+              required
+            />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Descargar
+        </button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Aceptar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Add credit card modal-->
+<div
+  class="modal fade"
+  id="addCreditCardModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          Agregar tarjeta de crédito
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form id="addCreditCardForm" method="POST" action="TarjetaServlet">
+          <div class="mb-3">
+            <label for="card-number" class="col-form-label"
+              >Número de tarjeta:</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="card-number"
+              name="card-number"
+              maxlength="16"
+              minlength="16"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="expiration-date" class="col-form-label"
+              >Fecha de vencimiento:</label
+            >
+            <input
+              type="month"
+              class="form-control modal-form-input"
+              id="expiration-date"
+              name="expiration-date"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="card-owner" class="col-form-label"
+              >Nombre de propietario de tarjeta:</label
+            >
+            <input
+              type="text"
+              class="form-control modal-form-input"
+              id="card-owner"
+              name="card-owner"
+              maxlength="150"
+              required
+            />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="returnFromCreditCard">
+          Volver
+        </button>
+        <button type="submit" class="btn btn-outline-danger" id="saveCreditCard" form="addCreditCardForm">
+          Guardar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<%@include file="credit_card_script.jsp" %>
 <!--End of Header-->

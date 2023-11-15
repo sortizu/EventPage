@@ -34,7 +34,7 @@ public class EventoDAO implements CRUD {
         ArrayList<Evento> eventos = new ArrayList<>();
         String consultaSQL = "SELECT * " +
                                  "FROM evento e " +
-                                 "LEFT JOIN categoriaevento ce ON e.id_categoria = ce.id_catevento AND ce.eliminado=0 " +
+                                 "LEFT JOIN categoria_evento ce ON e.id_categoria = ce.id_catevento AND ce.eliminado=0 " +
                                  "LEFT JOIN invitado i ON e.id_invitado = i.id_invitado AND i.eliminado=0 "
                                 + " WHERE e.eliminado=0";
         
@@ -64,7 +64,7 @@ public class EventoDAO implements CRUD {
                 Invitado nuevoInvitado = (Invitado)new InvitadoDAO().list(rs.getInt("id_invitado"));
                 
                 if(nuevoInvitado==null){
-                    nuevoInvitado=new Invitado("", -1, "", "");
+                    nuevoInvitado=new Invitado(-1,"", "", "");
                 }
                 
                 newEvento.setInvitado(nuevoInvitado);
@@ -83,7 +83,7 @@ public class EventoDAO implements CRUD {
         ArrayList<Evento> eventos = new ArrayList<>();
         String consultaSQL = "SELECT * " +
                                  "FROM evento e " +
-                                 "LEFT JOIN categoriaevento ce ON e.id_categoria = ce.id_catevento AND ce.eliminado=0 " +
+                                 "LEFT JOIN categoria_evento ce ON e.id_categoria = ce.id_catevento AND ce.eliminado=0 " +
                                  "LEFT JOIN invitado i ON e.id_invitado = i.id_invitado AND i.eliminado=0 "
                                 + " WHERE e.eliminado=0 AND e.destacado=1";
         
@@ -112,7 +112,7 @@ public class EventoDAO implements CRUD {
                 Invitado nuevoInvitado = (Invitado)new InvitadoDAO().list(rs.getInt("id_invitado"));
                 
                 if(nuevoInvitado==null){
-                    nuevoInvitado=new Invitado("", -1, "", "");
+                    nuevoInvitado=new Invitado(-1,"", "", "");
                 }
                 
                 newEvento.setInvitado(nuevoInvitado);
@@ -132,7 +132,7 @@ public class EventoDAO implements CRUD {
         Evento evento = new Evento();
         String consultaSQL = "SELECT * " +
                                  "FROM evento e " +
-                                 "LEFT JOIN categoriaevento ce ON e.id_categoria = ce.id_catevento AND ce.eliminado=0 " +
+                                 "LEFT JOIN categoria_evento ce ON e.id_categoria = ce.id_catevento AND ce.eliminado=0 " +
                                  "LEFT JOIN invitado i ON e.id_invitado = i.id_invitado AND i.eliminado=0 "
                                 + " WHERE e.eliminado=0 AND e.id_evento="+id;
         
@@ -160,7 +160,7 @@ public class EventoDAO implements CRUD {
                 Invitado nuevoInvitado = (Invitado)new InvitadoDAO().list(rs.getInt("id_invitado"));
                 
                 if(nuevoInvitado==null){
-                    nuevoInvitado=new Invitado("", -1, "", "");
+                    nuevoInvitado=new Invitado(-1,"", "", "");
                 }
                 
                 evento.setInvitado(nuevoInvitado);

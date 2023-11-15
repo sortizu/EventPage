@@ -13,6 +13,14 @@
                     var jsonString = error.responseText.replaceAll("=", ":");
                      jsonString = jsonString.replaceAll("'", '"');
                     var eventData = JSON.parse("{"+jsonString+"}");
+                    var newImageSource = '${pageContext.request.contextPath}/img/events_images/'+eventData.id_evento+'.jpg';
+                    var errorImageSource = '${pageContext.request.contextPath}/img/placeholders/no_image.jpg';
+                    
+                    $("#eventDetailImage").attr("src",newImageSource);
+                    $("#eventDetailImage").on("error",function(){
+                                            $(this).attr("src",errorImageSource);
+                                        });
+
                     $("#detailEventName").text(eventData.nombreEvento);
                     $("#detailEventDescription").text(eventData.descripcion);
                     $("#detailEventCapacity").text(eventData.capacidad);

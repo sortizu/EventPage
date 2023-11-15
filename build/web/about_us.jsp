@@ -21,40 +21,15 @@
           CONÓCENOS
         </h2>
         <div class="zig-zag"></div>
+        <center>
+        <p style="font-size: 32px;font-weight: 100;">¡<%=configuracion.getEslogan()%>!</p>
+      </center>
         <div class="col-10 col-sm-8 m-auto py-3">
-          <h4>SOBRE LA ORGANIZACIÓN</h4>
+          <h4>SOBRE <%=configuracion.getNombrePagina()%></h4>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident,
-            incidunt fugit! Adipisci accusantium, molestias corporis deserunt
-            nulla illum provident delectus unde odio est, totam, ipsa nam alias
-            blanditiis modi neque accusamus! Id, vel. Aliquam architecto nobis
-            magnam voluptatibus. A dicta aperiam tempore similique sapiente
-            quaerat fugiat assumenda praesentium explicabo voluptatum illum
-            facere aut laboriosam facilis, reiciendis, neque temporibus!
-            Deserunt voluptate, libero ullam fugit nihil earum repellendus cum
-            ducimus, iste aspernatur nesciunt veritatis delectus ad molestias
-            quo enim hic debitis quibusdam, atque quidem at? Tempora qui, animi
-            vel doloribus expedita dolorem aspernatur beatae laboriosam quia
-            quisquam assumenda? Cupiditate voluptatum omnis sunt?
+            <%=configuracion.getDescripcionPagina()%>
           </p>
-          <h4>SOBRE EVENTPAGE</h4>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores
-            deserunt deleniti doloremque fuga delectus omnis odit, excepturi
-            accusamus autem ducimus!
-          </p>
-          <h4>PREGUNTAS FRECUENTES</h4>
-          <ul>
-            <li><a href="">¿Lorem ipsum dolor sit amet.?</a></li>
-            <li><a href="">¿Lorem ipsum dolor sit amet.?</a></li>
-            <li><a href="">¿Lorem ipsum dolor sit amet.?</a></li>
-            <li><a href="">¿Lorem ipsum dolor sit amet.?</a></li>
-            <li><a href="">¿Lorem ipsum dolor sit amet.?</a></li>
-            <li><a href="">¿Lorem ipsum dolor sit amet.?</a></li>
-            <li><a href="">¿Lorem ipsum dolor sit amet.?</a></li>
-            <li><a href="">¿Lorem ipsum dolor sit amet.?</a></li>
-            <li><a href="">¿Lorem ipsum dolor sit amet.?</a></li>
-          </ul>
+          
         </div>
         <div class="zig-zag"></div>
         <div class="col-8 m-auto py-3">

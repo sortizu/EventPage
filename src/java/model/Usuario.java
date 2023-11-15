@@ -4,21 +4,45 @@
  */
 package model;
 
-import interfaces.MetodoPago;
-import java.util.ArrayList;
-
 /**
  *
  * @author sortizu
  */
-public class Usuario extends Persona{
+public class Usuario{
+    private int id;
+    private String nombres;
+    private String apellidos;
     private String email;
     private String password;
     private long dni;
     private boolean admin;
-    private ArrayList<Ticket> tickets;
-    private ArrayList<MetodoPago> metodosPago;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    public String getNombres() {
+        return nombres;
+    }
+
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    
+    
     public String getEmail() {
         return email;
     }
@@ -43,22 +67,6 @@ public class Usuario extends Persona{
         this.dni = dni;
     }
 
-    public ArrayList<Ticket> getTickets() {
-        return tickets;
-    }
-
-    public void setTickets(ArrayList<Ticket> tickets) {
-        this.tickets = tickets;
-    }
-
-    public ArrayList<MetodoPago> getMetodosPago() {
-        return metodosPago;
-    }
-
-    public void setMetodosPago(ArrayList<MetodoPago> metodosPago) {
-        this.metodosPago = metodosPago;
-    }
-
     public boolean isAdmin() {
         return admin;
     }
@@ -66,5 +74,11 @@ public class Usuario extends Persona{
     public void setAdmin(boolean admin) {
         this.admin = admin;
     }
+
+    @Override
+    public String toString() {
+        return "Usuario{" + "id=" + id + ", nombres=" + nombres + ", apellidos=" + apellidos + ", email=" + email + ", password=" + password + ", dni=" + dni + ", admin=" + admin + '}';
+    }
+    
     
 }
