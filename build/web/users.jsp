@@ -43,13 +43,13 @@ String pageElementPluralName = "usuarios"; //Aqui se debe de poner el nombre del
           for(Usuario usuario: usuarios){
             if(!usuario.isAdmin()){
         %>
-          <tr data-id='<%=usuario.getId()%>'>
-            <td value='<%=usuario.getId()%>'><%=usuario.getId()%></td>
-            <td value='<%=usuario.getNombres()%>'><%=usuario.getNombres()%></td>
-            <td value='<%=usuario.getApellidos()%>'><%=usuario.getApellidos()%></td>
-            <td value='<%=usuario.getEmail()%>'><%=usuario.getEmail()%></td>
-            <td value='<%=usuario.getPassword()%>'><%=usuario.getPassword()%></td>
-            <td value='<%=usuario.getDni()%>'><%=usuario.getDni()%></td>
+          <tr data-id='<%=usuario.getIdUsuario()%>'>
+            <td value='<%=usuario.getIdUsuario()%>' name="id-row"><%=usuario.getIdUsuario()%></td>
+            <td value='<%=usuario.getNombres()%>' name="user-name"><%=usuario.getNombres()%></td>
+            <td value='<%=usuario.getApellidos()%>' name="user-last-name"><%=usuario.getApellidos()%></td>
+            <td value='<%=usuario.getEmail()%>' name="user-email"><%=usuario.getEmail()%></td>
+            <td value='<%=usuario.getPassword()%>' name="user-password"><%=usuario.getPassword()%></td>
+            <td value='<%=usuario.getDni()%>' name="user-dni"><%=usuario.getDni()%></td>
           </tr>
         <%}}%>
         </tbody>

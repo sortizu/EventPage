@@ -21,43 +21,20 @@ import model.Usuario;
 public class UsuarioServlet extends HttpServlet {
 
     UsuarioDAO usuarioDAO = new UsuarioDAO();
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json");
         switch (request.getParameter("form-mode")) {
             case "add":
-                Usuario nuevoUsuarioAgregar = new Usuario();
-                nuevoUsuarioAgregar.setNombres(request.getParameter("user-name"));
-                nuevoUsuarioAgregar.setApellidos(request.getParameter("user-last-name"));
-                nuevoUsuarioAgregar.setAdmin(false);
-                nuevoUsuarioAgregar.setEmail(request.getParameter("user-email"));
-                nuevoUsuarioAgregar.setPassword(request.getParameter("user-password"));
-                nuevoUsuarioAgregar.setDni(Integer.parseInt(request.getParameter("user-dni")));
-                
-                usuarioDAO.add(nuevoUsuarioAgregar);
-                response.sendRedirect("users.jsp");
+                addUserRequest(request, response);
                 break;
             case "edit":
-                Usuario nuevoUsuarioEditar = new Usuario();
-                nuevoUsuarioEditar.setId(Integer.parseInt(request.getParameter("id-row")));
-                nuevoUsuarioEditar.setNombres(request.getParameter("user-name"));
-                nuevoUsuarioEditar.setApellidos(request.getParameter("user-last-name"));
-                nuevoUsuarioEditar.setAdmin(false);
-                nuevoUsuarioEditar.setEmail(request.getParameter("user-email"));
-                nuevoUsuarioEditar.setPassword(request.getParameter("user-password"));
-                nuevoUsuarioEditar.setDni(Integer.parseInt(request.getParameter("user-dni")));
-                
-                usuarioDAO.edit(nuevoUsuarioEditar);
-                response.sendRedirect("users.jsp");
+                editUserRequest(request, response);
                 break;
             case "delete":
-                String idArray = request.getParameter("json[]");
-                for(String id:idArray.split(",")){
-                    usuarioDAO.delete(Integer.parseInt(id));
-                }
-response.getWriter().print("success");
+                deleteUserRequest(request, response);
                 break;
             default:
                 PrintWriter out = response.getWriter();
@@ -65,4 +42,43 @@ response.getWriter().print("success");
                 throw new AssertionError();
         }
     }
+
+    private void addUserRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Usuario nuevoUsuarioAgregar = new Usuario();
+        nuevoUsuarioAgregar.setNombres(request.getParameter("user-name"));
+        nuevoUsuarioAgregar.setApellidos(request.getParameter("user-last-name"));
+        nuevoUsuarioAgregar.setAdmin(false);
+        nuevoUsuarioAgregar.setEmail(request.getParameter("user-email"));
+        nuevoUsuarioAgregar.setPassword(request.getParameter("user-password"));
+        nuevoUsuarioAgregar.setDni(Integer.parseInt(request.getParameter("user-dni")));
+
+        usuarioDAO.add(nuevoUsuarioAgregar);
+        response.sendRedirect("users.jsp");
+    }
+
+    private void editUserRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Usuario nuevoUsuarioEditar = new Usuario();
+        nuevoUsuarioEditar.setIdUsuario(Integer.parseInt(request.getParameter("id-row")));
+        nuevoUsuarioEditar.setNombres(request.getParameter("user-name"));
+        nuevoUsuarioEditar.setApellidos(request.getParameter("user-last-name"));
+        nuevoUsuarioEditar.setAdmin(false);
+        nuevoUsuarioEditar.setEmail(request.getParameter("user-email"));
+        nuevoUsuarioEditar.setPassword(request.getParameter("user-password"));
+        nuevoUsuarioEditar.setDni(Integer.parseInt(request.getParameter("user-dni")));
+
+        usuarioDAO.edit(nuevoUsuarioEditar);
+        response.sendRedirect("users.jsp");
+    }
+
+    private void deleteUserRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String idArray = request.getParameter("json[]");
+        for (String id : idArray.split(",")) {
+            usuarioDAO.delete(Integer.parseInt(id));
+        }
+        response.getWriter().print("success");
+    }
+
 }

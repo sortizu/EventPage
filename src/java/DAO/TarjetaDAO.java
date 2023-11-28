@@ -34,13 +34,11 @@ public class TarjetaDAO implements CRUD {
             ResultSet rs = stmt.executeQuery("SELECT * FROM event_page.tarjeta WHERE id_tarjeta=" + id);
             rs.next();
             Tarjeta nuevaTarjeta = new Tarjeta();
-            nuevaTarjeta.setId(rs.getInt("id_tarjeta"));
+            nuevaTarjeta.setIdTarjeta(rs.getInt("id_tarjeta"));
             nuevaTarjeta.setNombrePropietario(rs.getString("nombre_propietario"));
             nuevaTarjeta.setNumeroTarjeta(rs.getString("numero_tarjeta"));
             nuevaTarjeta.setFechaDeVencimiento(rs.getDate("fecha_vencimiento").toLocalDate());
-            
-            UsuarioDAO usuarioDAO = new UsuarioDAO();
-            nuevaTarjeta.setUsuario((Usuario)usuarioDAO.list(rs.getInt("id_usuario")));
+            nuevaTarjeta.setIdUsuario(rs.getInt("id_usuario"));
             return nuevaTarjeta;
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -58,7 +56,7 @@ public class TarjetaDAO implements CRUD {
           String.format("INSERT INTO event_page.tarjeta(nombre_propietario,numero_tarjeta,id_usuario,fecha_vencimiento,eliminado) VALUES ('%s','%s','%d','%s','0')",
                   nuevaTarjeta.getNombrePropietario(),
                   nuevaTarjeta.getNumeroTarjeta(),
-                  nuevaTarjeta.getUsuario().getId(),
+                  nuevaTarjeta.getIdUsuario(),
                   nuevaTarjeta.getFechaDeVencimiento()));
             
             return true;
@@ -85,13 +83,11 @@ public class TarjetaDAO implements CRUD {
             ResultSet rs = stmt.executeQuery("SELECT * FROM event_page.tarjeta WHERE id_usuario=" + id);
             while(rs.next()){
             Tarjeta nuevaTarjeta = new Tarjeta();
-            nuevaTarjeta.setId(rs.getInt("id_tarjeta"));
+            nuevaTarjeta.setIdTarjeta(rs.getInt("id_tarjeta"));
             nuevaTarjeta.setNombrePropietario(rs.getString("nombre_propietario"));
             nuevaTarjeta.setNumeroTarjeta(rs.getString("numero_tarjeta"));
             nuevaTarjeta.setFechaDeVencimiento(rs.getDate("fecha_vencimiento").toLocalDate());
-            
-            UsuarioDAO usuarioDAO = new UsuarioDAO();
-            nuevaTarjeta.setUsuario((Usuario)usuarioDAO.list(rs.getInt("id_usuario")));
+            nuevaTarjeta.setIdUsuario(rs.getInt("id_usuario"));
             tarjetasDeUsuario.add(nuevaTarjeta);
             }
             return tarjetasDeUsuario;

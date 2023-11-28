@@ -13,13 +13,13 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Evento;
-import model.Ticket;
+import model.DetalleCompra;
 
 /**
  *
  * @author sortizu
  */
-public class TicketDAO implements CRUD{
+public class DetalleCompraDAO implements CRUD{
 
     @Override
     public List listAll() {
@@ -32,11 +32,10 @@ public class TicketDAO implements CRUD{
             Statement stmt = Conexion.getConnection().createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM event_page.ticket WHERE id_ticket=" + id);
             rs.next();
-            Ticket nuevoTicket = new Ticket();
-            EventoDAO eventoDAO = new EventoDAO();
-            nuevoTicket.setId(rs.getInt("id_ticket"));
-            nuevoTicket.setEvento((Evento)eventoDAO.list(rs.getInt("id_evento")));
-            return nuevoTicket;
+            DetalleCompra nuevoDetalleCompra = new DetalleCompra();
+            nuevoDetalleCompra.setIdCompra(rs.getInt("id_ticket"));
+            nuevoDetalleCompra.setIdEvento(rs.getInt("id_evento"));
+            return nuevoDetalleCompra;
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

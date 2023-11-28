@@ -11,34 +11,35 @@ import java.time.LocalDateTime;
  * @author sortizu
  */
 public class Compra {
-    private int id;
-    private Ticket ticket;
-    private Tarjeta tarjeta;
+    private int idCompra;
+    private int idTarjeta;
     private LocalDateTime fechaDeCompra;
+    private boolean pendiente;
 
-    public int getId() {
-        return id;
+    public Compra(int idCompra, int idTarjeta, LocalDateTime fechaDeCompra, boolean pendiente) {
+        this.idCompra = idCompra;
+        this.idTarjeta = idTarjeta;
+        this.fechaDeCompra = fechaDeCompra;
+        this.pendiente = pendiente;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public Compra() {
     }
 
-
-    public Ticket getTicket() {
-        return ticket;
+    public int getIdCompra() {
+        return idCompra;
     }
 
-    public void setTicket(Ticket ticket) {
-        this.ticket = ticket;
+    public void setIdCompra(int idCompra) {
+        this.idCompra = idCompra;
     }
 
-    public Tarjeta getTarjeta() {
-        return tarjeta;
+    public int getIdTarjeta() {
+        return idTarjeta;
     }
 
-    public void setTarjeta(Tarjeta tarjeta) {
-        this.tarjeta = tarjeta;
+    public void setIdTarjeta(int idTarjeta) {
+        this.idTarjeta = idTarjeta;
     }
 
     public LocalDateTime getFechaDeCompra() {
@@ -49,19 +50,19 @@ public class Compra {
         this.fechaDeCompra = fechaDeCompra;
     }
 
-    public Compra(int id,  Ticket ticket, Tarjeta tarjeta, LocalDateTime fechaDeCompra) {
-        this.id = id;
-        this.ticket = ticket;
-        this.tarjeta = tarjeta;
-        this.fechaDeCompra = fechaDeCompra;
+    public boolean isPendiente() {
+        return pendiente;
     }
 
-    public Compra() {
+    public void setPendiente(boolean pendiente) {
+        this.pendiente = pendiente;
     }
 
     @Override
     public String toString() {
-        return "Compra{" + "id=" + id +" ticket=" + ticket + ", tarjeta=" + tarjeta + ", fechaDeCompra=" + fechaDeCompra + '}';
+        return "'id_compra'='" + idCompra+
+               "', 'id_tarjeta'='" + idTarjeta + 
+               "', 'fecha_compra'='" + fechaDeCompra + "'";
     }
     
 }

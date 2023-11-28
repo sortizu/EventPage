@@ -16,7 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Compra;
 import model.Tarjeta;
-import model.Ticket;
+import model.DetalleCompra;
 import model.Usuario;
 
 /**

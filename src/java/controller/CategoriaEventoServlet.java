@@ -20,59 +20,84 @@ import model.CategoriaEvento;
  */
 public class CategoriaEventoServlet extends HttpServlet {
 
-  CategoriaEventoDAO categoriaEventoDAO = new CategoriaEventoDAO();
+    CategoriaEventoDAO categoriaEventoDAO = new CategoriaEventoDAO();
 
-  
-  @Override
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                response.setContentType("application/json");
+        response.setContentType("application/json");
         switch (request.getParameter("form-mode")) {
             case "add":
-                CategoriaEvento nuevaCategoriaEventoAgregar = new CategoriaEvento();
-                nuevaCategoriaEventoAgregar.setNombreCategoria(request.getParameter("event-label-name"));
-                categoriaEventoDAO.add(nuevaCategoriaEventoAgregar);
-                response.sendRedirect("event_labels.jsp");
+                addEventLabelRequest(request, response);
                 break;
             case "edit":
-                CategoriaEvento nuevaCategoriaEventoEditar = new CategoriaEvento();
-                nuevaCategoriaEventoEditar.setId(Integer.parseInt(request.getParameter("id-row")));
-                nuevaCategoriaEventoEditar.setNombreCategoria(request.getParameter("event-label-name"));
-                categoriaEventoDAO.edit(nuevaCategoriaEventoEditar);
-                response.sendRedirect("event_labels.jsp");
+                editEventLabelRequest(request, response);
                 break;
             case "delete":
-                String idArrayDelete = request.getParameter("json[]");
-                for(String id:idArrayDelete.split(",")){
-                    categoriaEventoDAO.delete(Integer.parseInt(id));
-                }
-                response.setCharacterEncoding("UTF-8"); 
-response.getWriter().print("success");
+                deleteEventLabelRequest(request, response);
                 break;
             case "warning-delete":
-                String idArrayEvaluateDelete = request.getParameter("json[]");
-        boolean dependencyFound=false;
-        for(String id:idArrayEvaluateDelete.split(",")){
-            dependencyFound = !categoriaEventoDAO.getDependentEventsId(Integer.parseInt(id)).isEmpty();
-        }
-
-        if (dependencyFound){
-            PrintWriter out = response.getWriter();
-        out.println("trigger");
-        out.close();
-        }
+                warningDeleteLabelRequest(request, response);
                 break;
             case "dependency-delete":
-                String idArrayDeleteDependency = request.getParameter("json[]");
-                for(String id:idArrayDeleteDependency.split(",")){
-                    categoriaEventoDAO.delete(Integer.parseInt(id),true);
-                }
-
-response.getWriter().print("success");
+                dependencyDeleteLabelRequest(request, response);
                 break;
             default:
                 throw new AssertionError();
         }
     }
 
+    private void addEventLabelRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        CategoriaEvento nuevaCategoriaEventoAgregar = new CategoriaEvento();
+        nuevaCategoriaEventoAgregar.setNombreCategoria(request.getParameter("event-label-name"));
+        categoriaEventoDAO.add(nuevaCategoriaEventoAgregar);
+        response.sendRedirect("event_labels.jsp");
+    }
+
+    private void editEventLabelRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        CategoriaEvento nuevaCategoriaEventoEditar = new CategoriaEvento();
+        nuevaCategoriaEventoEditar.setIdCategoriaEvento(Integer.parseInt(request.getParameter("id-row")));
+        nuevaCategoriaEventoEditar.setNombreCategoria(request.getParameter("event-label-name"));
+        categoriaEventoDAO.edit(nuevaCategoriaEventoEditar);
+        response.sendRedirect("event_labels.jsp");
+    }
+
+    private void deleteEventLabelRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String idArrayDelete = request.getParameter("json[]");
+        for (String id : idArrayDelete.split(",")) {
+            categoriaEventoDAO.delete(Integer.parseInt(id));
+        }
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().print("success");
+    }
+
+    private void warningDeleteLabelRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String idArrayEvaluateDelete = request.getParameter("json[]");
+        boolean dependencyFound = false;
+        for (String id : idArrayEvaluateDelete.split(",")) {
+            if(!categoriaEventoDAO.getDependentEventsId(Integer.parseInt(id)).isEmpty()){
+            dependencyFound=true;
+            break;
+            }
+        }
+
+        if (dependencyFound) {
+            PrintWriter out = response.getWriter();
+            out.println("trigger");
+            out.close();
+        }
+    }
+
+    private void dependencyDeleteLabelRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String idArrayDeleteDependency = request.getParameter("json[]");
+        for (String id : idArrayDeleteDependency.split(",")) {
+            categoriaEventoDAO.delete(Integer.parseInt(id), true);
+        }
+
+        response.getWriter().print("success");
+    }
 }

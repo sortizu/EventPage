@@ -30,10 +30,10 @@ public class ConfiguracionServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Configuracion configuracion = new Configuracion();
-        configuracion.setNombrePagina(request.getParameter("page-name"));
-        configuracion.setDescripcionPagina(request.getParameter("page-description"));
-        configuracion.setEslogan(request.getParameter("slogan"));
         ConfiguracionDAO configuracionDAO = new ConfiguracionDAO();
+        configuracionDAO.editarValorDeParametro("nombre_pagina", request.getParameter("page-name"));
+        configuracionDAO.editarValorDeParametro("descripcion_pagina", request.getParameter("page-description"));
+        configuracionDAO.editarValorDeParametro("eslogan", request.getParameter("slogan"));
         configuracionDAO.edit(configuracion);
         try {
          Part filePart = request.getPart("page-logo");

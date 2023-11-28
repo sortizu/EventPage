@@ -32,10 +32,11 @@ public class InvitadoDAO implements CRUD {
             ResultSet rs = stmt.executeQuery("SELECT * FROM event_page.invitado WHERE eliminado=0");
             while(rs.next()){
                 Invitado newInvitado = new Invitado();
-                newInvitado.setId(rs.getInt("id_invitado"));
+                newInvitado.setIdInvitado(rs.getInt("id_invitado"));
                 newInvitado.setNombres(rs.getString("nombres"));
                 newInvitado.setApellidos(rs.getString("apellidos"));
                 newInvitado.setBiografia(rs.getString("biografia"));
+                newInvitado.setImagenUrl(rs.getString("imagen_url"));
                 invitados.add(newInvitado);
                 
             } 
@@ -60,10 +61,11 @@ public class InvitadoDAO implements CRUD {
             rs.next();
             
             Invitado newInvitado = new Invitado();
-            newInvitado.setId(rs.getInt("id_invitado"));
+            newInvitado.setIdInvitado(rs.getInt("id_invitado"));
             newInvitado.setNombres(rs.getString("nombres"));
             newInvitado.setApellidos(rs.getString("apellidos"));  
-            newInvitado.setBiografia(rs.getString("biografia"));  
+            newInvitado.setBiografia(rs.getString("biografia"));
+            newInvitado.setImagenUrl(rs.getString("imagen_url"));
             return newInvitado;
 
         } catch (SQLException ex) {
@@ -79,11 +81,12 @@ public class InvitadoDAO implements CRUD {
         Invitado nuevoInvitado = (Invitado)o;
         try {
             Statement stmt = Conexion.getConnection().createStatement();
-            stmt.executeUpdate("INSERT INTO event_page.invitado(nombres, apellidos, biografia,eliminado) VALUES "
+            stmt.executeUpdate("INSERT INTO event_page.invitado(nombres, apellidos, biografia,imagen_url,eliminado) VALUES "
                     + "('" + nuevoInvitado.getNombres() + "', '" 
                     + nuevoInvitado.getApellidos() + "', '"
-                    + nuevoInvitado.getBiografia() + "',"
-                    + nuevoInvitado.getId() + ")");
+                    + nuevoInvitado.getBiografia() + "','"
+                    + nuevoInvitado.getImagenUrl() + "',"
+                    + 0+ ")");
         } catch (SQLException ex) {
             Logger.getLogger(InvitadoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -95,11 +98,12 @@ public class InvitadoDAO implements CRUD {
         Invitado invitadoEditar = (Invitado)o;
         try {
             String query=String.format(
-              "UPDATE event_page.invitado SET nombres='%s',apellidos='%s',biografia='%s' WHERE id_invitado=%d",
+              "UPDATE event_page.invitado SET nombres='%s',apellidos='%s',imagen_url='%s',biografia='%s' WHERE id_invitado=%d",
             invitadoEditar.getNombres(),
             invitadoEditar.getApellidos(),
+                invitadoEditar.getImagenUrl(),
                 invitadoEditar.getBiografia(),
-            invitadoEditar.getId());
+            invitadoEditar.getIdInvitado());
             
             Statement stmt = Conexion.getConnection().createStatement();
             stmt.executeUpdate(query);
@@ -155,6 +159,22 @@ public class InvitadoDAO implements CRUD {
             return eventsID;
         } catch (SQLException ex) {
             Logger.getLogger(InvitadoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public String getGuestImageUUID(int id){
+    String consultaSQL = "SELECT imagen_url FROM invitado WHERE id_invitado="+id;
+        try {
+            Statement stmt = Conexion.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(consultaSQL);
+            rs.next();
+            String[] urlSplitted = rs.getString("imagen_url").split("/");
+            String uuid=urlSplitted[urlSplitted.length-1];
+            uuid = uuid.substring(0, uuid.length()-4);
+            return uuid;
+        } catch (Exception ex) {
+            System.out.println(ex);
         }
         return null;
     }

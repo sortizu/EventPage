@@ -41,10 +41,10 @@ String pageElementPluralName = "invitados"; //Aqui se debe de poner el nombre de
             ArrayList<Invitado> invitados = (ArrayList<Invitado>)dao.listAll();
             for(Invitado invitado : invitados){
           %>
-            <tr data-id='<%=invitado.getId()%>'>
-              <td value='<%=invitado.getId()%>' name="id-row"><%=invitado.getId()%></td>
+            <tr data-id='<%=invitado.getIdInvitado()%>'>
+              <td value='<%=invitado.getIdInvitado()%>' name="id-row"><%=invitado.getIdInvitado()%></td>
               <td>
-                <img src="${pageContext.request.contextPath}/img/guests_images/<%=invitado.getId()%>.jpg" 
+                <img src='<%=invitado.getImagenUrl()%>' 
                 alt="Foto de invitado" 
                 style="width: 100px;"
                 onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/img/placeholders/no_image.jpg'">

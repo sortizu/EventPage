@@ -32,11 +32,7 @@ public class EventoDAO implements CRUD {
     public List listAll() {
         //Borrar el codigo de abajo
         ArrayList<Evento> eventos = new ArrayList<>();
-        String consultaSQL = "SELECT * " +
-                                 "FROM evento e " +
-                                 "LEFT JOIN categoria_evento ce ON e.id_categoria = ce.id_catevento AND ce.eliminado=0 " +
-                                 "LEFT JOIN invitado i ON e.id_invitado = i.id_invitado AND i.eliminado=0 "
-                                + " WHERE e.eliminado=0";
+        String consultaSQL = "SELECT * FROM evento e WHERE e.eliminado=0";
         
         try {
             Statement stmt = Conexion.getConnection().createStatement();
@@ -45,35 +41,21 @@ public class EventoDAO implements CRUD {
             do{
                 
                 Evento newEvento = new Evento();
-                newEvento.setId(rs.getInt("id_evento"));
+                newEvento.setIdEvento(rs.getInt("id_evento"));
                 newEvento.setNombreEvento(rs.getString("nombre_evento"));
                 newEvento.setCosto(rs.getDouble("costo"));
                 newEvento.setFecha(rs.getTimestamp("fecha").toLocalDateTime());
                 newEvento.setCapacidad(rs.getInt("capacidad"));
                 newEvento.setDescripcion(rs.getString("descripcion"));
                 newEvento.setDestacado(rs.getBoolean("destacado"));
-                
-                // Setting event label information
-                CategoriaEvento nuevaCategoriaEvento =  (CategoriaEvento)new CategoriaEventoDAO().list(rs.getInt("id_catevento"));
-                if(nuevaCategoriaEvento==null){
-                    nuevaCategoriaEvento = new CategoriaEvento(-1, "");
-                }
-                newEvento.setCategoria(nuevaCategoriaEvento);
-                
-                // Setting guest information
-                Invitado nuevoInvitado = (Invitado)new InvitadoDAO().list(rs.getInt("id_invitado"));
-                
-                if(nuevoInvitado==null){
-                    nuevoInvitado=new Invitado(-1,"", "", "");
-                }
-                
-                newEvento.setInvitado(nuevoInvitado);
+                newEvento.setIdCategoriaEvento(rs.getInt("id_categoria_evento"));
+                newEvento.setIdInvitado(rs.getInt("id_invitado"));
+                newEvento.setImagenUrl(rs.getString("imagen_url"));
                 eventos.add(newEvento);
             } while (rs.next());
         } catch (SQLException ex) {
             Logger.getLogger(EventoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
         return eventos;
     }
     
@@ -81,11 +63,7 @@ public class EventoDAO implements CRUD {
     public List listFeatured() {
         //Borrar el codigo de abajo
         ArrayList<Evento> eventos = new ArrayList<>();
-        String consultaSQL = "SELECT * " +
-                                 "FROM evento e " +
-                                 "LEFT JOIN categoria_evento ce ON e.id_categoria = ce.id_catevento AND ce.eliminado=0 " +
-                                 "LEFT JOIN invitado i ON e.id_invitado = i.id_invitado AND i.eliminado=0 "
-                                + " WHERE e.eliminado=0 AND e.destacado=1";
+        String consultaSQL = "SELECT * WHERE e.eliminado=0 AND e.destacado=1";
         
         try {
             Statement stmt = Conexion.getConnection().createStatement();
@@ -94,28 +72,16 @@ public class EventoDAO implements CRUD {
             do{
                 
                 Evento newEvento = new Evento();
-                newEvento.setId(rs.getInt("id_evento"));
+                newEvento.setIdEvento(rs.getInt("id_evento"));
                 newEvento.setNombreEvento(rs.getString("nombre_evento"));
                 newEvento.setCosto(rs.getDouble("costo"));
                 newEvento.setFecha(rs.getTimestamp("fecha").toLocalDateTime());
                 newEvento.setCapacidad(rs.getInt("capacidad"));
                 newEvento.setDescripcion(rs.getString("descripcion"));
                 newEvento.setDestacado(rs.getBoolean("destacado"));
-                // Setting event label information
-                CategoriaEvento nuevaCategoriaEvento =  (CategoriaEvento)new CategoriaEventoDAO().list(rs.getInt("id_catevento"));
-                if(nuevaCategoriaEvento==null){
-                    nuevaCategoriaEvento = new CategoriaEvento(-1, "");
-                }
-                newEvento.setCategoria(nuevaCategoriaEvento);
-                
-                // Setting guest information
-                Invitado nuevoInvitado = (Invitado)new InvitadoDAO().list(rs.getInt("id_invitado"));
-                
-                if(nuevoInvitado==null){
-                    nuevoInvitado=new Invitado(-1,"", "", "");
-                }
-                
-                newEvento.setInvitado(nuevoInvitado);
+                newEvento.setIdCategoriaEvento(rs.getInt("id_categoria_evento"));
+                newEvento.setIdInvitado(rs.getInt("id_invitado"));
+                newEvento.setImagenUrl(rs.getString("imagen_url"));
                 eventos.add(newEvento);
                 
             } while (rs.next());
@@ -130,40 +96,23 @@ public class EventoDAO implements CRUD {
     public Object list(int id) {
         //Borrar el codigo de abajo
         Evento evento = new Evento();
-        String consultaSQL = "SELECT * " +
-                                 "FROM evento e " +
-                                 "LEFT JOIN categoria_evento ce ON e.id_categoria = ce.id_catevento AND ce.eliminado=0 " +
-                                 "LEFT JOIN invitado i ON e.id_invitado = i.id_invitado AND i.eliminado=0 "
-                                + " WHERE e.eliminado=0 AND e.id_evento="+id;
+        String consultaSQL = "SELECT * WHERE e.eliminado=0 AND e.id_evento="+id;
         
         try {
             Statement stmt = Conexion.getConnection().createStatement();
             ResultSet rs = stmt.executeQuery(consultaSQL);
             rs.next();
             do{
-                evento.setId(rs.getInt("id_evento"));
+                evento.setIdEvento(rs.getInt("id_evento"));
                 evento.setNombreEvento(rs.getString("nombre_evento"));
                 evento.setCosto(rs.getDouble("costo"));
                 evento.setFecha(rs.getTimestamp("fecha").toLocalDateTime());
                 evento.setCapacidad(rs.getInt("capacidad"));
                 evento.setDescripcion(rs.getString("descripcion"));
                 evento.setDestacado(rs.getBoolean("destacado"));
-                
-                // Setting event label information
-                CategoriaEvento nuevaCategoriaEvento =  (CategoriaEvento)new CategoriaEventoDAO().list(rs.getInt("id_catevento"));
-                if(nuevaCategoriaEvento==null){
-                    nuevaCategoriaEvento = new CategoriaEvento(-1, "");
-                }
-                evento.setCategoria(nuevaCategoriaEvento);
-                
-                // Setting guest information
-                Invitado nuevoInvitado = (Invitado)new InvitadoDAO().list(rs.getInt("id_invitado"));
-                
-                if(nuevoInvitado==null){
-                    nuevoInvitado=new Invitado(-1,"", "", "");
-                }
-                
-                evento.setInvitado(nuevoInvitado);
+                evento.setIdCategoriaEvento(rs.getInt("id_categoria_evento"));
+                evento.setIdInvitado(rs.getInt("id_invitado"));
+                evento.setImagenUrl(rs.getString("imagen_url"));
                 return evento;
             } while (rs.next());
         } catch (SQLException ex) {
@@ -179,15 +128,16 @@ public class EventoDAO implements CRUD {
         Evento nuevoEvento = (Evento)o;
         try {
             Statement stmt = Conexion.getConnection().createStatement();
-            stmt.executeUpdate("INSERT INTO event_page.evento(nombre_evento, costo, fecha, capacidad, id_categoria, descripcion, eliminado,id_invitado,destacado) VALUES "
+            stmt.executeUpdate("INSERT INTO event_page.evento(nombre_evento, costo, fecha, capacidad, id_categoria_evento, descripcion, eliminado,id_invitado,imagen_url,destacado) VALUES "
                     + "('" + nuevoEvento.getNombreEvento()+ "', '" 
                     + nuevoEvento.getCosto()+ "', '"
                     + nuevoEvento.getFecha()+ "', '"
                     + nuevoEvento.getCapacidad()+ "', '"
-                    + nuevoEvento.getCategoria().getId()+ "', '"
+                    + nuevoEvento.getIdCategoriaEvento()+ "', '"
                     + nuevoEvento.getDescripcion()+ "', "
                     + 0 + ","
-                    + nuevoEvento.getInvitado().getId()+ ","
+                    + nuevoEvento.getIdInvitado()+ ","
+                    + nuevoEvento.getImagenUrl()+ ","
                     + (nuevoEvento.isDestacado()?1:0)+ ")");
         } catch (SQLException ex) {
             Logger.getLogger(EventoDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -206,11 +156,12 @@ public class EventoDAO implements CRUD {
                     + "costo = '" +nuevoEvento.getCosto()+ "', "
                     + "fecha = '" + nuevoEvento.getFecha()+ "', "
                     + "capacidad = '" + nuevoEvento.getCapacidad()+ "', "
-                    + "id_categoria = '" + nuevoEvento.getCategoria().getId()+ "', "
+                    + "id_categoria_evento = '" + nuevoEvento.getIdCategoriaEvento()+ "', "
                     + "descripcion = '" + nuevoEvento.getDescripcion()+ "', "
-                    + "id_invitado = '" + nuevoEvento.getInvitado().getId()+ "', "
-                    + "destacado= " + (nuevoEvento.isDestacado()?1:0)+
-                    " WHERE id_evento = '" + nuevoEvento.getId() + "'");
+                    + "id_invitado = '" + nuevoEvento.getIdInvitado()+ "', "
+                    + "destacado= '" + (nuevoEvento.isDestacado()?1:0)+"', "
+                    + "imagen_url= '" + nuevoEvento.getImagenUrl()+
+                    "' WHERE id_evento = '" + nuevoEvento.getIdEvento()+ "'");
         } catch (SQLException ex) {
             Logger.getLogger(EventoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -231,6 +182,20 @@ public class EventoDAO implements CRUD {
         return true;
     }
     
-    
+    public String getEventImageUUID(int id){
+    String consultaSQL = "SELECT imagen_url FROM evento WHERE id_evento="+id;
+        try {
+            Statement stmt = Conexion.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(consultaSQL);
+            rs.next();
+            String[] urlSplitted = rs.getString("imagen_url").split("/");
+            String uuid=urlSplitted[urlSplitted.length-1];
+            uuid = uuid.substring(0, uuid.length()-4);
+            return uuid;
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return null;
+    }
     
 }

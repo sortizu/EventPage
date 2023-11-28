@@ -51,7 +51,7 @@ if(id>=0){
       >
         <span class="narbar-brand h4 m-2 d-flex flex-row align-items-center justify-content-center" style="font-weight: 800;">
           <img src="${pageContext.request.contextPath}/img/logo/flavicon.svg" width="30px" style="color: white;" class="me-1"/>
-          <%=configuracion.getNombrePagina()%>
+          <%=nombrePagina%>
         </span>
       </div>
     </a>
@@ -732,7 +732,7 @@ if(id>=0){
               <%
               for(Tarjeta tarjeta : tarjetasDeUsuario){
             %>
-              <option value='<%=tarjeta.getId()%>'><%="*".repeat(12)+tarjeta.getNumeroTarjeta().substring(11,15)%></option>
+              <option value='<%=tarjeta.getIdTarjeta()%>'><%="*".repeat(12)+tarjeta.getNumeroTarjeta().substring(11,15)%></option>
             <%}%>
             </select>
           </div>

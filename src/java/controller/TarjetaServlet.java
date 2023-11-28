@@ -27,8 +27,6 @@ public class TarjetaServlet extends HttpServlet {
             throws ServletException, IOException {
         TarjetaDAO tarjetaDAO = new TarjetaDAO();
         Tarjeta nuevaTarjeta = new Tarjeta();
-        UsuarioDAO usuarioDAO = new UsuarioDAO();
-        Usuario usuarioDeTarjeta=new Usuario();
         
         nuevaTarjeta.setNombrePropietario(request.getParameter("card-owner"));
         nuevaTarjeta.setNumeroTarjeta(request.getParameter("card-number"));
@@ -36,9 +34,7 @@ public class TarjetaServlet extends HttpServlet {
         String fecha = request.getParameter("expiration-date")+"-01";
         LocalDate fechaVencimiento = LocalDate.parse(fecha);
         nuevaTarjeta.setFechaDeVencimiento(fechaVencimiento);
-        
-        usuarioDeTarjeta.setId((Integer)request.getSession().getAttribute("id_user"));
-        nuevaTarjeta.setUsuario(usuarioDeTarjeta);
+        nuevaTarjeta.setIdUsuario((Integer)request.getSession().getAttribute("id_user"));
 
         tarjetaDAO.add(nuevaTarjeta);
         response.sendRedirect("index.jsp");

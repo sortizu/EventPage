@@ -2,7 +2,9 @@
 <%@page import="model.Configuracion" %>
 <%
 ConfiguracionDAO configuracionDAO = new ConfiguracionDAO();
-Configuracion configuracion = configuracionDAO.cargarConfiguracion();
+String nombrePagina = configuracionDAO.cargarValorDeParametro("nombre_pagina");
+String descripcionPagina = configuracionDAO.cargarValorDeParametro("descripcion_pagina");
+String eslogan = configuracionDAO.cargarValorDeParametro("eslogan");
 %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/img/logo/flavicon.svg">

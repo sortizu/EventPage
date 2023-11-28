@@ -12,18 +12,31 @@ import java.time.LocalDateTime;
  * @author sortizu
  */
 public class Tarjeta {
-    private int id;
+    private int idTarjeta;
     private String nombrePropietario;
     private String numeroTarjeta;
     private LocalDate fechaDeVencimiento;
-    private Usuario usuario;
+    private int idUsuario;
+    private boolean eliminado;
 
-    public int getId() {
-        return id;
+    public Tarjeta(int idTarjeta, String nombrePropietario, String numeroTarjeta, LocalDate fechaDeVencimiento, int idUsuario, boolean eliminado) {
+        this.idTarjeta = idTarjeta;
+        this.nombrePropietario = nombrePropietario;
+        this.numeroTarjeta = numeroTarjeta;
+        this.fechaDeVencimiento = fechaDeVencimiento;
+        this.idUsuario = idUsuario;
+        this.eliminado = eliminado;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public Tarjeta() {
+    }
+
+    public int getIdTarjeta() {
+        return idTarjeta;
+    }
+
+    public void setIdTarjeta(int idTarjeta) {
+        this.idTarjeta = idTarjeta;
     }
 
     public String getNombrePropietario() {
@@ -50,28 +63,31 @@ public class Tarjeta {
         this.fechaDeVencimiento = fechaDeVencimiento;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public int getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
-    public Tarjeta(int id, String nombrePropietario, String numeroTarjeta, LocalDate fechaDeVencimiento, Usuario usuario) {
-        this.id = id;
-        this.nombrePropietario = nombrePropietario;
-        this.numeroTarjeta = numeroTarjeta;
-        this.fechaDeVencimiento = fechaDeVencimiento;
-        this.usuario = usuario;
+    public boolean isEliminado() {
+        return eliminado;
     }
 
-    public Tarjeta() {
+    public void setEliminado(boolean eliminado) {
+        this.eliminado = eliminado;
     }
+
 
     @Override
     public String toString() {
-        return "Tarjeta{" + "id=" + id + ", nombrePropietario=" + nombrePropietario + ", numeroTarjeta=" + numeroTarjeta + ", fechaDeVencimiento=" + fechaDeVencimiento + ", usuario=" + usuario + '}';
+        return "'id_tarjeta'='" + idTarjeta + 
+               "', 'nombrePropietario'='" + nombrePropietario + 
+               "', 'numeroTarjeta'='" + numeroTarjeta + 
+               "', 'fechaDeVencimiento'='" + fechaDeVencimiento + 
+                "', 'eliminado'='" + eliminado + 
+               "', 'id_usuario'='" + idUsuario+"'";
     }
     
 }

@@ -35,6 +35,7 @@ public class AdminLoginServlet extends HttpServlet {
         session.setAttribute("password", null);
         session.setAttribute("id_user", null);
         }
+        
         response.sendRedirect("dashboard.jsp");
     }
 

@@ -9,46 +9,51 @@ package model;
  * @author sortizu
  */
 public class Configuracion {
-    private String nombrePagina;
-    private String descripcionPagina;
-    private String eslogan;
+    private String idConfiguracion;
+    private String parametro;
+    private String valor;
 
-    public Configuracion(String nombrePagina, String descripcionPagina, String eslogan) {
-        this.nombrePagina = nombrePagina;
-        this.descripcionPagina = descripcionPagina;
-        this.eslogan = eslogan;
+    public Configuracion(String id_configuracion, String parametro, String valor) {
+        this.idConfiguracion = id_configuracion;
+        this.parametro = parametro;
+        this.valor = valor;
     }
 
     public Configuracion() {
     }
+
+    public String getIdConfiguracion() {
+        return idConfiguracion;
+    }
+
+    public void setIdConfiguracion(String idConfiguracion) {
+        this.idConfiguracion = idConfiguracion;
+    }
+
+    public String getParametro() {
+        return parametro;
+    }
+
+    public void setParametro(String parametro) {
+        this.parametro = parametro;
+    }
+
+    public String getValor() {
+        return valor;
+    }
+
+    public void setValor(String valor) {
+        this.valor = valor;
+    }
+
     
-    public String getNombrePagina() {
-        return nombrePagina;
-    }
-
-    public void setNombrePagina(String nombrePagina) {
-        this.nombrePagina = nombrePagina;
-    }
-
-    public String getDescripcionPagina() {
-        return descripcionPagina;
-    }
-
-    public void setDescripcionPagina(String descripcionPagina) {
-        this.descripcionPagina = descripcionPagina;
-    }
-
-    public String getEslogan() {
-        return eslogan;
-    }
-
-    public void setEslogan(String eslogan) {
-        this.eslogan = eslogan;
-    }
 
     @Override
     public String toString() {
-        return "Configuracion{" + "nombrePagina=" + nombrePagina + ", descripcionPagina=" + descripcionPagina + ", eslogan=" + eslogan + '}';
+        return "'id_configuracion'='" + idConfiguracion + 
+               "', 'parametro'='" + parametro + 
+               "', 'valor'='" + valor + "'";
     }
+    
     
 }

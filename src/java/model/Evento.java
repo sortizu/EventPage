@@ -13,35 +13,41 @@ import java.util.Locale;
  * @author sortizu
  */
 public class Evento {
-    private int id;
+    private int idEvento;
     private String nombreEvento;
     private double costo;
     private LocalDateTime fecha;
     private int capacidad;
-    private CategoriaEvento categoria;
+    private int idCategoriaEvento;
     private String descripcion;
-    private Invitado invitado;
+    private int idInvitado;
     private boolean destacado;
-    
-    public Evento() {
-    }
-    
-    public Evento(int id, String nombreEvento, double costo, LocalDateTime fecha, int capacidad, CategoriaEvento categoria, String descripcion) {
-        this.id = id;
+    private boolean eliminado;
+    private String imagenUrl;
+
+    public Evento(int idEvento, String nombreEvento, double costo, LocalDateTime fecha, int capacidad, int idCategoriaEvento, String descripcion, int idInvitado, boolean destacado, boolean eliminado, String imagenUrl) {
+        this.idEvento = idEvento;
         this.nombreEvento = nombreEvento;
         this.costo = costo;
         this.fecha = fecha;
         this.capacidad = capacidad;
-        this.categoria = categoria;
+        this.idCategoriaEvento = idCategoriaEvento;
         this.descripcion = descripcion;
-    }
-    
-    public int getId() {
-        return id;
+        this.idInvitado = idInvitado;
+        this.destacado = destacado;
+        this.eliminado = eliminado;
+        this.imagenUrl = imagenUrl;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public Evento() {
+    }
+
+    public int getIdEvento() {
+        return idEvento;
+    }
+
+    public void setIdEvento(int idEvento) {
+        this.idEvento = idEvento;
     }
 
     public String getNombreEvento() {
@@ -76,12 +82,12 @@ public class Evento {
         this.capacidad = capacidad;
     }
 
-    public CategoriaEvento getCategoria() {
-        return categoria;
+    public int getIdCategoriaEvento() {
+        return idCategoriaEvento;
     }
 
-    public void setCategoria(CategoriaEvento categoria) {
-        this.categoria = categoria;
+    public void setIdCategoriaEvento(int idCategoriaEvento) {
+        this.idCategoriaEvento = idCategoriaEvento;
     }
 
     public String getDescripcion() {
@@ -92,12 +98,12 @@ public class Evento {
         this.descripcion = descripcion;
     }
 
-    public Invitado getInvitado() {
-        return invitado;
+    public int getIdInvitado() {
+        return idInvitado;
     }
 
-    public void setInvitado(Invitado invitado) {
-        this.invitado = invitado;
+    public void setIdInvitado(int idInvitado) {
+        this.idInvitado = idInvitado;
     }
 
     public boolean isDestacado() {
@@ -108,18 +114,36 @@ public class Evento {
         this.destacado = destacado;
     }
 
+    public boolean isEliminado() {
+        return eliminado;
+    }
+
+    public void setEliminado(boolean eliminado) {
+        this.eliminado = eliminado;
+    }
+
+    public String getImagenUrl() {
+        return imagenUrl;
+    }
+
+    public void setImagenUrl(String imagenUrl) {
+        this.imagenUrl = imagenUrl;
+    }
+
+    
+
     @Override
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EE dd MMM '-' HH:mm a", new Locale("es", "ES"));
-        return "'id_evento'='" + id 
+        return "'id_evento'='" + idEvento 
            + "', 'nombreEvento'='" + nombreEvento 
            + "', 'costo'='" + costo 
            + "', 'fecha'='" + fecha.format(formatter)
            + "', 'capacidad'='" + capacidad 
-           + "', " + categoria 
-           + ", 'descripcion'='" + descripcion 
-           + "', " + invitado 
-           + ", 'destacado'='" + destacado + "'";
+           + "', 'id_categoria'='" + idCategoriaEvento 
+           + "', 'descripcion'='" + descripcion 
+           + "', 'id_invitado'='" + idInvitado
+           + "', 'destacado'='" + destacado + "'";
     }
     
 

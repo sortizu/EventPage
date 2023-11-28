@@ -11,7 +11,7 @@
     <div class="container-fluid d-flex align-content-center align-items-center flex-column justify-content-center h-100">
         <span class="my-4 d-flex align-content-center align-items-center flex-column justify-content-center">
             <i class="bi bi-universal-access-circle h2"></i>
-            <h2 class="text-justify h2" style="font-weight: 800;"><%=configuracion.getNombrePagina()%> | ADMIN SYSTEM</h2>
+            <h2 class="text-justify h2" style="font-weight: 800;"><%=nombrePagina%> | ADMIN SYSTEM</h2>
           </span>
         <div class="card shadow-lg bg-white border-0 m-3 p-3 gap-0" style="min-width: 300px;width: 300px;">
             <form class="w-100" id="loginForm" method="POST" action="AdminLoginServlet">

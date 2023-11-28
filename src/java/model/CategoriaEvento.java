@@ -9,20 +9,25 @@ package model;
  * @author sortizu
  */
 public class CategoriaEvento {
-    private int id;
+    private int idCategoriaEvento;
     private String nombreCategoria;
+    private boolean eliminado;
 
-    public CategoriaEvento(int id, String nombreCategoria) {
-        this.id = id;
+    public CategoriaEvento(int idCategoriaEvento, String nombreCategoria, boolean eliminado) {
+        this.idCategoriaEvento = idCategoriaEvento;
         this.nombreCategoria = nombreCategoria;
+        this.eliminado = eliminado;
     }
 
-    public int getId() {
-        return id;
+    public CategoriaEvento() {
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getIdCategoriaEvento() {
+        return idCategoriaEvento;
+    }
+
+    public void setIdCategoriaEvento(int idCategoriaEvento) {
+        this.idCategoriaEvento = idCategoriaEvento;
     }
 
     public String getNombreCategoria() {
@@ -33,13 +38,21 @@ public class CategoriaEvento {
         this.nombreCategoria = nombreCategoria;
     }
 
-    public CategoriaEvento() {
+    public boolean isEliminado() {
+        return eliminado;
     }
+
+    public void setEliminado(boolean eliminado) {
+        this.eliminado = eliminado;
+    }
+
+    
 
     @Override
     public String toString() {
-        return "'id_catevento'='" + id 
-         + "', 'nombreCategoria'='" + nombreCategoria + "'";
+        return "'id_categoria_evento'='" + idCategoriaEvento +
+                "'eliminado'='" + eliminado +
+                "', 'nombreCategoria'='" + nombreCategoria + "'";
     }
    
     

@@ -41,7 +41,7 @@ String pageElementPluralName = ""; //Aqui se debe de poner el nombre del element
                     id="page-name"
                     name="page-name"
                     maxlength="45"
-                    value="<%=configuracion.getNombrePagina()%>"
+                    value="<%=nombrePagina%>"
                     required
                   />
                 </div>
@@ -55,7 +55,7 @@ String pageElementPluralName = ""; //Aqui se debe de poner el nombre del element
                     id="page-description"
                     name="page-description"
                     required
-                  ><%=configuracion.getDescripcionPagina()%></textarea>
+                  ><%=descripcionPagina%></textarea>
                 </div>
                 
                 <div class="mb-3">
@@ -68,7 +68,7 @@ String pageElementPluralName = ""; //Aqui se debe de poner el nombre del element
                       id="slogan"
                       name="slogan"
                       maxlength="45"
-                      value="<%=configuracion.getEslogan()%>"
+                      value="<%=eslogan%>"
                       required
                     />
                   </div>

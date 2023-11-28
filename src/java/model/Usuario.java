@@ -4,27 +4,46 @@
  */
 package model;
 
+import java.time.LocalDate;
+
 /**
  *
  * @author sortizu
  */
 public class Usuario{
-    private int id;
+    private int idUsuario;
     private String nombres;
     private String apellidos;
     private String email;
     private String password;
     private long dni;
     private boolean admin;
+    private boolean eliminado;
+    private LocalDate fechaCreacion;
 
-    public int getId() {
-        return id;
+    public Usuario(int idUsuario, String nombres, String apellidos, String email, String password, long dni, boolean admin, boolean eliminado, LocalDate fechaCreacion) {
+        this.idUsuario = idUsuario;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.email = email;
+        this.password = password;
+        this.dni = dni;
+        this.admin = admin;
+        this.eliminado = eliminado;
+        this.fechaCreacion = fechaCreacion;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public Usuario() {
     }
-    
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
     public String getNombres() {
         return nombres;
     }
@@ -41,8 +60,6 @@ public class Usuario{
         this.apellidos = apellidos;
     }
 
-    
-    
     public String getEmail() {
         return email;
     }
@@ -75,10 +92,39 @@ public class Usuario{
         this.admin = admin;
     }
 
+    public boolean isEliminado() {
+        return eliminado;
+    }
+
+    public void setEliminado(boolean eliminado) {
+        this.eliminado = eliminado;
+    }
+
+    public LocalDate getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(LocalDate fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    
+
+    
+
     @Override
     public String toString() {
-        return "Usuario{" + "id=" + id + ", nombres=" + nombres + ", apellidos=" + apellidos + ", email=" + email + ", password=" + password + ", dni=" + dni + ", admin=" + admin + '}';
+        return "'id_usuario'='" + idUsuario + 
+               "', 'nombres'='" + nombres + 
+               "', 'apellidos'='" + apellidos + 
+               "', 'email'='" + email + 
+               "', 'password'='" + password + 
+               "', 'dni'='" + dni + 
+               "', 'admin'='" + admin +
+                "', 'eliminado'='" + eliminado +
+               "', 'fecha_creacion'='" + fechaCreacion  + "'";
     }
+
     
     
 }

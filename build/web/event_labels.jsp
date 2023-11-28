@@ -38,9 +38,9 @@ String pageElementPluralName = "categorias"; //Aqui se debe de poner el nombre d
             ArrayList<CategoriaEvento> categoriaEventos = (ArrayList<CategoriaEvento>)dao.listAll();
             for(CategoriaEvento categoriaEvento : categoriaEventos){
           %>
-            <tr data-id='<%=categoriaEvento.getId()%>'>
-              <td value='<%=categoriaEvento.getId()%>'><%=categoriaEvento.getId()%></td>
-              <td value='<%=categoriaEvento.getNombreCategoria()%>'><%=categoriaEvento.getNombreCategoria()%></td>
+            <tr data-id='<%=categoriaEvento.getIdCategoriaEvento()%>'>
+              <td value='<%=categoriaEvento.getIdCategoriaEvento()%>' name="id-row"><%=categoriaEvento.getIdCategoriaEvento()%></td>
+              <td value='<%=categoriaEvento.getNombreCategoria()%>' name="event-label-name"><%=categoriaEvento.getNombreCategoria()%></td>
             </tr>
           <%}%>
         </tbody>
@@ -53,7 +53,7 @@ String pageElementPluralName = "categorias"; //Aqui se debe de poner el nombre d
       <form id="mainForm" method="POST" action='<%=apiLink%>'>
         <input type="text" value="" class="modal-form-input" id="id-row" name="id-row" hidden>
         <div class="mb-3">
-          <label for="event-name" class="col-form-label"
+          <label for="event-label-name" class="col-form-label"
             >Nombre de categoría:</label
           >
           <input

@@ -37,22 +37,7 @@ public class ConfiguracionDAO implements CRUD{
 
     @Override
     public boolean edit(Object o) {
-        Configuracion configuracion = (Configuracion)o;
-        try {
-            Statement stmt = Conexion.getConnection().createStatement();
-            stmt.executeUpdate(
-            String.format("UPDATE event_page.configuracion SET valor='%s' WHERE parametro='nombre_pagina'",configuracion.getNombrePagina())
-            );
-            stmt.executeUpdate(
-            String.format("UPDATE event_page.configuracion SET valor='%s' WHERE parametro='descripcion_pagina'",configuracion.getDescripcionPagina())
-            );
-            stmt.executeUpdate(
-            String.format("UPDATE event_page.configuracion SET valor='%s' WHERE parametro='eslogan'",configuracion.getEslogan())
-            );
-        } catch (SQLException ex) {
-            Logger.getLogger(EventoDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return true;
+        return false;
     }
 
     @Override
@@ -60,24 +45,31 @@ public class ConfiguracionDAO implements CRUD{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
-    public Configuracion cargarConfiguracion(){
-        Configuracion configuracion = new Configuracion();
-        String consultaSQL = "SELECT valor FROM event_page.configuracion";
-        
+    public String cargarValorDeParametro(String nombreParametro){
+        String consultaSQL = "SELECT valor FROM event_page.configuracion WHERE parametro='"+nombreParametro+"'";
         try {
             Statement stmt = Conexion.getConnection().createStatement();
             ResultSet rs = stmt.executeQuery(consultaSQL);
             rs.next();
-            configuracion.setNombrePagina(rs.getString(1));
-            rs.next();
-            configuracion.setDescripcionPagina(rs.getString(1));
-            rs.next();
-            configuracion.setEslogan(rs.getString(1));
-            return configuracion;
+            String valor = rs.getString(1);
+            return valor;
         } catch (SQLException ex) {
             Logger.getLogger(EventoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
             
         return null;
+    }
+    
+    public boolean editarValorDeParametro(String nombreParametro, String nuevoValor){
+        try {
+            Statement stmt = Conexion.getConnection().createStatement();
+            stmt.executeUpdate(
+            String.format("UPDATE event_page.configuracion SET valor='%s' WHERE parametro='%s'",nuevoValor,nombreParametro)
+            );
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(EventoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 }

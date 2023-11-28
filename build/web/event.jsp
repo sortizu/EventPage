@@ -44,23 +44,39 @@ String pageElementPluralName = "eventos"; //Aqui se debe de poner el nombre del 
         </thead>
         <tbody>
           <%
-            EventoDAO dao = new EventoDAO();
-            ArrayList<Evento> eventos = (ArrayList<Evento>)dao.listAll();
+            EventoDAO eventoDao = new EventoDAO();
+            CategoriaEventoDAO categoriaDeEventoDao = new CategoriaEventoDAO();
+            InvitadoDAO invitadoDeEventoDao = new InvitadoDAO();
+            ArrayList<Evento> eventos = (ArrayList<Evento>)eventoDao.listAll();
             for(Evento evento : eventos){
+            Invitado invitadoDeEvento=(Invitado)invitadoDeEventoDao.list(evento.getIdInvitado());
+            CategoriaEvento categoriaDeEvento=(CategoriaEvento)categoriaDeEventoDao.list(evento.getIdCategoriaEvento());
           %>
-            <tr data-id='<%=evento.getId()%>'>
-              <td value='<%=evento.getId()%>' name="id-row"><%=evento.getId()%></td>
+            <tr data-id='<%=evento.getIdEvento()%>'>
+              <td value='<%=evento.getIdEvento()%>' name="id-row"><%=evento.getIdEvento()%></td>
               <td>
-                <img src="${pageContext.request.contextPath}/img/events_images/<%=evento.getId()%>.jpg" 
+                <img src='<%=evento.getImagenUrl()%>'
                 alt="Foto de evento" 
                 style="width: 150px;"
                 onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/img/placeholders/no_image.jpg'">
               </td>
               <td value='<%=evento.getNombreEvento()%>' name="event-name"><%=evento.getNombreEvento()%></td>
               <td value='<%=evento.getDescripcion()%>' name="event-description" hidden><%=evento.getDescripcion()%></td>
-              <td value='<%=evento.getInvitado().getId()%>' name="event-guest"><%=evento.getInvitado().getNombres()+" "+evento.getInvitado().getApellidos()%></td>
+              <td value='<%=invitadoDeEvento!=null?evento.getIdInvitado():0%>' name="event-guest">
+                <%if(invitadoDeEvento==null){%>
+                <i class="bi bi-exclamation-triangle-fill" style="color:goldenrod;"></i>
+                <%}else{%>
+                <%=invitadoDeEvento.getNombres()+" "+invitadoDeEvento.getApellidos()%>
+                <%}%>
+              </td>
               <td value='<%=evento.getFecha()%>' name="event-date"><%=evento.getFecha()%></td>
-              <td value='<%=evento.getCategoria().getId()%>' name="event-label"><%=evento.getCategoria().getNombreCategoria()%></td>
+              <td value='<%=categoriaDeEvento!=null?evento.getIdCategoriaEvento():0%>' name="event-label">
+                <%if(categoriaDeEvento==null){%>
+                <i class="bi bi-exclamation-triangle-fill" style="color:goldenrod;"></i>
+                <%}else{%>
+                <%=categoriaDeEvento.getNombreCategoria()%>
+                <%}%>
+              </td>
               <td value='<%=evento.getCapacidad()%>' name="event-capacity"><%=evento.getCapacidad()%></td>
               <td value='<%=evento.getCosto()%>' name="event-price"><%=evento.getCosto()%></td>
               <td value='<%=evento.isDestacado()?"1":"0"%>' name="featured" hidden><%=evento.isDestacado()%></td>
@@ -115,11 +131,11 @@ String pageElementPluralName = "eventos"; //Aqui se debe de poner el nombre del 
               Selecciona un invitado
             </option>
             <%
-          InvitadoDAO invitadoDao = new InvitadoDAO();
-            ArrayList<Invitado> invitados = (ArrayList<Invitado>)invitadoDao.listAll();
-            for(Invitado invitado : invitados){
+          InvitadoDAO listaDeInvitadosDao = new InvitadoDAO();
+            ArrayList<Invitado> listaDeInvitados = (ArrayList<Invitado>)listaDeInvitadosDao.listAll();
+            for(Invitado invitado : listaDeInvitados){
           %>
-            <option value='<%=invitado.getId()%>'><%=invitado.getNombres()+" "+invitado.getApellidos()%></option>
+            <option value='<%=invitado.getIdInvitado()%>'><%=invitado.getNombres()+" "+invitado.getApellidos()%></option>
           <%}%>
           </select>
         </div>
@@ -151,11 +167,11 @@ String pageElementPluralName = "eventos"; //Aqui se debe de poner el nombre del 
               Selecciona una categorí­a de evento
             </option>
             <%
-          CategoriaEventoDAO categoriaDao = new CategoriaEventoDAO();
-            ArrayList<CategoriaEvento> categoriaEventos = (ArrayList<CategoriaEvento>)categoriaDao.listAll();
-            for(CategoriaEvento categoriaEvento : categoriaEventos){
+          CategoriaEventoDAO listaDeCategoriasDao = new CategoriaEventoDAO();
+            ArrayList<CategoriaEvento> listaDeCategorias = (ArrayList<CategoriaEvento>)listaDeCategoriasDao.listAll();
+            for(CategoriaEvento categoriaEvento : listaDeCategorias){
           %>
-            <option value='<%=categoriaEvento.getId()%>'><%=categoriaEvento.getNombreCategoria()%></option>
+            <option value='<%=categoriaEvento.getIdCategoriaEvento()%>'><%=categoriaEvento.getNombreCategoria()%></option>
           <%}%>
           </select>
         </div>

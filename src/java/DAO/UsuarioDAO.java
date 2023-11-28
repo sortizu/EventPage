@@ -33,11 +33,11 @@ public class UsuarioDAO implements CRUD {
 
             while (rs.next()) {
                 Usuario newUsuario = new Usuario();
-                newUsuario.setId(rs.getInt("id_usuario"));
+                newUsuario.setIdUsuario(rs.getInt("id_usuario"));
                 newUsuario.setNombres(rs.getString("nombres"));
                 newUsuario.setApellidos(rs.getString("apellidos"));
-                newUsuario.setEmail(rs.getString("correo"));
-                newUsuario.setPassword(rs.getString("contraseña"));
+                newUsuario.setEmail(rs.getString("email"));
+                newUsuario.setPassword(rs.getString("password"));
                 newUsuario.setDni(rs.getInt("dni"));
                 newUsuario.setAdmin(rs.getBoolean("admin"));
                 usuarios.add(newUsuario);
@@ -56,11 +56,11 @@ public class UsuarioDAO implements CRUD {
             ResultSet rs = stmt.executeQuery("SELECT * FROM event_page.usuario WHERE eliminado=0 AND id_usuario=" + id);
             rs.next();
             Usuario nuevoUsuario = new Usuario();
-            nuevoUsuario.setId(rs.getInt("id_usuario"));
+            nuevoUsuario.setIdUsuario(rs.getInt("id_usuario"));
             nuevoUsuario.setNombres(rs.getString("nombres"));
             nuevoUsuario.setApellidos(rs.getString("apellidos"));
-            nuevoUsuario.setEmail(rs.getString("correo"));
-            nuevoUsuario.setPassword(rs.getString("contraseña"));
+            nuevoUsuario.setEmail(rs.getString("email"));
+            nuevoUsuario.setPassword(rs.getString("password"));
             nuevoUsuario.setDni(rs.getInt("dni"));
             nuevoUsuario.setAdmin(rs.getBoolean("admin"));
         } catch (SQLException ex) {
@@ -76,7 +76,7 @@ public class UsuarioDAO implements CRUD {
         Usuario nuevoUsuario = (Usuario) o;
         try {
             Statement stmt = Conexion.getConnection().createStatement();
-            stmt.executeUpdate("INSERT INTO event_page.usuario(nombres, apellidos, dni, correo, contraseña, admin,eliminado) VALUES "
+            stmt.executeUpdate("INSERT INTO event_page.usuario(nombres, apellidos, dni, email, password, admin,eliminado) VALUES "
                     + "('" + nuevoUsuario.getNombres() + "', '"
                     + nuevoUsuario.getApellidos() + "', '"
                     + nuevoUsuario.getDni() + "', '"
@@ -95,14 +95,14 @@ public class UsuarioDAO implements CRUD {
         Usuario usuarioEditar = (Usuario) o;
         try {
             String query = String.format(
-                    "UPDATE event_page.usuario SET nombres='%s',apellidos='%s',dni=%d,correo='%s',contraseña='%s',admin=%d WHERE id_usuario=%d",
+                    "UPDATE event_page.usuario SET nombres='%s',apellidos='%s',dni=%d,email='%s',password='%s',admin=%d WHERE id_usuario=%d",
                     usuarioEditar.getNombres(),
                     usuarioEditar.getApellidos(),
                     usuarioEditar.getDni(),
                     usuarioEditar.getEmail(),
                     usuarioEditar.getPassword(),
                     usuarioEditar.isAdmin() ? 1 : 0,
-                    usuarioEditar.getId());
+                    usuarioEditar.getIdUsuario());
 
             Statement stmt = Conexion.getConnection().createStatement();
             stmt.executeUpdate(query);
@@ -130,7 +130,7 @@ public class UsuarioDAO implements CRUD {
         try {
             Statement stmt = Conexion.getConnection().createStatement();
             ResultSet rs = stmt.executeQuery(
-                    String.format("SELECT * FROM event_page.usuario WHERE correo='%s' AND contraseña='%s' AND eliminado=0", correo, pass)
+                    String.format("SELECT * FROM event_page.usuario WHERE email='%s' AND password='%s' AND eliminado=0", correo, pass)
             );
             int id = -1;
             while (rs.next()) {
@@ -147,7 +147,7 @@ public class UsuarioDAO implements CRUD {
         try {
             Statement stmt = Conexion.getConnection().createStatement();
             ResultSet rs = stmt.executeQuery(
-                    String.format("SELECT * FROM event_page.usuario WHERE correo='%s' AND contraseña='%s' AND eliminado=0 AND admin=%d", correo, pass, 1)
+                    String.format("SELECT * FROM event_page.usuario WHERE email='%s' AND password='%s' AND eliminado=0 AND admin=%d", correo, pass, 1)
             );
             int id = -1;
             while (rs.next()) {

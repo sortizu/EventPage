@@ -34,7 +34,7 @@ public class CategoriaEventoDAO implements CRUD {
             ResultSet rs = stmt.executeQuery("SELECT * FROM event_page.categoria_evento WHERE eliminado=0");
             while(rs.next()){
                 CategoriaEvento newCategoria = new CategoriaEvento();
-                newCategoria.setId(rs.getInt("id_catevento"));
+                newCategoria.setIdCategoriaEvento(rs.getInt("id_categoria_evento"));
                 newCategoria.setNombreCategoria(rs.getString("nombre_catevento"));
                 categorias.add(newCategoria);
                 
@@ -54,13 +54,13 @@ public class CategoriaEventoDAO implements CRUD {
             Statement stmt = Conexion.getConnection().createStatement();
             ResultSet rs = stmt.executeQuery(
             String.format(
-                    "SELECT * FROM event_page.categoria_evento WHERE id_catevento = %d AND eliminado=0"
+                    "SELECT * FROM event_page.categoria_evento WHERE id_categoria_evento = %d AND eliminado=0"
                     ,id)
             );
             rs.next();
             
             CategoriaEvento newCategoria = new CategoriaEvento();
-            newCategoria.setId(rs.getInt("id_catevento"));
+            newCategoria.setIdCategoriaEvento(rs.getInt("id_categoria_evento"));
             newCategoria.setNombreCategoria(rs.getString("nombre_catevento"));
             
             return newCategoria;
@@ -92,9 +92,9 @@ public class CategoriaEventoDAO implements CRUD {
         CategoriaEvento categoriaEventoEditar = (CategoriaEvento)o;
         try {
             String query=String.format(
-              "UPDATE event_page.categoria_evento SET nombre_catevento='%s' WHERE id_catevento=%d",
+              "UPDATE event_page.categoria_evento SET nombre_catevento='%s' WHERE id_categoria_evento=%d",
             categoriaEventoEditar.getNombreCategoria(),
-            categoriaEventoEditar.getId());
+            categoriaEventoEditar.getIdCategoriaEvento());
             
             Statement stmt = Conexion.getConnection().createStatement();
             stmt.executeUpdate(query);
@@ -108,7 +108,7 @@ public class CategoriaEventoDAO implements CRUD {
     public boolean delete(int id) {
         try {
             String query=String.format(
-              "UPDATE event_page.categoria_evento SET eliminado=1 WHERE id_catevento=%d",id);
+              "UPDATE event_page.categoria_evento SET eliminado=1 WHERE id_categoria_evento=%d",id);
             
             Statement stmt = Conexion.getConnection().createStatement();
             stmt.executeUpdate(query);
@@ -121,13 +121,13 @@ public class CategoriaEventoDAO implements CRUD {
     public boolean delete(int id, boolean deleteDependentEvents) {
         try {
             String query=String.format(
-              "UPDATE event_page.categoria_evento SET eliminado=1 WHERE id_catevento=%d",id);
+              "UPDATE event_page.categoria_evento SET eliminado=1 WHERE id_categoria_evento=%d",id);
             
             Statement stmt = Conexion.getConnection().createStatement();
             stmt.executeUpdate(query);
             if (deleteDependentEvents) {
                 query=String.format(
-              "UPDATE event_page.evento SET eliminado=1 WHERE id_categoria=%d",id);
+              "UPDATE event_page.evento SET eliminado=1 WHERE id_categoria_evento=%d",id);
             stmt.executeUpdate(query);
             }
         } catch (SQLException ex) {
@@ -139,7 +139,7 @@ public class CategoriaEventoDAO implements CRUD {
     public List getDependentEventsId(int categoryID){
         try {
             String query=String.format(
-              "SELECT * FROM event_page.evento WHERE eliminado=0 AND id_categoria=%d",categoryID);
+              "SELECT * FROM event_page.evento WHERE eliminado=0 AND id_categoria_evento=%d",categoryID);
             
             Statement stmt = Conexion.getConnection().createStatement();
             ResultSet rs = stmt.executeQuery(query);
