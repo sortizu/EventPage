@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -37,19 +38,62 @@ public class CompraDAO implements CRUD {
 
     @Override
     public boolean add(Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            Compra nuevaCompra = (Compra) o;
+            Statement stmt = Conexion.getConnection().createStatement();
+            stmt.executeUpdate(
+                    String.format(
+                            "INSERT INTO event_page.compra(id_usuario,id_tarjeta,fecha_compra,pendiente) VALUES (%d,%d,'%s',%d)",
+                            nuevaCompra.getIdUsuario(),
+                            nuevaCompra.getIdTarjeta(),
+                            nuevaCompra.getFechaDeCompra(),
+                            (nuevaCompra.isPendiente() ? 1 : 0)
+                    )
+            );
+            return true;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
     }
 
     @Override
     public boolean edit(Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Compra compra = (Compra)o;
+        try {
+            String query = String.format(
+                    "UPDATE event_page.compra SET "+
+                    "id_tarjeta=%d,"+
+                    "fecha_compra='%s',"+
+                    "pendiente=%d,"+
+                    "id_usuario=%d"+
+                    " WHERE id_compra=%d",
+                    compra.getIdTarjeta(),
+                    compra.getFechaDeCompra(),
+                    compra.isPendiente()?1:0,
+                    compra.getIdUsuario(),
+                    compra.getIdCompra());
+            Statement stmt = Conexion.getConnection().createStatement();
+            stmt.executeUpdate(query);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
     }
 
     @Override
     public boolean delete(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            Statement stmt = Conexion.getConnection().createStatement();
+            stmt.executeUpdate("DROP FROM compra WHERE id_compra= " + id);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
     }
-    
+
     public double obtenerIngresosPorFecha() {
         double ingresos = 0;
         try {
@@ -59,6 +103,7 @@ public class CompraDAO implements CRUD {
         }
         return ingresos;
     }
+
     /*
     public List<Compra> obtenerComprasPorFecha(LocalDateTime fecha){
         try {
@@ -81,4 +126,45 @@ public class CompraDAO implements CRUD {
         }
         return null;
     }*/
+
+    //Agrega un registro de compra sin fecha ni tarjeta que funciona como un carrito compras
+    public boolean agregarCompraPendiente(int idUsuario) {
+        try {
+            Statement stmt = Conexion.getConnection().createStatement();
+            stmt.executeUpdate(
+                    String.format("INSERT INTO event_page.compra(id_usuario,pendiente) VALUES ('%d',1)", idUsuario));
+            return true;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+
+    public int obtenerIdCompraPendiente(int idUsuario) {
+        int id = -1;
+        try {
+            String query = String.format("SELECT id_compra FROM compra WHERE id_usuario= %d AND pendiente = 1", idUsuario);
+            Statement stmt = Conexion.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            rs.next();
+            id = rs.getInt("id_compra");
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return id;
+    }
+
+    public int obtenerIdUltimaCompra(int idUsuario) {
+        int id = -1;
+        try {
+            String query = String.format("SELECT id_compra FROM compra WHERE id_usuario= %d ORDER BY id_compra DESC", idUsuario);
+            Statement stmt = Conexion.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            rs.next();
+            id = rs.getInt("id_compra");
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return id;
+    }
 }

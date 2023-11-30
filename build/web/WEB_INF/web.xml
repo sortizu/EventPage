@@ -44,6 +44,22 @@
         <servlet-name>TarjetaServlet</servlet-name>
         <servlet-class>controller.TarjetaServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AgregarACarritoServlet</servlet-name>
+        <servlet-class>controller.AgregarACarritoServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CompraEventoServlet</servlet-name>
+        <servlet-class>controller.CompraEventoServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CompraCarritoServlet</servlet-name>
+        <servlet-class>controller.CompraCarritoServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TestServlet</servlet-name>
+        <servlet-class>controller.TestServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>EventoServlet</servlet-name>
         <url-pattern>/EventoServlet</url-pattern>
@@ -87,6 +103,22 @@
     <servlet-mapping>
         <servlet-name>TarjetaServlet</servlet-name>
         <url-pattern>/TarjetaServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AgregarACarritoServlet</servlet-name>
+        <url-pattern>/AgregarACarritoServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CompraEventoServlet</servlet-name>
+        <url-pattern>/CompraEventoServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CompraCarritoServlet</servlet-name>
+        <url-pattern>/CompraCarritoServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TestServlet</servlet-name>
+        <url-pattern>/TestServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

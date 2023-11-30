@@ -135,15 +135,16 @@ public class Evento {
     @Override
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EE dd MMM '-' HH:mm a", new Locale("es", "ES"));
-        return "'id_evento'='" + idEvento 
-           + "', 'nombreEvento'='" + nombreEvento 
-           + "', 'costo'='" + costo 
-           + "', 'fecha'='" + fecha.format(formatter)
-           + "', 'capacidad'='" + capacidad 
-           + "', 'id_categoria'='" + idCategoriaEvento 
-           + "', 'descripcion'='" + descripcion 
-           + "', 'id_invitado'='" + idInvitado
-           + "', 'destacado'='" + destacado + "'";
+        return "{\"id_evento\":\"" + idEvento 
+           + "\", \"nombre_evento\":\"" + nombreEvento 
+           + "\", \"costo\":\"" + costo 
+           + "\", \"fecha\":\"" + fecha.format(formatter)
+           + "\", \"capacidad\":\"" + capacidad 
+           + "\", \"id_categoria_evento\":\"" + idCategoriaEvento 
+           + "\", \"descripcion\":\"" + descripcion 
+           + "\", \"id_invitado\":\"" + idInvitado
+           + "\", \"imagen_url\":\"" + imagenUrl
+           + "\", \"destacado\":\"" + destacado + "\"}";
     }
     
 

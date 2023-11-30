@@ -2,7 +2,10 @@
 <%-- Document : main_header Created on : 13 Oct 2023, 01:09:14 Author : sortizu
 --%> <%@ page contentType="text/html; charset=UTF-8" %>
 <%@page import="model.Tarjeta" %>
+<%@page import="model.Evento" %>
 <%@page import="DAO.TarjetaDAO" %>
+<%@page import="DAO.EventoDAO" %>
+<%@page import="DAO.CompraDAO" %>
 <%@page import="DAO.UsuarioDAO" %>
 <%@page import="debug.Console" %>
 <%@page import="java.util.ArrayList" %>
@@ -477,7 +480,23 @@ if(id>=0){
                       <th>COSTO</th>
                     </tr>
                   </thead>
-                  <tbody></tbody>
+                  <tbody>
+                    <%
+                      EventoDAO eventoDAOCarrito = new EventoDAO();
+                      CompraDAO compraDAOCarrito = new CompraDAO();
+                      int idCompra = compraDAOCarrito.obtenerIdCompraPendiente(id);
+                      double costoTotal = 0;
+                      ArrayList<Evento> eventos = eventoDAOCarrito.cargarEventosDeCompra(idCompra);
+                      for(Evento evento : eventos){
+                        costoTotal+=evento.getCosto();
+                    %>
+                    <tr>
+                      <td><%=evento.getNombreEvento()%></td>
+                      <td><%=evento.getFecha()%></td>
+                      <td><%=evento.getCosto()%></td>
+                    </tr>
+                    <%}%>
+                  </tbody>
                 </table>
                 <div>
                   <div class="row mb-3">
@@ -498,11 +517,16 @@ if(id>=0){
                       <button
                         type="button"
                         class="btn btn-outline-danger"
-                        data-bs-toggle="modal"
-                        data-bs-target="#ticketDetailModal"
-                        data-bs-whatever="@getbootstrap"
+                        id="shoppingCartBuyButton"
+                        <%if(eventos.size()==0){%>
+                        disabled
+                        <%}%>
                       >
-                        COMPRAR TOTAL POR: $60.00
+                        <%if(eventos.size()>0){%>
+                        COMPRAR TOTAL POR: $<%=costoTotal%>
+                        <%}else{%>
+                        NO TIENES EVENTOS EN EL CARRITO
+                        <%}%>
                       </button>
                     </div>
                   </div>
@@ -603,8 +627,11 @@ if(id>=0){
             src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg"
             alt="qr code"
           />
-          <p id="ticketDetailDate">Fecha: Jue 10 Ago - 7:00</p>
-          <p id="ticketDetailCost">Costo: $20.00</p>
+          <p>OFRECE ACCESO A LOS SIGUIENTES EVENTOS:</p>
+          <div class="row mx-2" id="ticketEventList">
+          </div>
+          <h5 id="ticketDetailDate">Fecha: Jue 10 Ago - 7:00</h5>
+          <h5 id="ticketDetailCost">Costo: $20.00</h5>
         </center>
       </div>
       <div class="modal-footer">
@@ -673,7 +700,7 @@ if(id>=0){
             </p>
           </div>
           <div class="col-12 col-lg-3">
-            <button type="button" class="btn btn-secondary w-100 mb-3" data-bs-dismiss="modal">
+            <button type="button" id="addToCart" class="btn btn-secondary w-100 mb-3" data-bs-dismiss="modal">
               AGREGAR AL CARRITO
             </button>
           </div>
@@ -681,7 +708,7 @@ if(id>=0){
             <button
                         type="button"
                         class="btn btn-outline-danger w-100"
-                        id="buyTicketButton"
+                        id="buyEventButton"
                       >
                         COMPRAR Y GENERAR TICKET
                       </button>
@@ -752,10 +779,10 @@ if(id>=0){
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Descargar
+          Cancelar
         </button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Aceptar
+        <button type="button" class="btn btn-secondary" id="continueButton">
+          Guardar
         </button>
       </div>
     </div>
@@ -838,3 +865,97 @@ if(id>=0){
 </div>
 <%@include file="credit_card_script.jsp" %>
 <!--End of Header-->
+
+
+<!--Scripts-->
+<script>
+  $(document).ready(function () {
+  var selectedEventId = -1;   
+    //Function to show the modal to select the credit card before buying the ticket
+        $("#buyEventButton, #shoppingCartBuyButton").click(function(){
+            
+            $("#eventDetailModal").modal("hide");
+            $("#shoppingModal").modal("hide");
+            $("#creditCardSelectionModal").modal("show");
+        });
+        $("#addToCart").click(function(){
+            $("#addToCart").attr("disabled", true);
+            $.ajax({
+                url: "AgregarACarritoServlet",
+                type: "POST",
+                data: {"id":$("#eventDetailModal").attr("data-id")},
+                success: function (response) {
+                    $("#addToCart").attr("disabled", false);
+                    
+                },
+                error: function (error) {
+                    //$("#addToCart").attr("disabled", false);
+                    //window.alert(error.responseText);
+                }
+            });
+        });
+        $("#buyEventButton").click(function(){
+            $("#buyEventButton").attr("disabled", true);
+            selectedEventId=$("#eventDetailModal").attr("data-id");
+        });
+        $("#continueButton").click(function(){
+          if(selectedEventId>0){
+            $.ajax({
+                url: "CompraEventoServlet",
+                type: "POST",
+                data: {"id":selectedEventId,"id_tarjeta":$("#event-label").val(),"ccv":$("#ccv").val()},
+                success: function (response) {
+                  $("#creditCardSelectionModal").modal("hide");
+                  updateTicketDetailModal(response);
+                  selectedEventId=-1;
+                },
+                error: function (response) {
+                  
+                }
+            });
+          } else{
+            $.ajax({
+                url: "CompraCarritoServlet",
+                type: "POST",
+                data: {"id_tarjeta":$("#event-label").val()},
+                success: function (response) {
+                  $("#creditCardSelectionModal").modal("hide");
+                  updateTicketDetailModal(response);
+                },
+                error: function (response) {
+                  
+                }
+            });
+          }
+            
+        });
+        function updateTicketDetailModal(jsonData){
+          $("#ticketEventList").html("");
+          $("#ticketDetailID").text(
+            "CÓDIGO DE TICKET: "+
+            jsonData["compra"]["fecha_compra"].split("T")[0].replaceAll("-","")+
+            "-"+
+            jsonData["compra"]["id_compra"]+
+            "-"+
+            jsonData["compra"]["id_usuario"]);
+          $("#ticketDetailDate").text(
+            "Fecha de compra: "+
+            jsonData["compra"]["fecha_compra"].split("T")[0]
+            );
+          var costoTotal = 0;
+          for(var id in jsonData["eventos"]){
+          var evento = jsonData["eventos"][id];
+          var previousHTML = $("#ticketEventList").html();
+          costoTotal+=parseFloat(evento["costo"]);
+          $("#ticketEventList").html(
+            previousHTML+
+            "<p class='col-8'>"+evento["nombre_evento"]+"</p>"+
+            "<p class='col-4'>"+evento["costo"]+"</p>"
+          );
+          }
+          
+          $("#ticketDetailCost").text("Costo total: $"+costoTotal);
+          $("#ticketDetailModal").modal("show");
+        }
+    });
+</script>

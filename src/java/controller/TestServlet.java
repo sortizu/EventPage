@@ -4,28 +4,30 @@
  */
 package controller;
 
-import DAO.EventoDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Evento;
+
 /**
  *
  * @author sortizu
  */
-public class DetalleEventoServlet extends HttpServlet {
+public class TestServlet extends HttpServlet {
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("application/json");
+         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
-        Evento eventoCargado = (Evento)new EventoDAO().list(Integer.parseInt(request.getParameter("id")));
         PrintWriter out = response.getWriter();
-        String jsonFormattedResponse = eventoCargado.toString();
-        out.println(jsonFormattedResponse);
+        String jsonFormattedResponse = String.format(
+                "{\"compra\":%s,\"eventos\":[%s]}", 
+                "{\"id_compra\":\"1\"}",
+                "{\"id_evento\":\"1\"}");
+        out.print(jsonFormattedResponse);
         out.flush();
     }
 

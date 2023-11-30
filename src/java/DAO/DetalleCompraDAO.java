@@ -19,7 +19,7 @@ import model.DetalleCompra;
  *
  * @author sortizu
  */
-public class DetalleCompraDAO implements CRUD{
+public class DetalleCompraDAO implements CRUD {
 
     @Override
     public List listAll() {
@@ -30,10 +30,11 @@ public class DetalleCompraDAO implements CRUD{
     public Object list(int id) {
         try {
             Statement stmt = Conexion.getConnection().createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM event_page.ticket WHERE id_ticket=" + id);
+            ResultSet rs = stmt.executeQuery("SELECT * FROM event_page.detalle_compra WHERE id_detalle_compra=" + id);
             rs.next();
             DetalleCompra nuevoDetalleCompra = new DetalleCompra();
-            nuevoDetalleCompra.setIdCompra(rs.getInt("id_ticket"));
+            nuevoDetalleCompra.setIdDetalleCompra(rs.getInt("id_detalle_compra"));
+            nuevoDetalleCompra.setIdCompra(rs.getInt("id_compra"));
             nuevoDetalleCompra.setIdEvento(rs.getInt("id_evento"));
             return nuevoDetalleCompra;
         } catch (SQLException ex) {
@@ -45,7 +46,18 @@ public class DetalleCompraDAO implements CRUD{
 
     @Override
     public boolean add(Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            DetalleCompra detalleCompra = (DetalleCompra)o;
+            Statement stmt = Conexion.getConnection().createStatement();
+            stmt.executeUpdate(
+          String.format("INSERT INTO event_page.detalle_compra(id_compra,id_evento) VALUES (%d,%d)",
+                  detalleCompra.getIdCompra(),
+                  detalleCompra.getIdEvento()));
+            return true;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
     }
 
     @Override
@@ -57,5 +69,4 @@ public class DetalleCompraDAO implements CRUD{
     public boolean delete(int id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
 }

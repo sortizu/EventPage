@@ -137,7 +137,7 @@
           
           <div class="col-12 col-sm-6 col-lg-3 mb-3 d-flex justify-content-center" >
             <div class="card event-card h-100" style="overflow: hidden;">
-              <img src="${pageContext.request.contextPath}/img/events_images/<%=evento.getIdEvento()%>.jpg" 
+              <img src="<%=evento.getImagenUrl()%>" 
                 alt="Foto de evento" 
                 style="max-height: 200px;min-height: 200px;"
                 onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/img/placeholders/no_image.jpg'">
@@ -176,7 +176,6 @@
       <!--Navigation bar-->
       <%@include file="navigation_bar.jsp" %>
       <%@include file="event_details_script.jsp" %>
-      <%@include file="buy_ticket_script.jsp" %>
     </div>
   </body>
 </html>

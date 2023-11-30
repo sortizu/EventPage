@@ -5,6 +5,8 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 /**
  *
@@ -13,12 +15,14 @@ import java.time.LocalDateTime;
 public class Compra {
     private int idCompra;
     private int idTarjeta;
+    private int idUsuario;
     private LocalDateTime fechaDeCompra;
     private boolean pendiente;
 
-    public Compra(int idCompra, int idTarjeta, LocalDateTime fechaDeCompra, boolean pendiente) {
+    public Compra(int idCompra, int idTarjeta, int idUsuario, LocalDateTime fechaDeCompra, boolean pendiente) {
         this.idCompra = idCompra;
         this.idTarjeta = idTarjeta;
+        this.idUsuario = idUsuario;
         this.fechaDeCompra = fechaDeCompra;
         this.pendiente = pendiente;
     }
@@ -42,6 +46,14 @@ public class Compra {
         this.idTarjeta = idTarjeta;
     }
 
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
     public LocalDateTime getFechaDeCompra() {
         return fechaDeCompra;
     }
@@ -60,9 +72,11 @@ public class Compra {
 
     @Override
     public String toString() {
-        return "'id_compra'='" + idCompra+
-               "', 'id_tarjeta'='" + idTarjeta + 
-               "', 'fecha_compra'='" + fechaDeCompra + "'";
+        return "{\"id_compra\":\"" + idCompra+
+               "\", \"id_tarjeta\":\"" + idTarjeta + 
+               "\", \"id_usuario\":\"" + idUsuario + 
+                "\", \"pendiente\":\"" + pendiente + 
+               "\", \"fecha_compra\":\"" + fechaDeCompra + "\"}";
     }
     
 }
