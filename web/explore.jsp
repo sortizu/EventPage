@@ -14,8 +14,10 @@
       <!--End of Header-->
       <div class="row g-0" >
         <!--TITULO DE PAGINA-->
-        <h2 class="mt-5 d-flex justify-content-center" style="font-weight: 300;">
+        <h2 class="mt-5 d-flex justify-content-center gap-2" style="font-weight: 300;">
+          <i class="bi bi-search"></i>
           EXPLORA LOS EVENTOS DISPONIBLES
+          <i class="bi bi-search"></i>
         </h2>
         <div class="zig-zag"></div>
       </div>

@@ -2,6 +2,7 @@
 <%-- Document : main_header Created on : 13 Oct 2023, 01:09:14 Author : sortizu
 --%> <%@ page contentType="text/html; charset=UTF-8" %>
 <%@page import="model.Tarjeta" %>
+<%@page import="model.Usuario" %>
 <%@page import="model.Evento" %>
 <%@page import="DAO.TarjetaDAO" %>
 <%@page import="DAO.EventoDAO" %>
@@ -19,9 +20,12 @@ pass = (String)session.getAttribute("password");
 id=new UsuarioDAO().validarUsuario(email, pass);
 }
 TarjetaDAO tarjetaDAO = new TarjetaDAO();
+UsuarioDAO usuarioDAO = new UsuarioDAO();
+Usuario usuarioDatosPerfil = new Usuario();
 ArrayList<Tarjeta> tarjetasDeUsuario=new ArrayList<>();
 if(id>=0){
   tarjetasDeUsuario = tarjetaDAO.cargarTarjetasDeUsuario(id);
+  usuarioDatosPerfil = (Usuario)new UsuarioDAO().list(id);
 }
 %>
 <!--Header-->
@@ -175,16 +179,6 @@ if(id>=0){
               required
             />
           </div>
-          <div class="form-check m-2">
-            <input
-              type="checkbox"
-              class="form-check-input"
-              id="exampleCheck1"
-            />
-            <label class="form-check-label" for="exampleCheck1"
-              >Recuerda mi sesión</label
-            >
-          </div>
           <center>
             <p>¿Aun no tienes una cuenta?</p>
             <button
@@ -228,53 +222,58 @@ if(id>=0){
         ></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form id="registerForm" action="RegistrarUsuarioServlet" method="post">
           <div class="mb-3">
-            <label for="event-name" class="col-form-label">Nombres:</label>
+            <label for="register-user-name" class="col-form-label">Nombres:</label>
             <input
               type="text"
               class="form-control modal-form-input"
-              id="event-name"
+              id="register-user-name"
+              name="register-user-name"
               maxlength="45"
               required
             />
           </div>
           <div class="mb-3">
-            <label for="event-name" class="col-form-label">Apellidos:</label>
+            <label for="register-user-last-name" class="col-form-label">Apellidos:</label>
             <input
               type="text"
               class="form-control modal-form-input"
-              id="event-name"
+              id="register-user-last-name"
+              name="register-user-last-name"
               maxlength="45"
               required
             />
           </div>
           <div class="mb-3">
-            <label for="event-name" class="col-form-label">Email:</label>
+            <label for="register-user-email" class="col-form-label">Email:</label>
             <input
               type="email"
               class="form-control modal-form-input"
-              id="event-name"
-              maxlength="45"
+              id="register-user-email"
+              name="register-user-email"
+              maxlength="300"
               required
             />
           </div>
           <div class="mb-3">
-            <label for="event-name" class="col-form-label">Contraseña:</label>
+            <label for="register-user-password" class="col-form-label">Contraseña:</label>
             <input
               type="password"
               class="form-control modal-form-input"
-              id="event-name"
+              id="register-user-password"
+              name="register-user-password"
               maxlength="45"
               required
             />
           </div>
           <div class="mb-3">
-            <label for="event-name" class="col-form-label">DNI:</label>
+            <label for="register-user-dni" class="col-form-label">DNI:</label>
             <input
               type="number"
               class="form-control modal-form-input"
-              id="event-name"
+              id="register-user-dni"
+              name="register-user-dni"
               minlength="9"
               min="0"
               required
@@ -286,7 +285,7 @@ if(id>=0){
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           Cancelar
         </button>
-        <button type="button" class="btn btn-outline-danger">
+        <button type="submit" class="btn btn-outline-danger" form="registerForm">
           Registrarme
         </button>
       </div>
@@ -315,79 +314,105 @@ if(id>=0){
       <div class="modal-body">
         <!--Formulario de datos personales-->
         <h4>Datos personales</h4>
-        <form class="mb-5 d-flex flex-column">
+        <form class="mb-5 d-flex flex-column" action="ActualizarPerfilUsuarioServlet" method="post">
           <div class="mb-3 d-flex align-items-start flex-column">
-            <label for="event-name" class="col-form-label">Nombres:</label>
+            <label for="user-name" class="col-form-label">Nombres:</label>
             <input
               type="text"
               class="form-control modal-form-input"
-              id="event-name"
+              id="user-name"
+              name="user-name"
               maxlength="45"
+              value="<%=usuarioDatosPerfil.getNombres()%>"
               required
             />
           </div>
           <div class="mb-3 d-flex align-items-start flex-column">
-            <label for="event-name" class="col-form-label">Apellidos:</label>
+            <label for="user-last-name" class="col-form-label">Apellidos:</label>
             <input
               type="text"
               class="form-control modal-form-input"
-              id="event-name"
+              id="user-last-name"
+              name="user-last-name"
               maxlength="45"
+              value="<%=usuarioDatosPerfil.getApellidos()%>"
               required
             />
           </div>
           <div class="mb-3 d-flex align-items-start flex-column">
-            <label for="event-name" class="col-form-label">DNI:</label>
+            <label for="user-dni" class="col-form-label">DNI:</label>
             <input
               type="number"
               class="form-control modal-form-input"
-              id="event-name"
+              id="user-dni"
+              name="user-dni"
               minlength="9"
               min="0"
+              value="<%=usuarioDatosPerfil.getDni()%>"
               required
             />
           </div>
-          <button type="button" class="btn btn-outline-danger align-self-end">
-            Actualizar datos personales
-          </button>
-        </form>
-        <!--Formulario de cambios de credenciales-->
-        <h4>Mis credenciales</h4>
-        <form class="mb-3 d-flex flex-column">
           <div class="mb-3 d-flex align-items-start flex-column">
-            <label for="event-name" class="col-form-label">Email:</label>
+            <label for="user-email" class="col-form-label">Email:</label>
             <input
               type="email"
               class="form-control modal-form-input"
-              id="event-name"
-              maxlength="45"
+              id="user-email"
+              name="user-email"
+              maxlength="300"
+              value="<%=usuarioDatosPerfil.getEmail()%>"
               required
             />
           </div>
           <div class="mb-3 d-flex align-items-start flex-column">
-            <label for="event-name" class="col-form-label">Contraseña:</label>
+            <label for="user-password" class="col-form-label">Contraseña:</label>
             <input
               type="password"
               class="form-control modal-form-input"
-              id="event-name"
+              id="user-password"
+              name="user-password"
               maxlength="45"
               required
             />
           </div>
-          <button type="button" class="btn btn-outline-danger align-self-end">
-            Actualizar credenciales
+          <button type="submit" class="btn btn-outline-danger align-self-end">
+            Actualizar datos personales
           </button>
         </form>
         <!--Otras opciones-->
         <h4>Otros ajustes</h4>
         <p></p>
-        <button type="button" class="btn btn-outline-secondary w-100">
+        <button type="button" class="btn btn-outline-secondary w-100" data-bs-toggle="modal" data-bs-target="#deleteProfileConfirmationModal">
           Eliminar cuenta
         </button>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Delete profile confirmation modal-->
+<div
+  class="modal fade"
+  id="deleteProfileConfirmationModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h4>¿Estás seguro que deseas eliminar tu cuenta?</h4>
+        <p>
+          Esta acción no se puede deshacer. Si eliminas tu cuenta, no podrás
+          recuperarla.
+        </p>
+        <button type="button" class="btn btn-outline-danger w-100" id="deleteAccount">
+          Eliminar cuenta
         </button>
       </div>
     </div>
@@ -1014,6 +1039,20 @@ if(id>=0){
             updateCreditCardModal();
         });
         
+        $("#deleteAccount").click(function(){
+          $.ajax({
+                url: "BorrarCuentaServlet",
+                type: "POST",
+                data: {},
+                success: function (response) {
+                  window.location.href = "index.jsp";
+                },
+                error: function (response) {
+                  window.location.href = "index.jsp";
+                }
+            });
+        });
+
         function updateTicketDetailModal(idCompra){
           $.ajax({
                 url: "DetalleTicketServlet",

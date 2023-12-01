@@ -183,7 +183,7 @@ String pageElementPluralName = ""; //Aqui se debe de poner el nombre del element
                 fechaEvento +
                 '</div></div><div class="col-5 row d-flex flex-column align-items-end ms-auto my-auto"><div class="d-flex flex-row justify-content-end mb-1"><div><i class="bi bi-ticket-perforated-fill me-2"></i><div class="d-none d-sm-inline me-2">TICKETS VENDIDOS:</div></div><div class="dashboard-event-tickets">' +
                 numeroTickets +
-                '</div></div><div class="d-flex flex-row justify-content-end"><div><i class="bi bi-cash me-2"></i><div class="d-none d-sm-inline me-2">INGRESOS: </div></div><div class="dashboard-event-income">$/. ' +
+                '</div></div><div class="d-flex flex-row justify-content-end" ><div style="color:#87a96b;"><i class="bi bi-cash me-2"></i><div class="d-none d-sm-inline me-2">INGRESOS: </div></div><div class="dashboard-event-income" style="background-color:#87a96b;">$/. ' +
                 ganancia +
                 "</div></div></div></div>"
             );

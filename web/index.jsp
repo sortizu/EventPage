@@ -118,8 +118,12 @@
           ArrayList<Evento> eventosDestacados= (ArrayList<Evento>)eventoDAO.listFeatured();
           if(eventosDestacados.size()>0){
           %>
-          <h2 class="col-12 d-flex justify-content-center" style="font-weight: 300;">
+          <h2 class="col-12 d-flex justify-content-center gap-2" style="font-weight: 300;">
+            <i class="bi bi-star-fill"></i>  
+          <i class="bi bi-star-fill"></i>
             NOVEDADES DESTACADAS
+            <i class="bi bi-star-fill"></i>  
+          <i class="bi bi-star-fill"></i>
           </h2>
           <%
           }

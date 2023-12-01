@@ -63,6 +63,8 @@ public class UsuarioDAO implements CRUD {
             nuevoUsuario.setPassword(rs.getString("password"));
             nuevoUsuario.setDni(rs.getInt("dni"));
             nuevoUsuario.setAdmin(rs.getBoolean("admin"));
+            nuevoUsuario.setFechaCreacion(rs.getTimestamp("fecha_creacion").toLocalDateTime().toLocalDate());
+            return nuevoUsuario;
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

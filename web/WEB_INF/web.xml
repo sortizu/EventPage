@@ -116,6 +116,18 @@
         <servlet-name>ProximosEventosDashboardServlet</servlet-name>
         <servlet-class>controller.ProximosEventosDashboardServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ActualizarPerfilUsuarioServlet</servlet-name>
+        <servlet-class>controller.ActualizarPerfilUsuarioServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BorrarCuentaServlet</servlet-name>
+        <servlet-class>controller.BorrarCuentaServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RegistrarUsuarioServlet</servlet-name>
+        <servlet-class>controller.RegistrarUsuarioServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>EventoServlet</servlet-name>
         <url-pattern>/EventoServlet</url-pattern>
@@ -231,6 +243,18 @@
     <servlet-mapping>
         <servlet-name>ProximosEventosDashboardServlet</servlet-name>
         <url-pattern>/ProximosEventosDashboardServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ActualizarPerfilUsuarioServlet</servlet-name>
+        <url-pattern>/ActualizarPerfilUsuarioServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BorrarCuentaServlet</servlet-name>
+        <url-pattern>/BorrarCuentaServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegistrarUsuarioServlet</servlet-name>
+        <url-pattern>/RegistrarUsuarioServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

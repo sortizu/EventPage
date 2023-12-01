@@ -15,19 +15,21 @@
       <div class="row g-0">
         <!--TITULO DE PAGINA-->
         <h2
-          class="col-12 mt-5 d-flex justify-content-center"
+          class="col-12 mt-5 d-flex justify-content-center gap-2"
           style="font-weight: 300"
         >
+        <i class="bi bi-info-circle-fill"></i>
           CONÓCENOS
+          <i class="bi bi-info-circle-fill"></i>
         </h2>
         <div class="zig-zag"></div>
         <center>
-        <p style="font-size: 32px;font-weight: 100;">¡<%=configuracion.getEslogan()%>!</p>
+        <p style="font-size: 32px;font-weight: 100;">¡<%=eslogan%>!</p>
       </center>
         <div class="col-10 col-sm-8 m-auto py-3">
-          <h4>SOBRE <%=configuracion.getNombrePagina()%></h4>
+          <h4>SOBRE <%=nombrePagina%></h4>
           <p>
-            <%=configuracion.getDescripcionPagina()%>
+            <%=descripcionPagina%>
           </p>
           
         </div>
