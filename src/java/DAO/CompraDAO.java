@@ -205,4 +205,27 @@ public class CompraDAO implements CRUD {
         }
         return null;
     }
+    public double obtenerIngresosDiarios(){
+        double ingresos = 0;
+        try {
+            Statement stmt = Conexion.getConnection().createStatement();
+            String query = String.format(
+                "SELECT SUM(costo) " +
+                "FROM event_page.detalle_compra dc "+
+                "INNER JOIN event_page.compra c "+
+                "ON dc.id_compra = c.id_compra "+
+                "INNER JOIN event_page.evento e "+
+                "ON dc.id_evento=e.id_evento "+
+                "WHERE c.fecha_compra >= '%s'"
+                ,
+            LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+            );
+            ResultSet rs = stmt.executeQuery(query);
+            rs.next();
+            ingresos = rs.getDouble("SUM(costo)");
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return ingresos;
+    }
 }

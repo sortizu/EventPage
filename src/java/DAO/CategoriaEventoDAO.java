@@ -153,4 +153,43 @@ public class CategoriaEventoDAO implements CRUD {
         }
         return null;
     }
+
+    public String obtenerGananciaPorCategoriaJson() {
+        
+        try {
+            String jsonResponse="";
+            String query=
+                    "SELECT SUM(costo) as ganancia, ce.nombre_catevento as nombre_categoria "+
+                    "FROM event_page.detalle_compra dc "+
+                    "INNER JOIN event_page.evento e "+
+                    "ON dc.id_evento=e.id_evento "+
+                    "INNER JOIN event_page.categoria_evento ce "+
+                    "ON e.id_categoria_evento=ce.id_categoria_evento "+
+                    "GROUP BY e.id_categoria_evento "+
+                    "ORDER BY SUM(costo) DESC";
+            
+            Statement stmt = Conexion.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            ArrayList<String> listaDeRespuestas=new ArrayList<>();
+            while(rs.next()){
+            String respuesta = String.format(
+                    "{\"nombre_categoria\":\"%s\",\"ganancia\":\"%s\"}"
+                    , rs.getString("nombre_categoria")
+                    ,rs.getString("ganancia"));
+            listaDeRespuestas.add(respuesta);
+            }
+            jsonResponse="[";
+            for(int i=0;i<listaDeRespuestas.size();i++){
+            jsonResponse+=listaDeRespuestas.get(i);
+            if(i<listaDeRespuestas.size()-1){
+            jsonResponse+=",";
+            }
+            }
+            jsonResponse+="]";
+            return jsonResponse;
+        } catch (SQLException ex) {
+            Logger.getLogger(InvitadoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }   
 }

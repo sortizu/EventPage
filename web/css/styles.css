@@ -36,8 +36,11 @@
 }
 
 .dashboard-card{
-    border-radius: 10px;
     background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 10px;
     min-height: 100px;
     padding-top: 5px;
     align-items: center;
@@ -89,14 +92,16 @@
 }
 .bar{
     width: 20%;
-    
+    background-color: antiquewhite;
     text-align: center;
+    border-radius: 10px 10px 0px 0px;
+    min-height: 50px;
 }
 .bar-body{
     background-color: #0d6efd;
     color: white;
     font-weight: 600;
-    
+    height: 100%;
 }
 .dashboard-event{
     border: lightgray 1px solid;

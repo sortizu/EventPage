@@ -104,6 +104,18 @@
         <servlet-name>AplicarFiltrosServlet</servlet-name>
         <servlet-class>controller.AplicarFiltrosServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ObtenerGananciaPorCategoriaServlet</servlet-name>
+        <servlet-class>controller.ObtenerGananciaPorCategoriaServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ObtenerTicketsPorInvitadosServlet</servlet-name>
+        <servlet-class>controller.ObtenerTicketsPorInvitadosServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProximosEventosDashboardServlet</servlet-name>
+        <servlet-class>controller.ProximosEventosDashboardServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>EventoServlet</servlet-name>
         <url-pattern>/EventoServlet</url-pattern>
@@ -207,6 +219,18 @@
     <servlet-mapping>
         <servlet-name>AplicarFiltrosServlet</servlet-name>
         <url-pattern>/AplicarFiltrosServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ObtenerGananciaPorCategoriaServlet</servlet-name>
+        <url-pattern>/ObtenerGananciaPorCategoriaServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ObtenerTicketsPorInvitadosServlet</servlet-name>
+        <url-pattern>/ObtenerTicketsPorInvitadosServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProximosEventosDashboardServlet</servlet-name>
+        <url-pattern>/ProximosEventosDashboardServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

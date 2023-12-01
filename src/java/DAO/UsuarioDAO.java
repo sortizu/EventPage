@@ -76,14 +76,16 @@ public class UsuarioDAO implements CRUD {
         Usuario nuevoUsuario = (Usuario) o;
         try {
             Statement stmt = Conexion.getConnection().createStatement();
-            stmt.executeUpdate("INSERT INTO event_page.usuario(nombres, apellidos, dni, email, password, admin,eliminado) VALUES "
+            stmt.executeUpdate("INSERT INTO event_page.usuario(nombres, apellidos, dni, email, password, admin,eliminado,fecha_creacion) VALUES "
                     + "('" + nuevoUsuario.getNombres() + "', '"
                     + nuevoUsuario.getApellidos() + "', '"
                     + nuevoUsuario.getDni() + "', '"
                     + nuevoUsuario.getEmail() + "', '"
                     + nuevoUsuario.getPassword() + "',"
                     + (nuevoUsuario.isAdmin() ? 1 : 0) + ","
-                    + 0 + ")");
+                    + 0 +"," +
+                    "curdate()"+
+                    ")");
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -158,5 +160,21 @@ public class UsuarioDAO implements CRUD {
             Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return -1;
+    }
+    public int obtenerNuevosUsuariosDiarios(){
+        try {
+            Statement stmt = Conexion.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(
+                    String.format("SELECT COUNT(*) FROM event_page.usuario WHERE eliminado=0 AND DATE(fecha_creacion)=CURDATE()")
+            );
+            int cantidad = 0;
+            while (rs.next()) {
+                cantidad = rs.getInt("COUNT(*)");
+            }
+            return cantidad;
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
     }
 }

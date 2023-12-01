@@ -178,4 +178,41 @@ public class InvitadoDAO implements CRUD {
         }
         return null;
     }
+    public String obtenerNumeroTicketsPorInvitadoJson() {
+        try {
+            String jsonResponse="";
+            String query=
+                    "SELECT COUNT(*) as numero_tickets, concat(i.nombres,' ',i.apellidos) as nombre_invitado "+
+                    "FROM event_page.detalle_compra dc "+
+                    "INNER JOIN event_page.evento e "+
+                    "ON dc.id_evento=e.id_evento "+
+                    "INNER JOIN event_page.invitado i "+
+                    "ON i.id_invitado = e.id_invitado "+
+                    "GROUP BY i.id_invitado "+
+                    "ORDER BY COUNT(*) DESC ";
+            
+            Statement stmt = Conexion.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            ArrayList<String> listaDeRespuestas=new ArrayList<>();
+            while(rs.next()){
+            String respuesta = String.format(
+                    "{\"nombre_invitado\":\"%s\",\"numero_tickets\":\"%s\"}"
+                    , rs.getString("nombre_invitado")
+                    ,rs.getString("numero_tickets"));
+            listaDeRespuestas.add(respuesta);
+            }
+            jsonResponse="[";
+            for(int i=0;i<listaDeRespuestas.size();i++){
+            jsonResponse+=listaDeRespuestas.get(i);
+            if(i<listaDeRespuestas.size()-1){
+            jsonResponse+=",";
+            }
+            }
+            jsonResponse+="]";
+            return jsonResponse;
+        } catch (SQLException ex) {
+            Logger.getLogger(InvitadoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

@@ -9,8 +9,10 @@ import interfaces.CRUD;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Evento;
@@ -199,6 +201,7 @@ public class EventoDAO implements CRUD {
                 + "ON dc.id_evento = e.id_evento "
                 + "WHERE dc.id_compra=" + idCompra;
         try {
+            
             Statement stmt = Conexion.getConnection().createStatement();
             ResultSet rs = stmt.executeQuery(consultaSQL);
             while(rs.next()) {
@@ -292,5 +295,34 @@ public class EventoDAO implements CRUD {
         }
 
         return eventos;
+    }
+
+    public String obtenerEventosTicketsGananciasJson(){
+        String consultaSQL =
+        "SELECT *, COUNT(dc.id_evento) AS numero_tickets, SUM(e.costo) AS ganancia "+
+        "FROM event_page.detalle_compra dc "+
+        "INNER JOIN event_page.evento e "+
+        "ON dc.id_evento = e.id_evento "+
+        "WHERE e.fecha>=curdate() "+
+        "GROUP BY dc.id_evento";
+        String json = "[";
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EE dd MMM '-' HH:mm a", new Locale("es", "ES"));
+            Statement stmt = Conexion.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(consultaSQL);
+            while(rs.next()) {
+                json += "{";
+                json += "\"nombre_evento\":\""+rs.getString("nombre_evento")+"\",";
+                json += "\"fecha\":\""+rs.getTimestamp("fecha").toLocalDateTime().format(formatter)+"\",";
+                json += "\"numero_tickets\":\""+rs.getInt("numero_tickets")+"\",";
+                json += "\"ganancia\":\""+rs.getDouble("ganancia")+"\"";
+                json += "},";
+            }
+            json = json.substring(0, json.length()-1);
+            json += "]";
+        } catch (SQLException ex) {
+            Logger.getLogger(EventoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return json;
     }
 }

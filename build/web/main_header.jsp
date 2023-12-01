@@ -924,7 +924,7 @@ if(id>=0){
             $.ajax({
                 url: "CompraCarritoServlet",
                 type: "POST",
-                data: {"id_tarjeta":$("#event-label").val()},
+                data: {"id_tarjeta":$("#credit-card").val()},
                 success: function (response) {
                   $("#creditCardSelectionModal").modal("hide");
                   updateTicketDetailModal(response["compra"]["id_compra"]);

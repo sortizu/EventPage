@@ -12,6 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.time.LocalDate;
 import model.Usuario;
 
 /**
@@ -52,7 +53,7 @@ public class UsuarioServlet extends HttpServlet {
         nuevoUsuarioAgregar.setEmail(request.getParameter("user-email"));
         nuevoUsuarioAgregar.setPassword(request.getParameter("user-password"));
         nuevoUsuarioAgregar.setDni(Integer.parseInt(request.getParameter("user-dni")));
-
+nuevoUsuarioAgregar.setFechaCreacion(LocalDate.now());
         usuarioDAO.add(nuevoUsuarioAgregar);
         response.sendRedirect("users.jsp");
     }
