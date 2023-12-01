@@ -33,7 +33,21 @@ public class CompraDAO implements CRUD {
 
     @Override
     public Object list(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            Statement stmt = Conexion.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM event_page.compra WHERE id_compra=" + id);
+            rs.next();
+            Compra nuevaCompra = new Compra();
+                nuevaCompra.setIdCompra(rs.getInt("id_compra"));
+                nuevaCompra.setFechaDeCompra(rs.getTimestamp("fecha_compra").toLocalDateTime());
+                nuevaCompra.setIdTarjeta(rs.getInt("id_tarjeta"));
+                nuevaCompra.setIdUsuario(rs.getInt("id_usuario"));
+            return nuevaCompra;
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return null;
     }
 
     @Override
@@ -166,5 +180,29 @@ public class CompraDAO implements CRUD {
             System.out.println(e);
         }
         return id;
+    }
+    
+    public ArrayList<Compra> cargarComprasDeUsuario(int idUsuario){
+    try {
+            ArrayList<Compra> comprasDeUsuario = new ArrayList<Compra>();
+            Statement stmt = Conexion.getConnection().createStatement();
+            String query = String.format(
+            "SELECT * FROM event_page.compra WHERE id_usuario =%d AND pendiente=0",
+            idUsuario
+            );
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                Compra nuevaCompra = new Compra();
+                nuevaCompra.setIdCompra(rs.getInt("id_compra"));
+                nuevaCompra.setFechaDeCompra(rs.getTimestamp("fecha_compra").toLocalDateTime());
+                nuevaCompra.setIdTarjeta(rs.getInt("id_tarjeta"));
+                nuevaCompra.setIdUsuario(rs.getInt("id_usuario"));
+                comprasDeUsuario.add(nuevaCompra);
+            }
+            return comprasDeUsuario;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
     }
 }

@@ -82,12 +82,12 @@ public class Tarjeta {
 
     @Override
     public String toString() {
-        return "'id_tarjeta'='" + idTarjeta + 
-               "', 'nombrePropietario'='" + nombrePropietario + 
-               "', 'numeroTarjeta'='" + numeroTarjeta + 
-               "', 'fechaDeVencimiento'='" + fechaDeVencimiento + 
-                "', 'eliminado'='" + eliminado + 
-               "', 'id_usuario'='" + idUsuario+"'";
+        return "{\"id_tarjeta\":\"" + idTarjeta + 
+               "\", \"nombre_propietario\":\"" + nombrePropietario + 
+               "\", \"numero_tarjeta\":\"" + numeroTarjeta + 
+               "\", \"fecha_vencimiento\":\"" + fechaDeVencimiento + 
+                "\", \"eliminado\":\"" + eliminado + 
+               "\", \"id_usuario\":\"" + idUsuario+"\"}";
     }
     
 }

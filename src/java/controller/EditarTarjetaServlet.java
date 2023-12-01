@@ -5,7 +5,6 @@
 package controller;
 
 import DAO.TarjetaDAO;
-import DAO.UsuarioDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,20 +13,19 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import model.Tarjeta;
-import model.Usuario;
-import java.sql.Date;
+
 /**
  *
  * @author sortizu
  */
-public class TarjetaServlet extends HttpServlet {
+public class EditarTarjetaServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         TarjetaDAO tarjetaDAO = new TarjetaDAO();
         Tarjeta nuevaTarjeta = new Tarjeta();
-        
+        nuevaTarjeta.setIdTarjeta(Integer.parseInt(request.getParameter("creditCardId")));
         nuevaTarjeta.setNombrePropietario(request.getParameter("card-owner"));
         nuevaTarjeta.setNumeroTarjeta(request.getParameter("card-number"));
         
@@ -36,7 +34,7 @@ public class TarjetaServlet extends HttpServlet {
         nuevaTarjeta.setFechaDeVencimiento(fechaVencimiento);
         nuevaTarjeta.setIdUsuario((Integer)request.getSession().getAttribute("id_user"));
 
-        tarjetaDAO.add(nuevaTarjeta);
+        tarjetaDAO.edit(nuevaTarjeta);
         response.sendRedirect("index.jsp");
     }
 

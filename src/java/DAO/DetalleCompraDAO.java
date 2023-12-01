@@ -9,6 +9,7 @@ import interfaces.CRUD;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -67,6 +68,35 @@ public class DetalleCompraDAO implements CRUD {
 
     @Override
     public boolean delete(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            String query = String.format(
+                    "DELETE FROM event_page.detalle_compra WHERE id_detalle_compra=%d", id);
+
+            Statement stmt = Conexion.getConnection().createStatement();
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(InvitadoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return true;
+    }
+    
+    public ArrayList<DetalleCompra> cargarDetallesDeCompra(int idCompra){
+    try {
+            ArrayList<DetalleCompra> listaDetalleCompras=new ArrayList<>();
+            Statement stmt = Conexion.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM event_page.detalle_compra WHERE id_compra=" + idCompra);
+            while(rs.next()){
+            DetalleCompra nuevoDetalleCompra = new DetalleCompra();
+            nuevoDetalleCompra.setIdDetalleCompra(rs.getInt("id_detalle_compra"));
+            nuevoDetalleCompra.setIdCompra(rs.getInt("id_compra"));
+            nuevoDetalleCompra.setIdEvento(rs.getInt("id_evento"));
+            listaDetalleCompras.add(nuevoDetalleCompra);
+            }
+            return listaDetalleCompras;
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return null;
     }
 }

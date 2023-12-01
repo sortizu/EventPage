@@ -41,8 +41,8 @@
         <servlet-class>controller.ConfiguracionServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>TarjetaServlet</servlet-name>
-        <servlet-class>controller.TarjetaServlet</servlet-class>
+        <servlet-name>AgregarTarjetaServlet</servlet-name>
+        <servlet-class>controller.AgregarTarjetaServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AgregarACarritoServlet</servlet-name>
@@ -59,6 +59,50 @@
     <servlet>
         <servlet-name>TestServlet</servlet-name>
         <servlet-class>controller.TestServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ObtenerCarritoServlet</servlet-name>
+        <servlet-class>controller.ObtenerCarritoServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ObtenerEventoCompraServlet</servlet-name>
+        <servlet-class>controller.ObtenerEventoCompraServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EliminarEventoCarritoServlet</servlet-name>
+        <servlet-class>controller.EliminarEventoCarritoServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HistorialComprasServlet</servlet-name>
+        <servlet-class>controller.HistorialComprasServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DetalleTicketServlet</servlet-name>
+        <servlet-class>controller.DetalleTicketServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CargarTarjetasUsuarioServlet</servlet-name>
+        <servlet-class>controller.CargarTarjetasUsuarioServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EliminarTarjetaServlet</servlet-name>
+        <servlet-class>controller.EliminarTarjetaServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BuscarEventosServlet</servlet-name>
+        <servlet-class>controller.BuscarEventosServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CargarTarjetaServlet</servlet-name>
+        <servlet-class>controller.CargarTarjetaServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditarTarjetaServlet</servlet-name>
+        <servlet-class>controller.EditarTarjetaServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AplicarFiltrosServlet</servlet-name>
+        <servlet-class>controller.AplicarFiltrosServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>EventoServlet</servlet-name>
@@ -101,8 +145,8 @@
         <url-pattern>/ConfiguracionServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>TarjetaServlet</servlet-name>
-        <url-pattern>/TarjetaServlet</url-pattern>
+        <servlet-name>AgregarTarjetaServlet</servlet-name>
+        <url-pattern>/AgregarTarjetaServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AgregarACarritoServlet</servlet-name>
@@ -119,6 +163,50 @@
     <servlet-mapping>
         <servlet-name>TestServlet</servlet-name>
         <url-pattern>/TestServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ObtenerCarritoServlet</servlet-name>
+        <url-pattern>/ObtenerCarritoServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ObtenerEventoCompraServlet</servlet-name>
+        <url-pattern>/ObtenerEventoCompraServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EliminarEventoCarritoServlet</servlet-name>
+        <url-pattern>/EliminarEventoCarritoServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HistorialComprasServlet</servlet-name>
+        <url-pattern>/HistorialComprasServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DetalleTicketServlet</servlet-name>
+        <url-pattern>/DetalleTicketServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CargarTarjetasUsuarioServlet</servlet-name>
+        <url-pattern>/CargarTarjetasUsuarioServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EliminarTarjetaServlet</servlet-name>
+        <url-pattern>/EliminarTarjetaServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BuscarEventosServlet</servlet-name>
+        <url-pattern>/BuscarEventosServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CargarTarjetaServlet</servlet-name>
+        <url-pattern>/CargarTarjetaServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditarTarjetaServlet</servlet-name>
+        <url-pattern>/EditarTarjetaServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AplicarFiltrosServlet</servlet-name>
+        <url-pattern>/AplicarFiltrosServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

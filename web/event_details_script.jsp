@@ -1,6 +1,6 @@
 <script>
     $(document).ready(function () {
-        $(".showEventDetails").click(function(){
+        $(document).on("click", ".showEventDetails", function(e) {
             var idEvent = $(this).attr("data-id");
             $.ajax({
                 url: "DetalleEventoServlet",

@@ -60,13 +60,20 @@
                       <option value="" selected>
                         Selecciona una categorí­a de evento
                       </option>
-                      <option value="Conferencia">Conferencia</option>
-                      <option value="Taller">Taller</option>
-                      <option value="Workshop">Workshop</option>
+                      <%@page import="DAO.CategoriaEventoDAO" %>
+                      <%@page import="model.CategoriaEvento" %>
+                      <%@page import="java.util.ArrayList" %>
+                      <%
+                      CategoriaEventoDAO listaDeCategoriasDao = new CategoriaEventoDAO();
+                        ArrayList<CategoriaEvento> listaDeCategorias = (ArrayList<CategoriaEvento>)listaDeCategoriasDao.listAll();
+                        for(CategoriaEvento categoriaEvento : listaDeCategorias){
+                      %>
+                        <option value='<%=categoriaEvento.getIdCategoriaEvento()%>'><%=categoriaEvento.getNombreCategoria()%></option>
+                      <%}%>
                     </select>
                   </div>
                   <div class="mb-3">
-                    <label for="event-price" class="col-form-label"
+                    <label for="event-price-min" class="col-form-label"
                       >Costo de mínimo entrada:</label
                     >
                     <div class="input-group">
@@ -74,14 +81,15 @@
                       <input
                         type="number"
                         class="form-control modal-form-input"
-                        id="event-price"
+                        id="event-price-min"
+                        name="event-price-min"
                         min="0"
                         required
                       />
                     </div>
                   </div>
                   <div class="mb-3">
-                    <label for="event-price" class="col-form-label"
+                    <label for="event-price-max" class="col-form-label"
                       >Costo máximo de entrada:</label
                     >
                     <div class="input-group">
@@ -89,7 +97,8 @@
                       <input
                         type="number"
                         class="form-control modal-form-input"
-                        id="event-price"
+                        id="event-price-max"
+                        name="event-price-max"
                         min="0"
                         required
                       />
@@ -99,17 +108,16 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-outline-danger">Aplicar filtros</button>
+              <button type="button" class="btn btn-outline-danger" id="applyFilters">Aplicar filtros</button>
             </div>
           </div>
         </div>
       </div>
       <!--Searched events-->
       <div class="col-12">
-        <div class="row" style="padding: 0px;padding-bottom: 55px; margin: 0px; gap: 0px;">
+        <div class="row" id="search-results" style="padding: 0px;padding-bottom: 55px; margin: 0px; gap: 0px;">
           
           <%@page import="DAO.EventoDAO" %>
-          <%@page import="java.util.ArrayList" %>
           <%@page import="model.Evento" %>
           <%@page import="java.time.format.DateTimeFormatter" %>
           <%@page import="java.util.Locale" %>
@@ -178,4 +186,85 @@
       <%@include file="event_details_script.jsp" %>
     </div>
   </body>
+  <script>
+    $(document).ready(function () {
+      $("#search-button").click(function () {
+        var searchQuery = $("#search-bar").val();
+        $.ajax({
+          url: "BuscarEventosServlet",
+          type: "GET",
+          data: { "search_query": searchQuery },
+          success: function (data) {
+            actualizarResultadosBusqueda(data);
+          },
+        });
+      });
+      $("#applyFilters").click(function(){
+        var searchQuery = $("#search-bar").val();
+        var eventDate = $("#event-date").val();
+        var eventLabel = $("#event-label").val();
+        var eventPriceMin = $("#event-price-min").val();
+        var eventPriceMax = $("#event-price-max").val();
+        //window.alert(eventDate+" "+eventLabel+" "+eventPriceMin+" "+eventPriceMax);
+        
+        $.ajax({
+          url: "AplicarFiltrosServlet",
+          type: "GET",
+          data: { "search_query": searchQuery, "event_date": eventDate, "event_label": eventLabel, "event_price_min": eventPriceMin, "event_price_max": eventPriceMax },
+          success: function (data) {
+            actualizarResultadosBusqueda(data);
+          }
+        });
+        
+      });
+      function actualizarResultadosBusqueda(data){
+        $("#filterModal").modal("hide");
+            $("#search-results").html("");
+            for(var id in data){
+              var evento = data[id];
+              var originalHTML = $("#search-results").html();
+              $("#search-results").html(
+                originalHTML+
+                "<div class='col-12 col-sm-6 col-lg-3 mb-3 d-flex justify-content-center' >"+
+                "<div class='card event-card h-100' style='overflow: hidden;'>"+
+                "<img src='"+evento["imagen_url"]+"' alt='Foto de evento' style='max-height: 200px;min-height: 200px;' onerror=\"this.onerror=null; this.src='${pageContext.request.contextPath}/img/placeholders/no_image.jpg'\">"+
+                "<div class='card-body event-card-body d-flex flex-column'>"+
+                    "<h5 class='card-title' style='font-size: 20px;'>"+evento["nombre_evento"]+"</h5>"+
+                    "<div class='row event-card-text d-flex flex-column'>"+
+                      "<div class='col-12 event-card-test-description' style='font-size: 16px;'>"+
+                      evento["descripcion"].substring(0,70)+
+                      "</div>"+
+                    "</div>"+
+                    "<div class='align-self-end mt-auto mx-0 w-100'>"+
+                      "<div class='col-12 event-card-test-date mb-2' style='font-size: 16px;'>"+
+                        "<i class='bi bi-clock-fill'></i>"+
+                        " "+evento["fecha"]+
+                      "</div>"+
+                      "<center>"+
+                        "<button type='button' class='btn btn-outline-danger mx-auto showEventDetails' data-id='"+evento["id_evento"]+"'>"+
+                        "COMPRAR ENTRADA POR: $"+ evento["costo"]+
+                        "</button>"+
+                       "</center>"+
+                    "</div>"+
+                  "</div>"+
+                "</div>"+
+              "</div>"
+              );
+            }
+            $("showEventDetails").click(function(){
+              var idEvento = $(this).attr("data-id");
+              
+            });
+            if(data.length==0){
+              $("#search-results").html(
+                "<h5 class='col-12 d-flex justify-content-center align-items-center' style='font-weight: 300;'>"+
+                  "NO SE HAN ENCONTRADO RESULTADOS DE ACUERDO A TU BÚSQUEDA :("+
+                "</h5>"
+              );
+            }
+      }
+    });
+  </script>
 </html>
+
+

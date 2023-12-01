@@ -13,45 +13,42 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import model.Compra;
-import model.DetalleCompra;
 import model.Evento;
 
 /**
  *
  * @author sortizu
  */
-public class CompraCarritoServlet extends HttpServlet {
-    
+public class DetalleTicketServlet extends HttpServlet {
     CompraDAO compraDao = new CompraDAO();
-    DetalleCompraDAO detalleCompraDAO = new DetalleCompraDAO();
     EventoDAO eventoDAO = new EventoDAO();
-    
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
         PrintWriter out = response.getWriter();
         String jsonFormattedResponse="";
+
+        int idCompra =  Integer.parseInt(request.getParameter("id_compra"));
+        Compra compra = (Compra)compraDao.list(idCompra);
         
-        int idTarjeta = Integer.parseInt(request.getParameter("id_tarjeta"));
-        int idUsuario = (Integer)request.getSession().getAttribute("id_user");
+        ArrayList<Evento> eventosComprados = eventoDAO.cargarEventosDeCompra(idCompra);
         
-        int idCompra = compraDao.obtenerIdCompraPendiente(idUsuario);
-        Compra compraPendiente = new Compra();
-        compraPendiente.setIdCompra(idCompra);
-        compraPendiente.setIdTarjeta(idTarjeta);
-        compraPendiente.setIdUsuario(idUsuario);
-        compraPendiente.setFechaDeCompra(LocalDateTime.now());
-        compraPendiente.setPendiente(false);
-        compraDao.edit(compraPendiente);
-        
+        String listaDeEventos = "";
+        for (int i = 0; i<eventosComprados.size();i++){
+        Evento eventoComprado=eventosComprados.get(i);
+        listaDeEventos+=eventoComprado;
+        if(i<eventosComprados.size()-1){
+        listaDeEventos+=",";
+        }
+        }
         jsonFormattedResponse = String.format(
-                "{\"compra\":%s}", 
-                compraPendiente);
+                "{\"compra\":%s,\"eventos\":[%s]}", 
+                compra,
+                listaDeEventos);
         out.print(jsonFormattedResponse);
         out.flush();
     }

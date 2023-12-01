@@ -48,9 +48,9 @@ public class DetalleCompra {
 
     @Override
     public String toString() {
-        return "'id_configuracion'='" + idDetalleCompra + 
-               "', 'id_compra'='" + idCompra + 
-               "', 'id_evento'='" + idEvento + "'";
+        return "{\"id_detalle_compra\":\"" + idDetalleCompra + 
+               "\", \"id_compra\":\"" + idCompra + 
+               "\", \"id_evento\":\"" + idEvento + "\"}";
     }
 
     

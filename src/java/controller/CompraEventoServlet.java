@@ -46,18 +46,18 @@ public class CompraEventoServlet extends HttpServlet {
         
         int idCompra = compraDao.obtenerIdUltimaCompra(idUsuario);
         nuevaCompra.setIdCompra(idCompra);
-        DetalleCompra detalleCompra = new DetalleCompra(0,idCompra,id);
-        detalleCompraDAO.add(detalleCompra);
         
-        Evento eventoComprado = (Evento)eventoDAO.list(id);
+        DetalleCompra detalleCompra = new DetalleCompra();
+        detalleCompra.setIdCompra(idCompra);
+        detalleCompra.setIdEvento(id);
+        detalleCompraDAO.add(detalleCompra);
         
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
         PrintWriter out = response.getWriter();
         String jsonFormattedResponse = String.format(
-                "{\"compra\":%s,\"eventos\":[%s]}", 
-                nuevaCompra,
-                eventoComprado);
+                "{\"compra\":%s}", 
+                nuevaCompra);
         out.print(jsonFormattedResponse);
         out.flush();
     }

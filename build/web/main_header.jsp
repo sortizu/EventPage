@@ -94,6 +94,7 @@ if(id>=0){
         gap: 0px;
         margin-top: 10px;
       "
+      id="shoppingCartButton"
     >
       <i class="bi bi-bag-fill"></i>
       Mis compras
@@ -414,7 +415,7 @@ if(id>=0){
               <li class="nav-item flex-fill" role="presentation">
                 <button
                   class="nav-link active w-100"
-                  id="home-tab"
+                  id="shoppingCartTab"
                   data-bs-toggle="tab"
                   data-bs-target="#shoppingCart"
                   type="button"
@@ -429,7 +430,7 @@ if(id>=0){
               <li class="nav-item tab-header flex-fill" role="presentation">
                 <button
                   class="nav-link w-100"
-                  id="profile-tab"
+                  id="HistoryCartTab"
                   data-bs-toggle="tab"
                   data-bs-target="#shoppingHistory"
                   type="button"
@@ -444,7 +445,7 @@ if(id>=0){
               <li class="nav-item tab-header flex-fill" role="presentation">
                 <button
                   class="nav-link w-100"
-                  id="contact-tab"
+                  id="CreditCardTab"
                   data-bs-toggle="tab"
                   data-bs-target="#paidMethods"
                   type="button"
@@ -478,9 +479,10 @@ if(id>=0){
                       <th>NOMBRE DE EVENTO</th>
                       <th>FECHA</th>
                       <th>COSTO</th>
+                      <th></th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody id="tbodyShoppingCart">
                     <%
                       EventoDAO eventoDAOCarrito = new EventoDAO();
                       CompraDAO compraDAOCarrito = new CompraDAO();
@@ -494,6 +496,11 @@ if(id>=0){
                       <td><%=evento.getNombreEvento()%></td>
                       <td><%=evento.getFecha()%></td>
                       <td><%=evento.getCosto()%></td>
+                      <td>
+                        <button type="button" class="btn btn-dark detail-table-button deleteEventFromCart" data-id="<%=evento.getIdEvento()%>">
+                        <i class="bi bi-trash-fill"></i>
+                        </button>
+                    </td>
                     </tr>
                     <%}%>
                   </tbody>
@@ -742,12 +749,12 @@ if(id>=0){
       <div class="modal-body">
         <form id="creditCardSelectionForm" method="POST" action="">
           <div class="mb-3">
-            <label for="event-label" class="col-form-label"
+            <label for="credit-card" class="col-form-label"
               >Tarjeta de crédito:</label
             >
             <select
-              id="event-label"
-              name="event-label"
+              id="credit-card"
+              name="credit-card"
               class="form-select modal-form-input"
               aria-label="Default select example"
               required
@@ -811,6 +818,7 @@ if(id>=0){
       </div>
       <div class="modal-body">
         <form id="addCreditCardForm" method="POST" action="TarjetaServlet">
+          <input type="text" id="creditCardId" name="creditCardId" value="-1" hidden/>
           <div class="mb-3">
             <label for="card-number" class="col-form-label"
               >Número de tarjeta:</label
@@ -863,7 +871,6 @@ if(id>=0){
     </div>
   </div>
 </div>
-<%@include file="credit_card_script.jsp" %>
 <!--End of Header-->
 
 
@@ -903,10 +910,10 @@ if(id>=0){
             $.ajax({
                 url: "CompraEventoServlet",
                 type: "POST",
-                data: {"id":selectedEventId,"id_tarjeta":$("#event-label").val(),"ccv":$("#ccv").val()},
+                data: {"id":selectedEventId,"id_tarjeta":$("#credit-card").val(),"ccv":$("#ccv").val()},
                 success: function (response) {
                   $("#creditCardSelectionModal").modal("hide");
-                  updateTicketDetailModal(response);
+                  updateTicketDetailModal(response["compra"]["id_compra"]);
                   selectedEventId=-1;
                 },
                 error: function (response) {
@@ -920,7 +927,7 @@ if(id>=0){
                 data: {"id_tarjeta":$("#event-label").val()},
                 success: function (response) {
                   $("#creditCardSelectionModal").modal("hide");
-                  updateTicketDetailModal(response);
+                  updateTicketDetailModal(response["compra"]["id_compra"]);
                 },
                 error: function (response) {
                   
@@ -929,33 +936,252 @@ if(id>=0){
           }
             
         });
-        function updateTicketDetailModal(jsonData){
-          $("#ticketEventList").html("");
-          $("#ticketDetailID").text(
-            "CÓDIGO DE TICKET: "+
-            jsonData["compra"]["fecha_compra"].split("T")[0].replaceAll("-","")+
-            "-"+
-            jsonData["compra"]["id_compra"]+
-            "-"+
-            jsonData["compra"]["id_usuario"]);
-          $("#ticketDetailDate").text(
-            "Fecha de compra: "+
-            jsonData["compra"]["fecha_compra"].split("T")[0]
-            );
-          var costoTotal = 0;
-          for(var id in jsonData["eventos"]){
-          var evento = jsonData["eventos"][id];
-          var previousHTML = $("#ticketEventList").html();
-          costoTotal+=parseFloat(evento["costo"]);
-          $("#ticketEventList").html(
-            previousHTML+
-            "<p class='col-8'>"+evento["nombre_evento"]+"</p>"+
-            "<p class='col-4'>"+evento["costo"]+"</p>"
-          );
-          }
+        $("#shoppingCartButton").click(function(){
+          updateShoppingCart();
+        });
+        $("#HistoryCartTab").click(function(){
+          $.ajax({
+                url: "HistorialComprasServlet",
+                type: "GET",
+                data: {},
+                success: function (response) {
+                  $("#shoppingHistory tbody").html("");
+                  for(var id in response["compras"]){
+                    var compra = response["compras"][id];
+                    var previousHTML = $("#shoppingHistory tbody").html();
+                    $("#shoppingHistory tbody").html(
+                      previousHTML+
+                      "<tr>"+
+                      "<td>"+
+                       compra["fecha_compra"].split("T")[0].replaceAll("-","")+
+                       "-"+
+                       compra["id_compra"]+
+                      "-"+
+                      compra["id_usuario"]+
+                      "</td>"+
+                      "<td>"+compra["fecha_compra"].split("T")[0]+"</td>"+
+                      "<td>"+
+                      "<button type='button' class='btn btn-dark detail-table-button viewTicketDetail' data-id='"+compra["id_compra"]+"'>"+
+                      "<i class='bi bi-eye-fill'></i>"+
+                      "</button>"+
+                      "</td>"+
+                      "</tr>"
+                    );
+                  }
+                  $('.viewTicketDetail').click(function() {
+                    $("#shoppingModal").modal("hide");
+                    updateTicketDetailModal($(this).attr("data-id"));
+                  });
+                },
+                error: function (response) {
+                  
+                }
+            });
+        });
+        $("#CreditCardTab").click(function(){
+          updateCreditCardModal();
+        });
+
+        $("#addCreditCard").click(function(){
+            $("#addCreditCardForm").attr("action", "AgregarTarjetaServlet");
+            $("#card-number").val("");
+            $("#expiration-date").val("");
+            $("#card-owner").val("");
+            $("#shoppingModal").modal("hide");
+            $("#addCreditCardModal").modal("show");
+            $("#addCreditCardModal .modal-title").text("Agregar tarjeta");
+        });
+
+        $("#returnFromCreditCard").click(function(){
+            $("#addCreditCardModal").modal("hide");
+            updateCreditCardModal();
+            $("#shoppingModal").modal("show");
+        });
+
+        //the follow js code filter only numeric values in the input text
+        $("input#card-number").on("input", function () {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        $("#saveCreditCard").click(function(e){
+            var cardNumber = $("#card-number").val();
+            var expirationDate = $("#expiration-date").val();
+            var cardOwner = $("#card-owner").val();
+            if(cardNumber == "" || expirationDate == "" || cardOwner == ""){
+                return;
+            }
+            $("#addCreditCardModal").modal("hide");
+            updateCreditCardModal();
+        });
+        
+        function updateTicketDetailModal(idCompra){
+          $.ajax({
+                url: "DetalleTicketServlet",
+                type: "GET",
+                data: {"id_compra":String(idCompra)},
+                success: function (jsonData) {
+                  $("#ticketEventList").html("");
+                  $("#ticketDetailID").text(
+                    "CÓDIGO DE TICKET: "+
+                    jsonData["compra"]["fecha_compra"].split("T")[0].replaceAll("-","")+
+                    "-"+
+                    jsonData["compra"]["id_compra"]+
+                    "-"+
+                    jsonData["compra"]["id_usuario"]);
+                  $("#ticketDetailDate").text(
+                    "Fecha de compra: "+
+                    jsonData["compra"]["fecha_compra"].split("T")[0]
+                    );
+                  var costoTotal = 0;
+                  for(var id in jsonData["eventos"]){
+                  var evento = jsonData["eventos"][id];
+                  var previousHTML = $("#ticketEventList").html();
+                  costoTotal+=parseFloat(evento["costo"]);
+                  $("#ticketEventList").html(
+                    previousHTML+
+                    "<p class='col-8'>"+evento["nombre_evento"]+"</p>"+
+                    "<p class='col-4'>"+evento["costo"]+"</p>"
+                  );
+                  }
+                  
+                  $("#ticketDetailCost").text("Costo total: $"+costoTotal);
+                  $("#ticketDetailModal").modal("show"); 
+                },
+                error: function (response) {
+                  
+                }
+            });
           
-          $("#ticketDetailCost").text("Costo total: $"+costoTotal);
-          $("#ticketDetailModal").modal("show");
+        }
+        function updateShoppingCart(){
+          $.ajax({
+                url: "ObtenerCarritoServlet",
+                type: "GET",
+                data: {},
+                success: function (response) {
+                  var costoTotal = 0;
+                  $("#tbodyShoppingCart").html("");
+                  for(var id in response["eventos"]){
+                  var evento = response["eventos"][id];
+                  var detalleCompra = response["detalles_compra"][id];
+                  var previousHTML = $("#tbodyShoppingCart").html();
+                  costoTotal+=parseFloat(evento["costo"]);
+                  $("#tbodyShoppingCart").html(
+                    previousHTML+
+                    "<tr>"+
+                    "<td>"+evento["nombre_evento"]+"</td>"+
+                    "<td>"+evento["fecha"]+"</td>"+
+                    "<td>"+evento["costo"]+"</td>"+
+                    "<td>"+
+                    "<button type='button'  class='btn btn-dark detail-table-button deleteEventFromCart' data-id='"+detalleCompra["id_detalle_compra"]+"'>"+
+                    "<i class='bi bi-trash-fill'></i>"+
+                    "</button>"+
+                    "</td>"+
+                    "</tr>"
+                  );
+                  }
+                  $('.deleteEventFromCart').click(function() {
+                  eliminarEventoDeCarrito($(this).attr("data-id"));
+                  });
+                  if(response["eventos"].length>0){
+                    $("#shoppingCartBuyButton").text("COMPRAR TOTAL POR: $"+costoTotal);
+                    $("#shoppingCartBuyButton").attr("disabled", false);
+                  }else{
+                    $("#shoppingCartBuyButton").text("NO TIENES EVENTOS EN EL CARRITO");
+                    $("#shoppingCartBuyButton").attr("disabled", true);
+                  }
+                },
+                error: function (response) {
+                  
+                }
+            });
+        }
+        function eliminarEventoDeCarrito(dataId){
+          $.ajax({
+                url: "EliminarEventoCarritoServlet",
+                type: "POST",
+                data: {"id_detalle_compra":String(dataId)},
+                success: function (response) {
+                  updateShoppingCart();
+                },
+                error: function (response) {
+                  window.alert("Error");
+                }
+            });
+        };
+        function updateCreditCardModal(){
+          $.ajax({
+                url: "CargarTarjetasUsuarioServlet",
+                type: "GET",
+                data: {},
+                success: function (response) {
+                  $("#paidMethods tbody").html("");
+                  for(var id in response){
+                    var tarjeta = response[id];
+                    var previousHTML = $("#paidMethods tbody").html();
+                    $("#paidMethods tbody").html(
+                      previousHTML+
+                      "<tr>"+
+                      "<td>"+
+                       "*".repeat(12)+
+                       tarjeta["numero_tarjeta"].substring(12,16)+
+                      "</td>"+
+                      "<td>"+tarjeta["fecha_vencimiento"]+"</td>"+
+                      "<td class='d-flex'>"+
+                      "<button type='button' class='btn btn-secondary detail-table-button editCreditCardButton' data-id='"+tarjeta["id_tarjeta"]+"'>"+
+                      "<i class='bi bi-pencil-fill'></i>"+
+                      "</button>"+
+                      "<button type='button' class='btn btn-dark detail-table-button deleteCreditCardButton' data-id='"+tarjeta["id_tarjeta"]+"'>"+
+                      "<i class='bi bi-trash-fill'></i>"+
+                      "</button>"+
+                      "</td>"+
+                      "</tr>"
+                    );
+                  }
+                  $(".editCreditCardButton").click(function(){
+                    editarTarjeta($(this).attr("data-id"));
+                  });
+                  $(".deleteCreditCardButton").click(function(){
+                    eliminarTarjeta($(this).attr("data-id"));
+                  });
+                },
+                error: function (response) {
+                  
+                }
+            });
+        }
+        function eliminarTarjeta(idTarjeta){
+          $.ajax({
+                url: "EliminarTarjetaServlet",
+                type: "POST",
+                data: {"id_tarjeta":String(idTarjeta)},
+                success: function (response) {
+                  updateCreditCardModal();
+                },
+                error: function (response) {
+                  
+                }
+            });
+        }
+        function editarTarjeta(idTarjeta){
+          $.ajax({
+                url: "CargarTarjetaServlet",
+                type: "GET",
+                data: {"id_tarjeta":String(idTarjeta)},
+                success: function (response) {
+                  $("#creditCardId").val(response["id_tarjeta"]);
+                  $("#card-number").val(response["numero_tarjeta"]);
+                  $("#expiration-date").val(response["fecha_vencimiento"].substring(0,7));
+                  $("#card-owner").val(response["nombre_propietario"]);
+                  $("#shoppingModal").modal("hide");
+                  $("#addCreditCardModal").modal("show");
+                  $("#addCreditCardForm").attr("action", "EditarTarjetaServlet");
+                  $("#addCreditCardModal .modal-title").text("Editar tarjeta");
+                },
+                error: function (response) {
+                  
+                }
+            });
         }
     });
 </script>

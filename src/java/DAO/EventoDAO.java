@@ -194,15 +194,14 @@ public class EventoDAO implements CRUD {
 
     public ArrayList<Evento> cargarEventosDeCompra(int idCompra) {
         ArrayList<Evento> eventos = new ArrayList<>();
-        String consultaSQL = "SELECT * FROM detalle_compra dc "
-                + "INNER JOIN evento e "
+        String consultaSQL = "SELECT * FROM event_page.detalle_compra dc "
+                + "INNER JOIN event_page.evento e "
                 + "ON dc.id_evento = e.id_evento "
                 + "WHERE dc.id_compra=" + idCompra;
         try {
             Statement stmt = Conexion.getConnection().createStatement();
             ResultSet rs = stmt.executeQuery(consultaSQL);
-            rs.next();
-            do {
+            while(rs.next()) {
 
                 Evento newEvento = new Evento();
                 newEvento.setIdEvento(rs.getInt("id_evento"));
@@ -217,7 +216,77 @@ public class EventoDAO implements CRUD {
                 newEvento.setImagenUrl(rs.getString("imagen_url"));
                 eventos.add(newEvento);
 
-            } while (rs.next());
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EventoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return eventos;
+    }
+    
+    public ArrayList<Evento> cargarEventosSegunNombre(String nombre) {
+        ArrayList<Evento> eventos = new ArrayList<>();
+        String consultaSQL = "SELECT * FROM event_page.evento WHERE nombre_evento LIKE '%"+nombre+"%'";
+        try {
+            Statement stmt = Conexion.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(consultaSQL);
+            while(rs.next()) {
+
+                Evento newEvento = new Evento();
+                newEvento.setIdEvento(rs.getInt("id_evento"));
+                newEvento.setNombreEvento(rs.getString("nombre_evento"));
+                newEvento.setCosto(rs.getDouble("costo"));
+                newEvento.setFecha(rs.getTimestamp("fecha").toLocalDateTime());
+                newEvento.setCapacidad(rs.getInt("capacidad"));
+                newEvento.setDescripcion(rs.getString("descripcion"));
+                newEvento.setDestacado(rs.getBoolean("destacado"));
+                newEvento.setIdCategoriaEvento(rs.getInt("id_categoria_evento"));
+                newEvento.setIdInvitado(rs.getInt("id_invitado"));
+                newEvento.setImagenUrl(rs.getString("imagen_url"));
+                eventos.add(newEvento);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EventoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return eventos;
+    }
+    
+    public ArrayList<Evento> cargarEventosSegunFiltro(String nombre, String fecha, String categoria,String costoMinimo, String costoMáximo){
+    ArrayList<Evento> eventos = new ArrayList<>();
+        String consultaSQL = "SELECT * FROM event_page.evento WHERE nombre_evento LIKE '%"+nombre+"%' ";
+        if(!fecha.equals("")){
+            consultaSQL += "AND fecha LIKE '%"+fecha+"%' ";
+        }
+        if(!categoria.equals("")){
+            consultaSQL += "AND id_categoria_evento ="+categoria+" ";
+        }
+        if(!costoMinimo.equals("")){
+            consultaSQL += "AND costo >= "+costoMinimo+" ";
+        }
+        if(!costoMáximo.equals("")){
+            consultaSQL += "AND costo <= "+costoMáximo+" ";
+        }
+        try {
+            Statement stmt = Conexion.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(consultaSQL);
+            while(rs.next()) {
+
+                Evento newEvento = new Evento();
+                newEvento.setIdEvento(rs.getInt("id_evento"));
+                newEvento.setNombreEvento(rs.getString("nombre_evento"));
+                newEvento.setCosto(rs.getDouble("costo"));
+                newEvento.setFecha(rs.getTimestamp("fecha").toLocalDateTime());
+                newEvento.setCapacidad(rs.getInt("capacidad"));
+                newEvento.setDescripcion(rs.getString("descripcion"));
+                newEvento.setDestacado(rs.getBoolean("destacado"));
+                newEvento.setIdCategoriaEvento(rs.getInt("id_categoria_evento"));
+                newEvento.setIdInvitado(rs.getInt("id_invitado"));
+                newEvento.setImagenUrl(rs.getString("imagen_url"));
+                eventos.add(newEvento);
+
+            }
         } catch (SQLException ex) {
             Logger.getLogger(EventoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

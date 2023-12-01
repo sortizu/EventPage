@@ -3,14 +3,13 @@
     <input
       type="text"
       class="form-control"
+      id="search-bar"
       placeholder="Busca el evento de tu interés..."
-      aria-label="Recipient's username"
-      aria-describedby="button-addon2"
     />
     <button
       class="btn btn-outline-danger"
       type="button"
-      id="button-addon2"
+      id="search-button"
     >
       Buscar
     </button>
